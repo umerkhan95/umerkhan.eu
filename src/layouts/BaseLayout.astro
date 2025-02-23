@@ -1,8 +1,7 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import SideBar from "../components/SideBar.astro";
+import DevToolbar from "../components/DevToolbar.astro";
 import { ViewTransitions } from "astro:transitions";
 
 import { SITE_TITLE, SITE_DESCRIPTION, TRANSITION_API } from "../config";
@@ -11,7 +10,6 @@ const {
   image,
   title = SITE_TITLE,
   description = SITE_DESCRIPTION,
-  includeSidebar = true,
   sideBarActiveItemID,
   ogType,
 } = Astro.props;
@@ -22,20 +20,51 @@ const {
   <head>
     <BaseHead title={title} description={description} image={image} , ogType={ogType} />
     {TRANSITION_API && <ViewTransitions />}
+    <script is:inline>
+      // Initialize theme immediately
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.dataset.theme = savedTheme;
+    </script>
+    <style is:inline>
+      [data-theme="light"] {
+        --bg-color: #ffffff;
+        --text-color: #000000;
+      }
+      
+      [data-theme="dark"] {
+        --bg-color: #000000;
+        --text-color: #ffffff;
+      }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s ease, color 0.3s ease;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.25rem; }
+      h3 { font-size: 1.125rem; }
+      h4 { font-size: 1rem; }
+      h5 { font-size: 0.875rem; }
+      h6 { font-size: 0.75rem; }
+      p { font-size: 0.813rem; }
+      .text-xl { font-size: 1.25rem; }
+      .text-lg { font-size: 1.125rem; }
+      .text-base { font-size: 0.875rem; }
+      .text-sm { font-size: 0.813rem; }
+      .text-xs { font-size: 0.75rem; }
+    </style>
   </head>
   <body>
-    <div class="bg-base-100 drawer lg:drawer-open">
-      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content bg-base-100">
-        <Header title={SITE_TITLE} />
-        <div class="md:flex md:justify-center">
-          <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]">
-            <slot />
-          </main>
-        </div>
-        <Footer />
+    <div class="bg-base-100">
+      <div class="md:flex md:justify-center">
+        <main class="p-4 pb-20 lg:max-w-[900px] max-w-[100vw]">
+          <slot />
+        </main>
       </div>
-      {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
+      <Footer />
+      <DevToolbar activeItemID={sideBarActiveItemID} />
     </div>
   </body>
 </html>
