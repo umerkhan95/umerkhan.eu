@@ -40,11 +40,18 @@ const navItems = [
       </a>
     ))}
     <div class="separator mx-1.5 h-3 w-[1px] bg-[#383838]"></div>
-    <button id="theme-toggle" class="item group relative">
+    <button id="theme-toggle" class="item group relative" data-theme-toggle>
       <div class="icon p-1.5 hover:bg-[#ffffff1a] rounded transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-[#fff]">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-        </svg>
+        <div id="theme-toggle-dark-icon" class="w-4 h-4 text-[#fff]">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+          </svg>
+        </div>
+        <div id="theme-toggle-light-icon" class="hidden w-4 h-4 text-[#fff]">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+          </svg>
+        </div>
         <div class="notification"></div>
       </div>
       <span class="item-tooltip opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 text-[10px] bg-[#1b1b1f] text-white rounded whitespace-nowrap">
@@ -78,15 +85,42 @@ const navItems = [
 </style>
 
 <script>
-  const themeToggle = document.getElementById('theme-toggle');
-  const html = document.documentElement;
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  html.dataset.theme = savedTheme;
-  
-  themeToggle?.addEventListener('click', () => {
-    const currentTheme = html.dataset.theme;
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    html.dataset.theme = newTheme;
-    localStorage.setItem('theme', newTheme);
+  // This script will run on every page navigation
+  function initTheme() {
+    const themeToggle = document.querySelector('[data-theme-toggle]');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    
+    const updateTheme = (theme) => {
+      html.dataset.theme = theme;
+      localStorage.setItem('theme', theme);
+      // Update icons
+      if (theme === 'dark') {
+        darkIcon?.classList.add('hidden');
+        lightIcon?.classList.remove('hidden');
+      } else {
+        darkIcon?.classList.remove('hidden');
+        lightIcon?.classList.add('hidden');
+      }
+    }
+
+    // Set initial theme
+    updateTheme(savedTheme);
+    
+    themeToggle?.addEventListener('click', () => {
+      const currentTheme = html.dataset.theme;
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      updateTheme(newTheme);
+    });
+  }
+
+  // Run on initial page load
+  initTheme();
+
+  // Run on view transitions
+  document.addEventListener('astro:page-load', () => {
+    initTheme();
   });
 </script>
