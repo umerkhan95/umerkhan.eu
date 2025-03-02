@@ -3,7 +3,7 @@ title: "How GitHub Copilot Revolutionized My Coding Experience"
 description: "My journey with GitHub Copilot, its impact on ethical programming and freelancing in Pakistan, and how it's shaping the future of software development."
 pubDate: "Apr 24 2024"
 heroImage: "/Copilot-Logo.png"
-tags: ["AI", "GitHub Copilot", "Productivity"]
+tags: ["AI", "GitHub Copilot", "Productivity", "Software Development", "Developer Tools"]
 ---
 
 Over the past few months, my journey as a developer took a transformative turn. After two months of searching for an AI agent that could streamline my coding process, I built my own Retrieval-Augmented Generation (RAG) applications to enhance efficiency—until I discovered GitHub Copilot. This post outlines my experience, its impact on ethical programming and freelancing in Pakistan, and how Copilot is shaping the future of software development.

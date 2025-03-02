@@ -3,7 +3,7 @@ title: "MOJO VS GOLANG: THE ULTIMATE DIFFERENCE GUIDE"
 description: "Did you know? JavaScript is the most commonly used programming language among software developers around the world. A survey of 2022 reveals that more than 63.6 percent of respondents stated that they used JavaScript."
 pubDate: "Apr 22 2024"
 heroImage: "/post_img.webp"
-tags: ["GO","MOJO"]
+tags: ["GO", "MOJO", "Programming Languages", "Performance", "Backend Development"]
 ---
 
 Did you know? JavaScript is the most commonly used programming language among software developers around the world. A survey of 2022 reveals that more than 63.6 percent of respondents stated that they used JavaScript.
