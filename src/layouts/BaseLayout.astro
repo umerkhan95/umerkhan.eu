@@ -20,11 +20,6 @@ const {
   <head>
     <BaseHead title={title} description={description} image={image} , ogType={ogType} />
     {TRANSITION_API && <ViewTransitions />}
-    <script is:inline>
-      // Initialize theme immediately
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      document.documentElement.dataset.theme = savedTheme;
-    </script>
     <style is:inline>
       [data-theme="light"] {
         --bg-color: #ffffff;
