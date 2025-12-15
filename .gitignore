@@ -1,6 +1,7 @@
 # build output
 dist/
 .cache
+
 # dependencies
 node_modules/
 
@@ -10,13 +11,55 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
 # environment variables
 .env
-.env.production
+.env.*
+!.env.example
+
+# credentials and secrets
+*.pem
+*.key
+*.crt
+credentials.json
+secrets.json
+service-account*.json
 
 # macOS-specific files
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
 
 # Astro
 .astro/
+
+# Playwright / testing
+.playwright-mcp/
+playwright-report/
+test-results/
+
+# Screenshots (local dev)
+Screenshot*.png
+*.screenshot.png
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Fly.io
+fly.toml.bak
+
+# Misc
+*.log
+*.tmp
+*.temp
+.claude/

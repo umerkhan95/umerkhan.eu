@@ -3,49 +3,43 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import HorizontalCard from "../components/HorizontalCard.astro";
 ---
 
-<BaseLayout title = "Projects" sideBarActiveItemID="projects">
+<BaseLayout title="Projects" sideBarActiveItemID="projects">
   <div>
-    <div class="text-3xl w-full font-bold mb-5">Projects Header</div>
+    <div class="text-3xl w-full font-bold mb-5">Featured Projects</div>
   </div>
 
   <HorizontalCard
-    title="Demo Project 1"
+    title="Sigma - AI Shopify Management Agent"
     img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    url="#"
-    badge="NEW"
+    desc="Multi-agent system built with LangGraph orchestrating specialized agents for products, customers, orders, and metafields. Implemented semantic search using Qdrant vector embeddings, automated Shopify data pipelines, and multi-tenant architecture. Deployed with Docker, PostgreSQL, and LangSmith observability, supports multiple LLM providers (Ollama, OpenAI, Anthropic)."
+    url="https://sigma-devstore1.myshopify.com"
+    badge="AI Agent"
   />
   <div class="divider my-0"></div>
   <HorizontalCard
-    title="Demo Project 2"
+    title="ORY Berlin - Health Tech E-commerce Platform"
     img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    url="#"
+    desc="Privacy-first health platform combining diagnostic testing, supplement e-commerce, and coaching services. Features GDPR-compliant RAG system for medical advice, automated patient workflows (email parsing, alerts), and 24 Shopify automation tools achieving 2× order growth and 4.9× ROAS through optimized ad campaigns."
+    url="https://ory-berlin.de"
+    badge="Health Tech"
   />
 
   <div>
-    <div class="text-3xl w-full font-bold mb-5 mt-10">Projects Header</div>
+    <div class="text-3xl w-full font-bold mb-5 mt-10">Tech Stack</div>
   </div>
 
-  <HorizontalCard
-    title="Demo Project 3"
-    img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    url="#"
-    badge="FOSS"
-  />
-  <div class="divider my-0"></div>
-  <HorizontalCard
-    title="Demo Project 4"
-    img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    url="#"
-  />
-  <div class="divider my-0"></div>
-  <HorizontalCard
-    title="Demo Project 5"
-    img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    url="#"
-  />
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <h3 class="card-title text-lg">Sigma</h3>
+        <p class="text-sm">LangGraph, Qdrant, Docker, PostgreSQL, LangSmith, Shopify API</p>
+      </div>
+    </div>
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <h3 class="card-title text-lg">ORY Berlin</h3>
+        <p class="text-sm">Shopify, Python, n8n, FastAPI, RAG, BioGPT</p>
+      </div>
+    </div>
+  </div>
 </BaseLayout>
