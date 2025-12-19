@@ -1,0 +1,179 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Privacy Policy - Sigma AI" sideBarActiveItemID="sigma-ai">
+  <div class="prose prose-sm max-w-none">
+    <h1 class="text-2xl font-bold mb-1">Privacy Policy</h1>
+    <p class="text-sm text-base-content/60 mb-6">Last updated: December 19, 2024</p>
+
+    <h2>1. Introduction</h2>
+    <p>
+      MerchantsAI ("we", "our", "us") operates the Sigma AI application for Shopify stores.
+      This Privacy Policy explains how we collect, use, and protect your data when you use our service.
+    </p>
+    <p>
+      By installing Sigma AI, you agree to the collection and use of information in accordance with this policy.
+    </p>
+
+    <h2>2. Data We Collect</h2>
+
+    <h3>2.1 Merchant Data</h3>
+    <p>When you install Sigma AI, we collect:</p>
+    <ul>
+      <li><strong>Shop information:</strong> Your Shopify store domain and basic store details</li>
+      <li><strong>Access tokens:</strong> Encrypted OAuth tokens to access your Shopify data (products, orders, customers)</li>
+      <li><strong>Configuration:</strong> Agent personality settings, prompt customizations, and campaign information</li>
+      <li><strong>Usage metrics:</strong> Session counts and feature usage for billing and analytics</li>
+    </ul>
+
+    <h3>2.2 Customer Data (Store Visitors)</h3>
+    <p>When customers interact with the Sigma AI chat widget, we collect:</p>
+    <ul>
+      <li><strong>Chat conversations:</strong> Messages exchanged with the AI agent</li>
+      <li><strong>Session information:</strong> Anonymous session identifiers, timestamps</li>
+      <li><strong>Device information:</strong> Browser type, device category (mobile/desktop)</li>
+      <li><strong>Shopping behavior:</strong> Products viewed, cart actions during the chat session</li>
+      <li><strong>Satisfaction scores:</strong> Optional feedback provided by customers</li>
+    </ul>
+
+    <h3>2.3 Analytics Data</h3>
+    <p>We collect aggregated analytics including:</p>
+    <ul>
+      <li>Total sessions and message counts</li>
+      <li>Conversion rates and revenue attribution</li>
+      <li>Response time metrics</li>
+      <li>Customer satisfaction averages</li>
+    </ul>
+
+    <h2>3. How We Use Your Data</h2>
+    <p>We use collected data to:</p>
+    <ul>
+      <li><strong>Provide the service:</strong> Power AI chat functionality and product recommendations</li>
+      <li><strong>Generate embeddings:</strong> Create semantic search vectors for your product catalog</li>
+      <li><strong>Deliver analytics:</strong> Provide insights and reports in your merchant dashboard</li>
+      <li><strong>Improve the service:</strong> Analyze usage patterns to enhance features</li>
+      <li><strong>Billing:</strong> Track usage for subscription billing purposes</li>
+    </ul>
+
+    <h2>4. Third-Party Services</h2>
+    <p>We use the following third-party services to provide Sigma AI functionality:</p>
+
+    <div class="overflow-x-auto">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Purpose</th>
+            <th>Data Region</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OpenAI</td>
+            <td>Text embeddings for semantic product search</td>
+            <td>United States</td>
+          </tr>
+          <tr>
+            <td>Anthropic (Claude) / Google (Gemini)</td>
+            <td>AI chat response generation</td>
+            <td>United States</td>
+          </tr>
+          <tr>
+            <td>Supabase</td>
+            <td>Primary database hosting</td>
+            <td><strong>EU (Frankfurt)</strong></td>
+          </tr>
+          <tr>
+            <td>Qdrant</td>
+            <td>Vector database for semantic search</td>
+            <td>EU</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-4">
+      These providers process data according to their respective privacy policies and data processing agreements.
+    </p>
+
+    <h2>5. Data Retention</h2>
+    <ul>
+      <li><strong>Chat sessions:</strong> Retained for 90 days, then automatically anonymized</li>
+      <li><strong>Analytics data:</strong> Retained in anonymized/aggregated form</li>
+      <li><strong>Product embeddings:</strong> Updated on each sync, deleted when products are removed</li>
+    </ul>
+
+    <h2>6. Data Deletion</h2>
+    <div class="alert alert-info mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <span><strong>Immediate deletion:</strong> When you uninstall Sigma AI, ALL your data is deleted immediately - not after 48 hours.</span>
+    </div>
+    <p>Upon app uninstallation, we immediately delete:</p>
+    <ul>
+      <li>All shop configuration and settings</li>
+      <li>All chat sessions and conversation history</li>
+      <li>All customer data associated with your store</li>
+      <li>All product embeddings and search vectors</li>
+      <li>All prompt configurations and customizations</li>
+    </ul>
+    <p>
+      Shopify also sends a backup deletion request 48 hours after uninstall (shop/redact webhook),
+      which we handle as a safety net, though data is typically already deleted.
+    </p>
+
+    <h2>7. Your Rights (GDPR)</h2>
+    <p>Under the General Data Protection Regulation (GDPR), you have the right to:</p>
+    <ul>
+      <li><strong>Access:</strong> Request a copy of your personal data</li>
+      <li><strong>Rectification:</strong> Request correction of inaccurate data</li>
+      <li><strong>Erasure:</strong> Request deletion of your data ("right to be forgotten")</li>
+      <li><strong>Portability:</strong> Receive your data in a machine-readable format</li>
+      <li><strong>Object:</strong> Object to processing of your data</li>
+      <li><strong>Restrict:</strong> Request restriction of processing</li>
+    </ul>
+    <p>
+      <strong>For merchants:</strong> You can exercise these rights by uninstalling the app (for deletion)
+      or contacting us at the email below.
+    </p>
+    <p>
+      <strong>For store customers:</strong> Please contact the store owner directly, or contact us
+      and we will coordinate with the merchant on your behalf.
+    </p>
+
+    <h2>8. Data Security</h2>
+    <p>We implement appropriate security measures including:</p>
+    <ul>
+      <li>Encryption of access tokens using secure vault storage</li>
+      <li>Multi-tenant data isolation (each shop's data is separated)</li>
+      <li>HTTPS encryption for all data transfers</li>
+      <li>Regular security audits and updates</li>
+    </ul>
+
+    <h2>9. Children's Privacy</h2>
+    <p>
+      Sigma AI is not intended for use by children under 16. We do not knowingly collect
+      personal information from children.
+    </p>
+
+    <h2>10. Changes to This Policy</h2>
+    <p>
+      We may update this Privacy Policy from time to time. We will notify you of any changes
+      by posting the new policy on this page and updating the "Last updated" date.
+    </p>
+
+    <h2>11. Contact Us</h2>
+    <p>For privacy inquiries, data requests, or questions about this policy:</p>
+    <p>
+      <strong>MerchantsAI</strong><br />
+      Email: <a href="mailto:hello@umerkhan.eu" class="link link-primary">hello@umerkhan.eu</a>
+    </p>
+
+    <div class="mt-8 pt-4 border-t border-base-300">
+      <p class="text-sm text-base-content/60">
+        <a href="/sigma-ai" class="link">Back to Sigma AI</a> |
+        <a href="/sigma-ai/terms" class="link">Terms of Service</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
