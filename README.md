@@ -1,34 +1,60 @@
-# Umer Khan's Portfolio Website
+# umerkhan.io
 
-This is my personal portfolio website featuring a blog, CV, and a clean bottom navigation bar with theme switching capability.
+Personal website and blog built with Astro, deployed on Fly.io.
+
+## Tech Stack
+
+- **Framework**: Astro
+- **Styling**: TailwindCSS + DaisyUI
+- **Content**: MDX
+- **Deployment**: Fly.io (Docker + nginx)
 
 ## Features
 
-- Minimal bottom navigation
-- Dark/Light mode with persistent theme
-- Blog with tags
+- Blog with tag filtering and pagination
 - CV/Resume page
+- Experience timeline with animated status indicators
+- Client showcase
+- Dark/Light theme toggle
+- RSS feed
+- Sitemap generation
 - Responsive design
-- Fast page transitions
-- Blog with RSS feed
 
-## Getting Started
+## Development
 
-1. Clone the repository:
 ```bash
-git clone https://github.com/umerkhan95/umerkhan.eu.git
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-2. Install dependencies:
+## Deployment
+
+Deployed on Fly.io:
+
 ```bash
-pnpm install
+fly deploy
 ```
 
-3. Start the development server:
-```bash
-pnpm run dev
+## Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── content/        # Blog posts (MDX)
+├── layouts/        # Page layouts
+├── lib/            # Utility functions
+└── pages/          # Routes
 ```
 
 ## License
 
-MIT License - feel free to use this for your own portfolio!
+MIT

@@ -1,0 +1,24 @@
+---
+interface Props {
+  dateRange: string;
+  company: string;
+  role: string;
+  isCurrent?: boolean;
+}
+
+const { dateRange, company, role, isCurrent = false } = Astro.props;
+---
+
+<div class="grid grid-cols-[auto_1fr_auto] gap-4 items-center py-2">
+  <div class="flex items-center gap-2 text-sm text-base-content/60 min-w-[100px]">
+    {isCurrent && (
+      <span class="relative flex h-2.5 w-2.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+      </span>
+    )}
+    <span class={isCurrent ? "text-green-500 font-medium" : ""}>{dateRange}</span>
+  </div>
+  <div class="font-bold text-base-content">{company}</div>
+  <div class="text-sm text-base-content/60 text-right">{role}</div>
+</div>
