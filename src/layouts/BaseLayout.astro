@@ -2,6 +2,7 @@
 import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import DevToolbar from "../components/DevToolbar.astro";
+import GEOSchema from "../components/GEOSchema.astro";
 import { ViewTransitions } from "astro:transitions";
 
 import { SITE_TITLE, SITE_DESCRIPTION, TRANSITION_API } from "../config";
@@ -12,6 +13,7 @@ const {
   description = SITE_DESCRIPTION,
   sideBarActiveItemID,
   ogType,
+  geoPage = 'home',
 } = Astro.props;
 ---
 
@@ -19,36 +21,91 @@ const {
 <html lang="en" data-theme="lofi">
   <head>
     <BaseHead title={title} description={description} image={image} , ogType={ogType} />
+    <GEOSchema page={geoPage} />
     {TRANSITION_API && <ViewTransitions />}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style is:inline>
-      [data-theme="light"] {
-        --bg-color: #ffffff;
-        --text-color: #000000;
+      :root {
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       }
-      
+
+      [data-theme="light"], [data-theme="lofi"] {
+        --bg-color: #fafafa;
+        --text-color: #171717;
+        --text-muted: #525252;
+        --accent: #18181b;
+        --border: #e5e5e5;
+      }
+
       [data-theme="dark"] {
-        --bg-color: #000000;
-        --text-color: #ffffff;
+        --bg-color: #0a0a0a;
+        --text-color: #fafafa;
+        --text-muted: #a3a3a3;
+        --accent: #fafafa;
+        --border: #262626;
       }
+
+      * {
+        font-family: var(--font-sans);
+      }
+
       body {
         background-color: var(--bg-color);
         color: var(--text-color);
         transition: background-color 0.3s ease, color 0.3s ease;
-        font-size: 13px;
-        line-height: 1.4;
+        font-size: 15px;
+        line-height: 1.6;
+        letter-spacing: -0.01em;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
-      h1 { font-size: 1.5rem; }
-      h2 { font-size: 1.25rem; }
-      h3 { font-size: 1.125rem; }
-      h4 { font-size: 1rem; }
-      h5 { font-size: 0.875rem; }
-      h6 { font-size: 0.75rem; }
-      p { font-size: 0.813rem; }
-      .text-xl { font-size: 1.25rem; }
-      .text-lg { font-size: 1.125rem; }
-      .text-base { font-size: 0.875rem; }
-      .text-sm { font-size: 0.813rem; }
-      .text-xs { font-size: 0.75rem; }
+
+      /* Modern Typography Scale */
+      h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+      }
+      h2 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+      h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      h4 {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      p, li {
+        font-size: 0.9375rem;
+        line-height: 1.7;
+        color: var(--text-muted);
+      }
+
+      /* Consistent text sizes */
+      .text-xl { font-size: 1.25rem; line-height: 1.5; }
+      .text-lg { font-size: 1.0625rem; line-height: 1.6; }
+      .text-base { font-size: 0.9375rem; line-height: 1.7; }
+      .text-sm { font-size: 0.875rem; line-height: 1.6; }
+      .text-xs { font-size: 0.75rem; line-height: 1.5; }
+
+      /* Section headings */
+      .section-title {
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+      }
     </style>
   </head>
   <body>

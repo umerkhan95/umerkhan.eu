@@ -3,33 +3,35 @@ const { title, img, desc, url, badge, tags, target = "_blank" } = Astro.props;
 import { Image } from "astro:assets";
 ---
 <div
-  class="rounded-lg bg-base-100 hover:shadow-xl transition ease-in-out hover:scale-[102%]"
+  class="group rounded-lg bg-base-100 hover:shadow-xl transition-all duration-300 ease-out hover:scale-[101%] border border-transparent hover:border-base-300/50 hover:bg-base-200/30"
 >
   <a href={url} target={target} data-astro-prefetch>
     <div class="hero-content flex-col md:flex-row p-3">
       {
         img && (
-          <Image
-            src={img}
-            width={750}
-            height={422}
-            format="webp"
-            alt={title}
-            class="max-w-full md:max-w-[10rem] rounded-lg"
-          />
+          <div class="relative overflow-hidden rounded-lg">
+            <Image
+              src={img}
+              width={750}
+              height={422}
+              format="webp"
+              alt={title}
+              class="max-w-full md:max-w-[10rem] rounded-lg transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
         )
       }
       <div class="grow w-full">
-        <h1 class="text-base font-bold">
+        <h1 class="text-base font-bold group-hover:text-primary transition-colors duration-200">
           {title}
           {badge && <div class="badge badge-secondary badge-xs mx-2">{badge}</div>}
         </h1>
-        <p class="py-1 text-xs">{desc}</p>
+        <p class="py-1 text-xs text-base-content/70">{desc}</p>
         <div class="card-actions justify-end">
           {
             tags &&
               tags.map((tag) => (
-                <a href={`/blog/tag/${tag}/`} class="badge badge-outline badge-xs">
+                <a href={`/blog/tag/${tag}/`} class="badge badge-outline badge-xs hover:badge-primary transition-colors duration-200">
                   {tag}
                 </a>
               ))

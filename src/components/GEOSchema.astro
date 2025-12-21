@@ -1,0 +1,236 @@
+---
+/**
+ * GEO (Generative Engine Optimization) Schema Component
+ * Provides structured data and LLM-friendly content for better AI discoverability
+ */
+
+interface Props {
+  page?: 'home' | 'cv' | 'blog' | 'services' | 'projects';
+}
+
+const { page = 'home' } = Astro.props;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://umer.eu/#person",
+  "name": "Umer Khan",
+  "givenName": "Umer",
+  "familyName": "Khan",
+  "jobTitle": "Founding AI Engineer",
+  "description": "Umer Khan is a founding AI engineer based in Berlin, Germany, specializing in production-grade AI systems, RAG pipelines, LLM engineering, and data architecture. He builds GDPR-compliant AI solutions using Python, FastAPI, LangChain, LangGraph, and AWS.",
+  "url": "https://umer.eu",
+  "image": "https://umer.eu/profile.jpg",
+  "email": "hello@umerkhan.io",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Berlin",
+    "addressCountry": "Germany"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "University of Karachi",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "Pakistan"
+    }
+  },
+  "knowsAbout": [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Large Language Models (LLMs)",
+    "Retrieval-Augmented Generation (RAG)",
+    "LangChain",
+    "LangGraph",
+    "Model Context Protocol (MCP)",
+    "Python",
+    "FastAPI",
+    "AWS",
+    "Data Engineering",
+    "ETL Pipelines",
+    "Natural Language Processing (NLP)",
+    "Vector Databases",
+    "Pinecone",
+    "ChromaDB",
+    "Qdrant"
+  ],
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "AWS Cloud Solutions Architect",
+      "credentialCategory": "Professional Certification",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "Amazon Web Services"
+      }
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "Data Science with ML/AI",
+      "credentialCategory": "Professional Certification",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "IBM"
+      }
+    }
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Bloomers Berlin",
+    "url": "https://bloomers.berlin"
+  },
+  "sameAs": [
+    "https://github.com/umerkhan95",
+    "https://linkedin.com/in/umerkhan"
+  ]
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://umer.eu/#website",
+  "name": "Umer Khan - AI Engineer",
+  "url": "https://umer.eu",
+  "description": "Personal website of Umer Khan, a founding AI engineer specializing in RAG systems, LLM engineering, and production-grade AI solutions.",
+  "author": {
+    "@id": "https://umer.eu/#person"
+  },
+  "publisher": {
+    "@id": "https://umer.eu/#person"
+  }
+};
+
+const professionalServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://umer.eu/#service",
+  "name": "Umer Khan AI Engineering Services",
+  "description": "AI engineering consulting and development services including RAG system design, LLM integration, data pipeline architecture, and AI automation.",
+  "provider": {
+    "@id": "https://umer.eu/#person"
+  },
+  "areaServed": {
+    "@type": "Place",
+    "name": "Worldwide"
+  },
+  "serviceType": [
+    "AI System Design",
+    "RAG Pipeline Development",
+    "LLM Engineering",
+    "Data Architecture",
+    "AI Automation",
+    "Cloud Solutions"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "AI Engineering Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "RAG System Development",
+          "description": "Design and implementation of Retrieval-Augmented Generation systems for enterprise knowledge management"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "LLM Integration",
+          "description": "Integration of large language models into existing business workflows and applications"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "AI Agent Development",
+          "description": "Development of autonomous AI agents using LangChain, LangGraph, and Model Context Protocol (MCP)"
+        }
+      }
+    ]
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Umer Khan's expertise?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Umer Khan specializes in building production-grade AI systems, including RAG (Retrieval-Augmented Generation) pipelines, LLM engineering, AI agents, and data architecture. He has expertise in Python, FastAPI, LangChain, LangGraph, MCP, and AWS cloud services."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What companies has Umer Khan worked with?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Umer Khan has worked with Bloomers Berlin (current), Comparado GmbH (Idealo Group), CorAI (Bernstein Analytics), and Teradata. He has also collaborated with stakeholders from Axel Springer, Bernstein Group, NewsCatcher, and Telenor."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What AI technologies does Umer Khan work with?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Umer Khan works with LangChain, LangGraph, Model Context Protocol (MCP), OpenAI, Hugging Face models, PyTorch, and vector databases including Pinecone, ChromaDB, Qdrant, and Milvus. He specializes in building RAG systems and AI agents."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Umer Khan available for consulting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, Umer Khan is available for AI engineering consulting, including RAG system design, LLM integration, data pipeline architecture, and AI automation projects. Contact him at hello@umerkhan.io."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is Umer Khan based?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Umer Khan is based in Berlin, Germany. He works with clients worldwide on AI engineering projects."
+      }
+    }
+  ]
+};
+
+// Combine schemas based on page
+const schemas = page === 'home'
+  ? [personSchema, websiteSchema, professionalServiceSchema, faqSchema]
+  : page === 'cv'
+  ? [personSchema]
+  : page === 'services'
+  ? [personSchema, professionalServiceSchema]
+  : [personSchema, websiteSchema];
+---
+
+<!-- JSON-LD Structured Data for LLMs and Search Engines -->
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}
+
+<!-- Additional Meta Tags for GEO -->
+<meta name="author" content="Umer Khan" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow" />
+
+<!-- Entity and Topic Tags -->
+<meta name="subject" content="AI Engineering, RAG Systems, LLM Development" />
+<meta name="topic" content="Artificial Intelligence, Machine Learning, Data Engineering" />
+<meta name="classification" content="Technology, Software Engineering, AI" />
+<meta name="coverage" content="Worldwide" />
+
+<!-- Semantic Keywords for LLM Understanding -->
+<meta name="keywords" content="Umer Khan, AI Engineer, Berlin, RAG systems, LLM engineering, LangChain, LangGraph, MCP, Model Context Protocol, Python, FastAPI, AWS, data engineering, machine learning, artificial intelligence, vector databases, Pinecone, ChromaDB" />
+
+<!-- Citation Information -->
+<meta name="citation_author" content="Umer Khan" />
+<meta name="citation_title" content="Umer Khan - Founding AI Engineer" />
+<meta name="DC.creator" content="Umer Khan" />
+<meta name="DC.publisher" content="Umer Khan" />
