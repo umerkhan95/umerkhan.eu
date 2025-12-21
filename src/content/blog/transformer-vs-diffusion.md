@@ -1,5 +1,5 @@
 ---
-title: "TRANSFORMER VS. DIFFUSION MODELS: A TECHNICAL COMPARISON"
+title: "Transformer vs Diffusion Models: A Technical Comparison"
 description: "A comprehensive analysis of diffusion and transformer models in LLMs, focusing on technical differences, future implications, and hardware considerations."
 pubDate: "Mar 2 2025"
 heroImage: "/post_img3.webp"
