@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import BlogCard from "../../components/blog/BlogCard.astro";
+import SideSection from "../../components/SideSection.astro";
 import { getCollection } from "astro:content";
 import createSlug from "../../lib/createSlug";
 
@@ -15,80 +15,108 @@ const { page } = Astro.props;
 
 <BaseLayout title="Blog" sideBarActiveItemID="blog" geoPage="blog">
   <!-- Hero Section -->
-  <section class="py-10">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-2">
-      <div>
-        <p class="text-xs font-medium uppercase tracking-widest text-base-content/40 mb-2">Writing</p>
-        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-base-content">Blog</h1>
+  <section class="py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
+      <div class="lg:text-right">
+        <span class="text-xs font-semibold uppercase tracking-widest text-base-content/40">Writing</span>
       </div>
-      <span class="text-xs text-base-content/40">{page.total} articles</span>
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-base-content mb-4">
+          Blog
+        </h1>
+        <p class="text-base-content/60 leading-relaxed max-w-2xl">
+          Thoughts on AI engineering, machine learning, and building production systems. {page.total} articles.
+        </p>
+      </div>
     </div>
-    <p class="text-base-content/60 leading-relaxed max-w-2xl mt-4">
-      Thoughts on AI engineering, machine learning, and building production systems.
-    </p>
   </section>
 
   <div class="w-full h-px bg-base-300/50"></div>
 
   <!-- Posts Section -->
-  <section class="py-6">
+  <SideSection title="Articles" subtitle={`Page ${page.currentPage}`}>
     {page.data.length === 0 ? (
       <div class="py-16 text-center">
         <p class="text-base-content/50">No posts yet. Check back soon.</p>
       </div>
     ) : (
       <div class="space-y-0">
-        {page.data.map((post, index) => (
-          <BlogCard
-            index={index + (page.currentPage - 1) * 10}
-            title={post.data.title}
-            description={post.data.description}
-            pubDate={post.data.pubDate}
-            heroImage={post.data.heroImage}
-            url={"/blog/" + createSlug(post.data.title, post.slug) + "/"}
-            tags={post.data.tags}
-            badge={post.data.badge}
-          />
+        {page.data.map((post) => (
+          <a
+            href={"/blog/" + createSlug(post.data.title, post.slug) + "/"}
+            class="group flex items-start gap-6 py-4 border-b border-base-300/30 last:border-0"
+          >
+            <span class="text-xs text-base-content/40 w-20 shrink-0 pt-1 tabular-nums">
+              {new Date(post.data.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <h3 class="font-medium text-base-content group-hover:text-primary transition-colors line-clamp-2">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-sm text-base-content/50 line-clamp-2 mt-1">
+                    {post.data.description}
+                  </p>
+                  {post.data.tags && post.data.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-1.5 mt-2">
+                      {post.data.tags.slice(0, 3).map((tag) => (
+                        <span class="px-2 py-0.5 text-[10px] font-medium text-base-content/50 bg-base-200/50 rounded-md">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <svg class="w-4 h-4 text-base-content/20 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </a>
         ))}
       </div>
     )}
-  </section>
+  </SideSection>
 
   <!-- Pagination -->
   {(page.url.prev || page.url.next) && (
-    <section class="py-8 border-t border-base-300/50">
-      <div class="flex items-center justify-between">
-        {page.url.prev ? (
-          <a
-            href={page.url.prev}
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-base-content/70 hover:text-base-content transition-colors"
-          >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-            Newer
-          </a>
-        ) : (
-          <div></div>
-        )}
+    <section class="py-10 border-t border-base-300/50">
+      <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
+        <div></div>
+        <div class="flex items-center justify-between">
+          {page.url.prev ? (
+            <a
+              href={page.url.prev}
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-base-content/70 hover:text-base-content transition-colors"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+              Newer
+            </a>
+          ) : (
+            <div></div>
+          )}
 
-        <span class="text-xs text-base-content/40">
-          Page {page.currentPage} of {page.lastPage}
-        </span>
+          <span class="text-xs text-base-content/40">
+            Page {page.currentPage} of {page.lastPage}
+          </span>
 
-        {page.url.next ? (
-          <a
-            href={page.url.next}
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-base-content/70 hover:text-base-content transition-colors"
-          >
-            Older
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        ) : (
-          <div></div>
-        )}
+          {page.url.next ? (
+            <a
+              href={page.url.next}
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-base-content/70 hover:text-base-content transition-colors"
+            >
+              Older
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          ) : (
+            <div></div>
+          )}
+        </div>
       </div>
     </section>
   )}

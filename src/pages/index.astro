@@ -1,20 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HorizontalCard from "../components/HorizontalCard.astro";
+import SideSection from "../components/SideSection.astro";
 import { getCollection } from "astro:content";
-import createSlug from "../lib/createSlug"
+import createSlug from "../lib/createSlug";
 import { ModernHero } from "../components/react/ModernHero";
 import { FadeIn } from "../components/react/FadeIn";
 
 const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
 const last_posts = posts.slice(0, 3);
 
 const experience = [
-  { year: "2025", company: "Bloomers Berlin", role: "Founding Engineer", current: true },
-  { year: "2024", company: "Comparado (Idealo)", role: "Data Engineer", current: false },
-  { year: "2022", company: "CorAI", role: "Cloud Architect", current: false },
-  { year: "2018", company: "Teradata", role: "Data Engineer", current: false },
+  { year: "2025", company: "Bloomers Berlin", role: "Founding Engineer", current: true, summary: "Building AI-powered e-commerce systems, GDPR-compliant RAG pipelines, and automation workflows with LangChain." },
+  { year: "2024", company: "Comparado (Idealo)", role: "Data Engineer", current: false, summary: "Standardized ETL pipelines, migrated BI to AWS, and ensured DSA/DMA compliance for the Idealo Group." },
+  { year: "2022", company: "CorAI", role: "Cloud Architect", current: false, summary: "Architected a system processing 1M daily news articles with NLP-based categorization and sentiment analysis." },
+  { year: "2018", company: "Teradata", role: "Data Engineer", current: false, summary: "Built data pipelines and ETL solutions for major telecom companies including Telenor Pakistan." },
 ];
 
 const clients = ["Idealo", "Axel Springer", "Bernstein Group", "NewsCatcher", "Telenor", "Bloomers"];
@@ -29,60 +28,63 @@ const clients = ["Idealo", "Axel Springer", "Bernstein Group", "NewsCatcher", "T
     location="Berlin"
   />
 
-  <!-- Divider -->
-  <div class="w-full h-px bg-base-300/50 my-8"></div>
+  <div class="w-full h-px bg-base-300/50"></div>
 
   <!-- Experience Section -->
   <FadeIn client:load delay={0.2}>
-    <section class="py-8">
-      <h2 class="section-title">Experience</h2>
-      <div class="space-y-4">
-        {experience.map((exp) => (
-          <div class="group flex items-start gap-4 py-3 -mx-3 px-3 rounded-lg hover:bg-base-200/30 transition-colors duration-200">
-            <span class="text-sm font-medium text-base-content/40 w-12 shrink-0 pt-0.5">
+    <SideSection title="Experience" subtitle={`${experience.length} roles`}>
+      <div class="space-y-0">
+        {experience.map((exp, index) => (
+          <div class="group flex items-start gap-6 py-4 border-b border-base-300/30 last:border-0">
+            <span class="text-sm font-medium w-16 shrink-0 pt-0.5 tabular-nums">
               {exp.current ? (
-                <span class="text-emerald-600 dark:text-emerald-400">Now</span>
-              ) : exp.year}
+                <span class="text-success font-semibold">Now</span>
+              ) : (
+                <span class="text-base-content/40">{exp.year}</span>
+              )}
             </span>
             <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2.5">
                 <span class="font-medium text-base-content group-hover:text-primary transition-colors">
                   {exp.company}
                 </span>
                 {exp.current && (
-                  <span class="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded">
-                    Current
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-medium bg-success/15 text-success rounded-full border border-success/25">
+                    <span class="w-1 h-1 rounded-full bg-success animate-pulse"></span>
+                    Active
                   </span>
                 )}
               </div>
               <span class="text-sm text-base-content/50">{exp.role}</span>
+              <p class="text-sm text-base-content/40 mt-1 line-clamp-2">{exp.summary}</p>
             </div>
           </div>
         ))}
       </div>
-      <a href="/cv" class="inline-flex items-center gap-1 mt-4 text-sm text-base-content/60 hover:text-base-content transition-colors">
+      <a
+        href="/cv"
+        class="inline-flex items-center gap-1.5 mt-6 text-sm font-medium text-base-content/60 hover:text-base-content transition-colors group"
+      >
         View full resume
-        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>
       </a>
-    </section>
+    </SideSection>
   </FadeIn>
 
-  <!-- Divider -->
-  <div class="w-full h-px bg-base-300/50 my-8"></div>
+  <div class="w-full h-px bg-base-300/50"></div>
 
   <!-- Blog Section -->
   <FadeIn client:load delay={0.3}>
-    <section class="py-8">
-      <h2 class="section-title">Recent Writing</h2>
-      <div class="space-y-1">
+    <SideSection title="Writing" subtitle={`${posts.length} articles`}>
+      <div class="space-y-0">
         {last_posts.map((post) => (
           <a
             href={"/blog/" + createSlug(post.data.title, post.slug) + "/"}
-            class="group flex items-start gap-4 py-4 -mx-3 px-3 rounded-lg hover:bg-base-200/30 transition-colors duration-200"
+            class="group flex items-start gap-6 py-4 border-b border-base-300/30 last:border-0"
           >
-            <span class="text-sm text-base-content/40 w-20 shrink-0 pt-0.5">
+            <span class="text-xs text-base-content/40 w-16 shrink-0 pt-1 tabular-nums">
               {new Date(post.data.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
             </span>
             <div class="flex-1 min-w-0">
@@ -93,52 +95,51 @@ const clients = ["Idealo", "Axel Springer", "Bernstein Group", "NewsCatcher", "T
                 {post.data.description}
               </p>
             </div>
-            <svg class="w-4 h-4 text-base-content/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-4 h-4 text-base-content/20 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </a>
         ))}
       </div>
-      <a href="/blog" class="inline-flex items-center gap-1 mt-4 text-sm text-base-content/60 hover:text-base-content transition-colors">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-1.5 mt-6 text-sm font-medium text-base-content/60 hover:text-base-content transition-colors group"
+      >
         View all posts
-        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>
       </a>
-    </section>
+    </SideSection>
   </FadeIn>
 
-  <!-- Divider -->
-  <div class="w-full h-px bg-base-300/50 my-8"></div>
+  <div class="w-full h-px bg-base-300/50"></div>
 
   <!-- Clients Section -->
   <FadeIn client:load delay={0.4}>
-    <section class="py-8">
-      <h2 class="section-title">Worked With</h2>
-      <div class="flex flex-wrap gap-3">
+    <SideSection title="Worked With" subtitle="Select clients">
+      <div class="flex flex-wrap gap-2">
         {clients.map((client) => (
-          <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/50 rounded-full border border-base-300/50 hover:border-base-300 transition-colors">
+          <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40 hover:border-base-300 hover:bg-base-200/60 transition-all">
             {client}
           </span>
         ))}
       </div>
-    </section>
+    </SideSection>
   </FadeIn>
 
-  <!-- Divider -->
-  <div class="w-full h-px bg-base-300/50 my-8"></div>
+  <div class="w-full h-px bg-base-300/50"></div>
 
   <!-- Contact Section -->
   <FadeIn client:load delay={0.5}>
-    <section class="py-8">
-      <h2 class="section-title">Get in Touch</h2>
-      <p class="text-base-content/60 mb-6">
+    <SideSection title="Contact" subtitle="Get in touch">
+      <p class="text-base-content/60 mb-6 max-w-lg">
         Open to discussing AI engineering opportunities, consulting work, or interesting projects.
       </p>
-      <div class="flex flex-wrap gap-4">
+      <div class="flex flex-wrap items-center gap-6">
         <a
           href="mailto:hello@umerkhan.io"
-          class="inline-flex items-center gap-2 text-sm text-base-content hover:text-primary transition-colors"
+          class="inline-flex items-center gap-2 text-sm font-medium text-base-content hover:text-primary transition-colors"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -156,7 +157,7 @@ const clients = ["Idealo", "Axel Springer", "Bernstein Group", "NewsCatcher", "T
           GitHub
         </a>
         <a
-          href="https://linkedin.com/in/umerkhan"
+          href="https://www.linkedin.com/in/umerkhan261/"
           target="_blank"
           class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
         >
@@ -166,7 +167,7 @@ const clients = ["Idealo", "Axel Springer", "Bernstein Group", "NewsCatcher", "T
           LinkedIn
         </a>
       </div>
-    </section>
+    </SideSection>
   </FadeIn>
 
   <!-- LLM-Optimized Content for Generative Engine Optimization (GEO) -->

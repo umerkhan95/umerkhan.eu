@@ -1,37 +1,86 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SideSection from "../components/SideSection.astro";
+
+const apps = [
+  {
+    name: "Sigma AI",
+    description: "AI-powered sales agent for Shopify stores. Provides personalized product recommendations, answers customer questions, and helps convert visitors into buyers.",
+    badge: "Shopify App",
+    link: "/sigma-ai",
+    gradient: "from-purple-500 to-blue-500",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg>`
+  }
+];
 ---
 
 <BaseLayout title="Apps - Umer Khan" sideBarActiveItemID="apps">
-  <div class="pb-8">
-    <div class="text-3xl w-full font-bold">Apps</div>
-    <p class="py-2 text-base-content/70">
-      Software products and applications I've built.
-    </p>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <a href="/sigma-ai" data-astro-reload class="card bg-base-200 hover:shadow-xl hover:scale-[102%] transition-all cursor-pointer">
-      <div class="card-body">
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-7 h-7">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-            </svg>
-          </div>
-          <div>
-            <h2 class="card-title text-lg">Sigma AI</h2>
-            <div class="badge badge-primary badge-sm">Shopify App</div>
-          </div>
-        </div>
-        <p class="text-sm text-base-content/70 mt-3">
-          AI-powered sales agent for Shopify stores. Provides personalized product recommendations,
-          answers customer questions, and helps convert visitors into buyers.
-        </p>
-        <div class="card-actions justify-end mt-2">
-          <span class="text-xs text-primary">Learn more →</span>
-        </div>
+  <!-- Hero Section -->
+  <section class="py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
+      <div class="lg:text-right">
+        <span class="text-xs font-semibold uppercase tracking-widest text-base-content/40">Products</span>
       </div>
-    </a>
-  </div>
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-base-content mb-4">
+          Apps
+        </h1>
+        <p class="text-base-content/60 leading-relaxed max-w-2xl">
+          Software products and applications I've built. {apps.length} {apps.length === 1 ? 'app' : 'apps'} available.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Apps Section -->
+  <SideSection title="Applications" subtitle={`${apps.length} total`}>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {apps.map((app) => (
+        <a
+          href={app.link}
+          data-astro-reload
+          class="group relative border border-base-300/50 rounded-xl p-5 bg-base-100 hover:border-base-300 hover:shadow-sm transition-all"
+        >
+          <div class="flex items-start gap-4">
+            <div class={`w-12 h-12 bg-gradient-to-br ${app.gradient} rounded-xl flex items-center justify-center shrink-0`}>
+              <div class="w-6 h-6 text-white" set:html={app.icon} />
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-base-content group-hover:text-primary transition-colors">
+                  {app.name}
+                </h3>
+                <span class="px-2 py-0.5 text-[10px] font-medium bg-primary/10 text-primary rounded-full">
+                  {app.badge}
+                </span>
+              </div>
+              <p class="text-sm text-base-content/60 line-clamp-3">
+                {app.description}
+              </p>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center justify-end">
+            <span class="inline-flex items-center gap-1.5 text-xs font-medium text-primary group-hover:translate-x-0.5 transition-transform">
+              Learn more
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </SideSection>
+
+  <!-- Footer -->
+  <section class="py-10 border-t border-base-300/50">
+    <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
+      <div></div>
+      <p class="text-sm text-base-content/50">
+        More apps coming soon. Building in public.
+      </p>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  class?: string;
+}
+
+const { title, subtitle, class: className = "" } = Astro.props;
+---
+
+<section class={`py-10 ${className}`}>
+  <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
+    <!-- Side Label -->
+    <div class="lg:text-right">
+      <h2 class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-1">
+        {title}
+      </h2>
+      {subtitle && (
+        <span class="text-xs text-base-content/30">{subtitle}</span>
+      )}
+    </div>
+
+    <!-- Content -->
+    <div class="min-w-0">
+      <slot />
+    </div>
+  </div>
+</section>
