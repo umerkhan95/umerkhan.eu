@@ -35,38 +35,38 @@ const navItems = [
 ---
 
 <div id="dev-bar" class="fixed bottom-4 left-0 right-0 z-50 flex justify-center">
-  <div id="bar-container" class="bg-[#1b1b1f] border border-[#383838] rounded-t-lg px-1 py-0.5 flex items-center gap-0.5">
+  <div id="bar-container" class="bg-[#1b1b1f] border border-[#383838] rounded-xl px-2 py-1.5 flex items-center gap-1">
     {navItems.map(item => (
       <a
         href={item.href}
         data-astro-prefetch
         class={`item group relative ${activeItemID === item.id ? 'active' : ''}`}
       >
-        <div class="icon p-1.5 hover:bg-[#ffffff1a] rounded transition-colors">
-          <div class="w-4 h-4 text-[#fff]" set:html={item.icon} />
+        <div class="icon p-2.5 hover:bg-[#ffffff1a] rounded-lg transition-colors">
+          <div class="w-5 h-5 text-[#fff]" set:html={item.icon} />
           <div class="notification"></div>
         </div>
-        <span class="item-tooltip opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 text-[10px] bg-[#1b1b1f] text-white rounded whitespace-nowrap">
+        <span class="item-tooltip opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs bg-[#1b1b1f] text-white rounded-md whitespace-nowrap">
           {item.label}
         </span>
       </a>
     ))}
-    <div class="separator mx-1.5 h-3 w-[1px] bg-[#383838]"></div>
+    <div class="separator mx-2 h-5 w-[1px] bg-[#383838]"></div>
     <button id="theme-toggle" class="item group relative" data-theme-toggle>
-      <div class="icon p-1.5 hover:bg-[#ffffff1a] rounded transition-colors">
-        <div id="theme-toggle-dark-icon" class="w-4 h-4 text-[#fff]">
+      <div class="icon p-2.5 hover:bg-[#ffffff1a] rounded-lg transition-colors">
+        <div id="theme-toggle-dark-icon" class="w-5 h-5 text-[#fff]">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
           </svg>
         </div>
-        <div id="theme-toggle-light-icon" class="hidden w-4 h-4 text-[#fff]">
+        <div id="theme-toggle-light-icon" class="hidden w-5 h-5 text-[#fff]">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
           </svg>
         </div>
         <div class="notification"></div>
       </div>
-      <span class="item-tooltip opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 text-[10px] bg-[#1b1b1f] text-white rounded whitespace-nowrap">
+      <span class="item-tooltip opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs bg-[#1b1b1f] text-white rounded-md whitespace-nowrap">
         Toggle theme
       </span>
     </button>
