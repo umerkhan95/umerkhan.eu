@@ -96,19 +96,19 @@ const navItems = [
   }
 </style>
 
-<script>
-  // This script will run on every page navigation
-  function initTheme() {
-    const themeToggle = document.querySelector('[data-theme-toggle]');
-    const darkIcon = document.getElementById('theme-toggle-dark-icon');
-    const lightIcon = document.getElementById('theme-toggle-light-icon');
+<script is:inline>
+  // Theme management with event delegation (works reliably with View Transitions)
+  (function() {
     const html = document.documentElement;
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    
-    const updateTheme = (theme) => {
+
+    function updateTheme(theme) {
       html.dataset.theme = theme;
       localStorage.setItem('theme', theme);
+
       // Update icons
+      const darkIcon = document.getElementById('theme-toggle-dark-icon');
+      const lightIcon = document.getElementById('theme-toggle-light-icon');
+
       if (theme === 'dark') {
         darkIcon?.classList.add('hidden');
         lightIcon?.classList.remove('hidden');
@@ -118,21 +118,30 @@ const navItems = [
       }
     }
 
-    // Set initial theme
-    updateTheme(savedTheme);
-    
-    themeToggle?.addEventListener('click', () => {
-      const currentTheme = html.dataset.theme;
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      updateTheme(newTheme);
-    });
-  }
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      updateTheme(savedTheme);
+    }
 
-  // Run on initial page load
-  initTheme();
-
-  // Run on view transitions
-  document.addEventListener('astro:page-load', () => {
+    // Initialize theme immediately
     initTheme();
-  });
+
+    // Use event delegation on document - only attach once
+    if (!window.__themeToggleInitialized) {
+      window.__themeToggleInitialized = true;
+
+      document.addEventListener('click', (e) => {
+        const toggle = e.target.closest('[data-theme-toggle]');
+        if (toggle) {
+          e.preventDefault();
+          const currentTheme = html.dataset.theme || 'light';
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          updateTheme(newTheme);
+        }
+      });
+    }
+
+    // Re-init icons on page transitions
+    document.addEventListener('astro:page-load', initTheme);
+  })();
 </script>
