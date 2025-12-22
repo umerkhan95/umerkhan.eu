@@ -52,28 +52,47 @@ export function GeoOptimizer() {
 
   const pollStatus = async (jobId: string) => {
     try {
-      const response = await fetch(`${API_URL}/api/v2/status/${jobId}`);
+      // Use correct endpoint: /api/v2/jobs/{job_id}
+      const response = await fetch(`${API_URL}/api/v2/jobs/${jobId}`);
       const data = await response.json();
 
       if (data.status === "completed") {
         clearPoll();
-        setResult(data);
+        // Fetch full results from /api/v2/results/{job_id}
+        const resultsResponse = await fetch(`${API_URL}/api/v2/results/${jobId}`);
+        const resultsData = await resultsResponse.json();
+
+        setResult({
+          job_id: data.job_id,
+          status: data.status,
+          original_score: data.original_geo_score,
+          optimized_score: data.optimized_geo_score,
+          improvement: ((data.optimized_geo_score - data.original_geo_score) / data.original_geo_score) * 100,
+          optimized_content: resultsData.final_markdown,
+        });
         setCurrentStep(WORKFLOW_STEPS.length - 1);
         setIsLoading(false);
         setShowResult(true);
       } else if (data.status === "failed") {
         clearPoll();
-        setError(data.error || "Optimization failed");
+        setError(data.error_message || "Optimization failed");
         setIsLoading(false);
       } else {
-        // Update progress based on workflow steps
-        if (data.workflow_steps) {
-          const completedSteps = data.workflow_steps.filter(
-            (s: { status: string }) => s.status === "completed"
-          ).length;
-          setCurrentStep(Math.min(completedSteps, WORKFLOW_STEPS.length - 2));
+        // Update progress based on chunks completed
+        const totalChunks = data.total_chunks || 2;
+        const completedChunks = data.completed_chunks || 0;
+
+        if (data.industry) {
+          // Industry detected, at least step 2
+          if (completedChunks > 0) {
+            // Processing chunks
+            const progress = Math.min(3 + Math.floor((completedChunks / totalChunks) * 3), WORKFLOW_STEPS.length - 2);
+            setCurrentStep(progress);
+          } else {
+            setCurrentStep(2); // Chunking
+          }
         } else {
-          setCurrentStep((prev) => Math.min(prev + 1, WORKFLOW_STEPS.length - 2));
+          setCurrentStep((prev) => Math.min(prev + 1, 1)); // Crawling/Classifying
         }
       }
     } catch (err) {
