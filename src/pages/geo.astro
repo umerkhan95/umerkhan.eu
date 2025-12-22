@@ -6,32 +6,26 @@ import { GeoOptimizer } from "../components/react/GeoOptimizer";
 
 const features = [
   {
-    icon: "🕷️",
     title: "Intelligent Crawling",
     description: "Uses Crawl4AI to extract and parse website content with high accuracy."
   },
   {
-    icon: "🎯",
     title: "Industry Detection",
     description: "Automatically classifies content industry for targeted optimization."
   },
   {
-    icon: "⚡",
     title: "Parallel Processing",
     description: "Optimizes multiple content chunks simultaneously for speed."
   },
   {
-    icon: "📊",
     title: "GEO Scoring",
     description: "Before/after scoring to measure optimization improvement."
   },
   {
-    icon: "🛡️",
     title: "Anti-Hallucination",
     description: "Strict rules prevent AI from inventing statistics or quotes."
   },
   {
-    icon: "📝",
     title: "Export Options",
     description: "Download optimized content as Markdown or HTML."
   }
@@ -69,7 +63,6 @@ const workflow = [
   <FadeIn client:load>
     <div class="py-12">
       <div class="flex items-center gap-3 mb-4">
-        <span class="text-4xl">🚀</span>
         <span class="px-3 py-1 text-xs font-medium bg-success/15 text-success rounded-full border border-success/25">
           Live Tool
         </span>
@@ -126,19 +119,15 @@ const workflow = [
         <p>Unlike traditional SEO which focuses on ranking in search results, GEO focuses on:</p>
         <ul class="space-y-2 ml-4">
           <li class="flex items-start gap-2">
-            <span class="text-success mt-1">✓</span>
             <span><strong class="text-base-content">Structured formatting</strong> - Headers, bullet points, clear hierarchies</span>
           </li>
           <li class="flex items-start gap-2">
-            <span class="text-success mt-1">✓</span>
             <span><strong class="text-base-content">Factual density</strong> - Statistics, citations, verifiable claims</span>
           </li>
           <li class="flex items-start gap-2">
-            <span class="text-success mt-1">✓</span>
             <span><strong class="text-base-content">TL;DR summaries</strong> - Quick-reference sections for AI extraction</span>
           </li>
           <li class="flex items-start gap-2">
-            <span class="text-success mt-1">✓</span>
             <span><strong class="text-base-content">FAQ sections</strong> - Question-answer pairs for direct citations</span>
           </li>
         </ul>
@@ -154,12 +143,9 @@ const workflow = [
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         {features.map((feature) => (
           <div class="p-4 bg-base-200/30 rounded-xl border border-base-300/30 hover:border-base-300/60 transition-colors">
-            <div class="flex items-start gap-3">
-              <span class="text-2xl">{feature.icon}</span>
-              <div>
-                <h3 class="font-medium text-base-content">{feature.title}</h3>
-                <p class="text-sm text-base-content/50 mt-1">{feature.description}</p>
-              </div>
+            <div>
+              <h3 class="font-medium text-base-content">{feature.title}</h3>
+              <p class="text-sm text-base-content/50 mt-1">{feature.description}</p>
             </div>
           </div>
         ))}
