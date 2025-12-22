@@ -1,0 +1,293 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SideSection from "../components/SideSection.astro";
+import { FadeIn } from "../components/react/FadeIn";
+
+const features = [
+  {
+    icon: "🕷️",
+    title: "Intelligent Crawling",
+    description: "Uses Crawl4AI to extract and parse website content with high accuracy."
+  },
+  {
+    icon: "🎯",
+    title: "Industry Detection",
+    description: "Automatically classifies content industry for targeted optimization."
+  },
+  {
+    icon: "⚡",
+    title: "Parallel Processing",
+    description: "Optimizes multiple content chunks simultaneously for speed."
+  },
+  {
+    icon: "📊",
+    title: "GEO Scoring",
+    description: "Before/after scoring to measure optimization improvement."
+  },
+  {
+    icon: "🛡️",
+    title: "Anti-Hallucination",
+    description: "Strict rules prevent AI from inventing statistics or quotes."
+  },
+  {
+    icon: "📝",
+    title: "Export Options",
+    description: "Download optimized content as Markdown or HTML."
+  }
+];
+
+const techStack = [
+  { name: "Python", category: "Backend" },
+  { name: "FastAPI", category: "API" },
+  { name: "LangChain", category: "AI" },
+  { name: "Crawl4AI", category: "Crawler" },
+  { name: "Qdrant", category: "Vector DB" },
+  { name: "React", category: "Frontend" },
+  { name: "TypeScript", category: "Frontend" },
+  { name: "OpenAI GPT-4", category: "LLM" }
+];
+
+const workflow = [
+  { step: 1, name: "Crawl", description: "Extract content from URL" },
+  { step: 2, name: "Classify", description: "Detect industry" },
+  { step: 3, name: "Chunk", description: "Split into sections" },
+  { step: 4, name: "Retrieve", description: "Fetch GEO guidelines" },
+  { step: 5, name: "Optimize", description: "Apply optimizations" },
+  { step: 6, name: "Humanize", description: "Natural language polish" },
+  { step: 7, name: "Deliver", description: "Markdown + HTML output" }
+];
+---
+
+<BaseLayout
+  sideBarActiveItemID="geo"
+  title="GEO Optimizer | Umer Khan"
+  description="Transform any website content into AI-citation-ready content using Generative Engine Optimization."
+  geoPage="geo"
+>
+  <!-- Hero Section -->
+  <FadeIn client:load>
+    <div class="py-12">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-4xl">🚀</span>
+        <span class="px-3 py-1 text-xs font-medium bg-success/15 text-success rounded-full border border-success/25">
+          Live Tool
+        </span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+        GEO Website Optimizer
+      </h1>
+      <p class="text-lg text-base-content/60 max-w-2xl mb-6">
+        Transform any website content into AI-citation-ready content. Optimize for ChatGPT, Claude, Perplexity, and other LLM-powered search engines.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="https://aiseo-geo-api.fly.dev/docs"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          Try API
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+        <a
+          href="https://github.com/umerkhan95/AISEO_GEO_evaluator"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border border-base-300 rounded-lg hover:bg-base-200/50 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          View Source
+        </a>
+      </div>
+    </div>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- What is GEO Section -->
+  <FadeIn client:load delay={0.1}>
+    <SideSection title="What is GEO?" subtitle="Generative Engine Optimization">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          <strong class="text-base-content">Generative Engine Optimization (GEO)</strong> is the practice of optimizing content to be cited by AI systems like ChatGPT, Claude, and Perplexity.
+        </p>
+        <p>Unlike traditional SEO which focuses on ranking in search results, GEO focuses on:</p>
+        <ul class="space-y-2 ml-4">
+          <li class="flex items-start gap-2">
+            <span class="text-success mt-1">✓</span>
+            <span><strong class="text-base-content">Structured formatting</strong> - Headers, bullet points, clear hierarchies</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-success mt-1">✓</span>
+            <span><strong class="text-base-content">Factual density</strong> - Statistics, citations, verifiable claims</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-success mt-1">✓</span>
+            <span><strong class="text-base-content">TL;DR summaries</strong> - Quick-reference sections for AI extraction</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-success mt-1">✓</span>
+            <span><strong class="text-base-content">FAQ sections</strong> - Question-answer pairs for direct citations</span>
+          </li>
+        </ul>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Features Section -->
+  <FadeIn client:load delay={0.2}>
+    <SideSection title="Features" subtitle={`${features.length} capabilities`}>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {features.map((feature) => (
+          <div class="p-4 bg-base-200/30 rounded-xl border border-base-300/30 hover:border-base-300/60 transition-colors">
+            <div class="flex items-start gap-3">
+              <span class="text-2xl">{feature.icon}</span>
+              <div>
+                <h3 class="font-medium text-base-content">{feature.title}</h3>
+                <p class="text-sm text-base-content/50 mt-1">{feature.description}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Workflow Section -->
+  <FadeIn client:load delay={0.3}>
+    <SideSection title="Workflow" subtitle="7-step pipeline">
+      <div class="relative">
+        <div class="absolute left-4 top-0 bottom-0 w-px bg-base-300/50"></div>
+        <div class="space-y-0">
+          {workflow.map((item, index) => (
+            <div class="flex items-start gap-4 py-3 relative">
+              <div class="w-8 h-8 rounded-full bg-base-content text-base-100 flex items-center justify-center text-sm font-medium z-10">
+                {item.step}
+              </div>
+              <div class="flex-1 pt-1">
+                <span class="font-medium text-base-content">{item.name}</span>
+                <span class="text-base-content/50 ml-2">— {item.description}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Tech Stack Section -->
+  <FadeIn client:load delay={0.4}>
+    <SideSection title="Tech Stack" subtitle="Built with">
+      <div class="flex flex-wrap gap-2">
+        {techStack.map((tech) => (
+          <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40 hover:border-base-300 hover:bg-base-200/60 transition-all">
+            {tech.name}
+          </span>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- API Example Section -->
+  <FadeIn client:load delay={0.5}>
+    <SideSection title="Quick Start" subtitle="API usage">
+      <div class="space-y-4">
+        <p class="text-base-content/60">
+          Send a POST request to start optimizing any URL:
+        </p>
+        <div class="p-4 bg-[#1b1b1f] rounded-xl font-mono text-sm overflow-x-auto">
+          <div class="text-[#9cdcfe]">
+            <span class="text-[#ce9178]">POST</span> /api/v2/optimize
+          </div>
+          <div class="mt-2 text-[#d4d4d4]">
+            {"{"}<br/>
+            &nbsp;&nbsp;<span class="text-[#9cdcfe]">"url"</span>: <span class="text-[#ce9178]">"https://example.com"</span><br/>
+            {"}"}
+          </div>
+        </div>
+        <p class="text-base-content/60">
+          The API returns a job ID that you can use to poll for status and retrieve results.
+        </p>
+        <a
+          href="https://aiseo-geo-api.fly.dev/docs"
+          target="_blank"
+          class="inline-flex items-center gap-1.5 text-sm font-medium text-base-content/60 hover:text-base-content transition-colors group"
+        >
+          View full API documentation
+          <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- CTA Section -->
+  <FadeIn client:load delay={0.6}>
+    <SideSection title="Get Started" subtitle="Try it now">
+      <p class="text-base-content/60 mb-6 max-w-lg">
+        Ready to optimize your content for AI? Try the API or explore the source code on GitHub.
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href="https://aiseo-geo-api.fly.dev/docs"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          Open API Docs
+        </a>
+        <a
+          href="https://github.com/umerkhan95/AISEO_GEO_evaluator"
+          target="_blank"
+          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <!-- LLM-Optimized Content for GEO -->
+  <article class="sr-only" aria-hidden="false" itemscope itemtype="https://schema.org/SoftwareApplication">
+    <h2>GEO Website Optimizer - AI Content Optimization Tool</h2>
+    <p itemprop="description">
+      The GEO Website Optimizer is an open-source tool that transforms any website content into AI-citation-ready content using Generative Engine Optimization (GEO). It uses LangChain, Crawl4AI, and GPT-4 to analyze, restructure, and optimize web content for better visibility in AI-powered search engines like ChatGPT, Claude, and Perplexity.
+    </p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li>Intelligent web crawling with Crawl4AI</li>
+      <li>Automatic industry classification</li>
+      <li>Parallel content chunk processing</li>
+      <li>GEO scoring with before/after metrics</li>
+      <li>Anti-hallucination safeguards</li>
+      <li>Export to Markdown and HTML</li>
+    </ul>
+
+    <h3>Technical Architecture</h3>
+    <p>
+      Built with Python, FastAPI, LangChain, Qdrant vector database, and React. The system uses a 7-step pipeline: Crawl, Classify, Chunk, Retrieve, Optimize, Humanize, and Deliver.
+    </p>
+
+    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <span itemprop="name">Umer Khan</span>
+    </span>
+    <span itemprop="applicationCategory">AI Tools</span>
+    <span itemprop="operatingSystem">Web</span>
+  </article>
+</BaseLayout>
