@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SideSection from "../components/SideSection.astro";
 import { FadeIn } from "../components/react/FadeIn";
+import { GeoOptimizer } from "../components/react/GeoOptimizer";
 
 const features = [
   {
@@ -102,6 +103,15 @@ const workflow = [
         </a>
       </div>
     </div>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Optimizer Tool Section -->
+  <FadeIn client:load delay={0.05}>
+    <SideSection title="Try It" subtitle="Enter a URL">
+      <GeoOptimizer client:load />
+    </SideSection>
   </FadeIn>
 
   <div class="w-full h-px bg-base-300/50"></div>
