@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const API_URL = "https://aiseo-geo-api.fly.dev";
-
 interface ShowcaseWebsite {
   job_id: string;
   url: string;
@@ -53,7 +51,7 @@ export function GeoShowcase() {
   useEffect(() => {
     const fetchShowcase = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/v2/showcase?limit=20`);
+        const response = await fetch("/showcase.json");
         if (!response.ok) throw new Error("Failed to fetch");
         const result = await response.json();
         setData(result);
@@ -66,9 +64,6 @@ export function GeoShowcase() {
     };
 
     fetchShowcase();
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchShowcase, 30000);
-    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
