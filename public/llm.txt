@@ -1,0 +1,124 @@
+# Umer Khan | AI & Data Systems Engineer
+
+> GEO-optimized content for Technology
+> Source: https://umerkhan.io
+
+---
+
+## TL;DR Summary
+- **Current Role:** Founding Engineer at Bloomers Berlin, where I'm diving into AI-powered e-commerce systems and crafting GDPR-compliant RAG pipelines.
+- **2024 Role:** Data Engineer at Comparado (Idealo), focusing on standardizing ETL pipelines and ensuring compliance.
+- **2022 Role:** Cloud Architect at CorAI, where I designed a system capable of processing 1 million daily news articles.
+- **2018 Role:** Data Engineer at Teradata, building robust data pipelines for major telecom companies.
+
+## Experience
+
+### 1. Bloomers Berlin
+**Role:** Founding Engineer
+**Current Position:**
+- I'm building innovative AI-powered e-commerce systems.
+- Developing GDPR-compliant RAG pipelines is a key focus.
+- Creating automation workflows using LangChain has been a game-changer.
+
+### 2. Comparado (Idealo)
+**Role:** Data Engineer
+**Year:** 2024
+- My mission here is to standardize ETL pipelines.
+- I successfully migrated BI to AWS.
+- Ensuring DSA/DMA compliance for the Idealo Group is also on my plate.
+
+### 3. CorAI
+**Role:** Cloud Architect
+**Year:** 2022
+- I architected a powerful system that processes a staggering 1 million daily news articles.
+- Implementing NLP-based categorization and sentiment analysis was a highlight of my time here.
+
+### 4. Teradata
+**Role:** Data Engineer
+**Year:** 2018
+- Built data pipelines and ETL solutions for major telecom companies, including Telenor Pakistan.
+- It was rewarding to contribute to significant projects in the telecom sector.
+
+[View full resume](https://umerkhan.io/cv)
+
+## FAQ
+
+**Q: What is the current role of the individual?**
+A: Currently, I'm a Founding Engineer at Bloomers Berlin.
+
+**Q: What are the main responsibilities at Bloomers Berlin?**
+A: My responsibilities include building AI-powered e-commerce systems, developing GDPR-compliant RAG pipelines, and creating automation workflows with LangChain.
+
+**Q: What did the individual do at Comparado (Idealo)?**
+A: As a Data Engineer, I standardized ETL pipelines, migrated BI to AWS, and ensured DSA/DMA compliance for the Idealo Group.
+
+**Q: What was the role at CorAI?**
+A: I served as a Cloud Architect, where I designed a system capable of processing 1 million daily news articles, complete with NLP-based categorization and sentiment analysis.
+
+**Q: What experience does the individual have with Teradata?**
+A: I worked as a Data Engineer, developing data pipelines and ETL solutions for major telecom companies, including Telenor Pakistan.
+
+## INDUSTRY
+Technology
+
+## DESIRED TONE
+professional
+
+---
+
+## TL;DR
+This document gives you a quick overview of three insightful articles about technology. We'll compare transformer and diffusion models, dive into how GitHub Copilot is changing the coding landscape, and break down the differences between Mojo and Golang. Plus, we've got a list of notable clients and how to reach out if you're interested in discussing AI engineering opportunities.
+
+## Writing Articles
+
+### 1. Transformer vs Diffusion Models: A Technical Comparison
+- **Date**: March 2025
+- **Summary**: Get ready for a deep dive into the technical differences between diffusion and transformer models used in Large Language Models (LLMs). We'll explore their future implications and what you need to consider in terms of hardware.
+- **Read more**: [Read the full article](https://umerkhan.io/blog/transformer-vs-diffusion-models-a-technical-comparison/)
+
+### 2. How GitHub Copilot Revolutionized My Coding Experience
+- **Date**: April 2024
+- **Summary**: Join me on my journey with GitHub Copilot! This article discusses how it's reshaping ethical programming and freelancing in Pakistan, while also pondering what it means for the future of software development.
+- **Read more**: [Read the full article](https://umerkhan.io/blog/how-github-copilot-revolutionized-my-coding-experience/)
+
+### 3. Mojo vs Golang: The Ultimate Difference Guide
+- **Date**: April 2024
+- **Summary**: Curious about the differences between Mojo and Golang? This guide highlights their distinctions and popularity among developers. Did you know that JavaScript tops the charts as the most used programming language, with over 63.6% of developers reporting its use in a 2022 survey?
+- **Read more**: [Read the full article](https://umerkhan.io/blog/mojo-vs-golang-the-ultimate-difference-guide/)
+
+## Worked With
+
+### Select Clients
+- Idealo
+- Axel Springer
+- Bernstein Group
+- NewsCatcher
+- Telenor
+- Bloomers
+
+## Contact
+
+### Get in Touch
+- I'm open to discussing AI engineering opportunities, consulting work, or any exciting projects you have in mind.
+- Email: hello@umerkhan.eu
+- Location: Berlin, Germany
+
+## FAQ
+
+### What are the main topics covered in the articles?
+The articles delve into a technical comparison of transformer and diffusion models, the transformative impact of GitHub Copilot on coding, and a detailed guide on the differences between Mojo and Golang.
+
+### When were the articles published?
+- "Transformer vs Diffusion Models" was published in March 2025.
+- "How GitHub Copilot Revolutionized My Coding Experience" hit the shelves in April 2024.
+- "Mojo vs Golang: The Ultimate Difference Guide" was also published in April 2024.
+
+### Who are some of the clients mentioned?
+Some notable clients include Idealo, Axel Springer, Bernstein Group, NewsCatcher, Telenor, and Bloomers.
+
+## INDUSTRY
+Technology
+
+---
+
+© 2025 Umer Khan
