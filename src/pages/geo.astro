@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SideSection from "../components/SideSection.astro";
 import { FadeIn } from "../components/react/FadeIn";
 import { GeoOptimizer } from "../components/react/GeoOptimizer";
+import { GeoShowcase } from "../components/react/GeoShowcase";
 
 const features = [
   {
@@ -104,6 +105,15 @@ const workflow = [
   <FadeIn client:load delay={0.05}>
     <SideSection title="Try It" subtitle="Enter a URL">
       <GeoOptimizer client:load />
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Showcase Section -->
+  <FadeIn client:load delay={0.08}>
+    <SideSection title="Showcase" subtitle="Recently optimized">
+      <GeoShowcase client:load />
     </SideSection>
   </FadeIn>
 
