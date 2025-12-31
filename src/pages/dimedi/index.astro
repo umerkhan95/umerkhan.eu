@@ -1,0 +1,286 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SideSection from "../../components/SideSection.astro";
+import { FadeIn } from "../../components/react/FadeIn";
+
+const features = [
+  {
+    title: "Telehealth Video Sessions",
+    description: "Real-time video consultations powered by Agora WebRTC with waiting rooms and chat."
+  },
+  {
+    title: "Appointment Scheduling",
+    description: "Full calendar management with patient self-service booking and automated reminders."
+  },
+  {
+    title: "Patient Management",
+    description: "Comprehensive patient records, clinical notes, and treatment history tracking."
+  },
+  {
+    title: "Multi-Tenant Architecture",
+    description: "Complete data isolation between practices with role-based access control."
+  },
+  {
+    title: "Email Notifications",
+    description: "Automated appointment confirmations, reminders, and video session invitations."
+  },
+  {
+    title: "HIPAA Compliant",
+    description: "Row-level security, audit logging, and encrypted data handling for compliance."
+  }
+];
+
+const techStack = [
+  { name: "React 18", category: "Frontend" },
+  { name: "TypeScript", category: "Frontend" },
+  { name: "TailwindCSS", category: "Styling" },
+  { name: "shadcn/ui", category: "Components" },
+  { name: "Supabase", category: "Backend" },
+  { name: "PostgreSQL", category: "Database" },
+  { name: "Agora SDK", category: "Video" },
+  { name: "Deno", category: "Edge Functions" },
+  { name: "Vercel", category: "Hosting" }
+];
+
+const userRoles = [
+  { role: "Super Admin", description: "System-wide administration and tenant management" },
+  { role: "Clinic Admin", description: "Practice-level settings and staff management" },
+  { role: "Therapist", description: "Patient care, appointments, and video sessions" },
+  { role: "Patient", description: "Self-service booking and telehealth access" }
+];
+---
+
+<BaseLayout
+  sideBarActiveItemID="dimedi"
+  title="DiMedi | Umer Khan"
+  description="Healthcare practice management platform for therapy practices with telehealth, scheduling, and patient management."
+>
+  <!-- Hero Section -->
+  <FadeIn client:load>
+    <div class="py-12">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="px-3 py-1 text-xs font-medium bg-rose-500/15 text-rose-500 rounded-full border border-rose-500/25">
+          Healthcare SaaS
+        </span>
+        <span class="px-3 py-1 text-xs font-medium bg-success/15 text-success rounded-full border border-success/25">
+          Live
+        </span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+        DiMedi
+      </h1>
+      <p class="text-lg text-base-content/60 max-w-2xl mb-6">
+        Comprehensive healthcare practice management platform designed for therapy practices in Germany. Streamline patient care with telehealth, scheduling, and secure data management.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="https://www.dimedi.me"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          Visit DiMedi
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Overview Section -->
+  <FadeIn client:load delay={0.05}>
+    <SideSection title="Overview" subtitle="What is DiMedi?">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          <strong class="text-base-content">DiMedi (TherapyNotes Pro)</strong> is a full-featured practice management system built for healthcare providers. It combines appointment scheduling, patient management, and telehealth capabilities in a single, secure platform.
+        </p>
+        <p>Key capabilities include:</p>
+        <ul class="space-y-2 ml-4">
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Multi-tenant architecture</strong> - Complete data isolation between practices</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Role-based access control</strong> - Super Admin, Therapist, Clinic Admin, Patient roles</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Telehealth video sessions</strong> - WebRTC-based consultations with Agora SDK</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Internationalization</strong> - German (primary) and English language support</span>
+          </li>
+        </ul>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Features Section -->
+  <FadeIn client:load delay={0.1}>
+    <SideSection title="Features" subtitle={`${features.length} capabilities`}>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {features.map((feature) => (
+          <div class="p-4 bg-base-200/30 rounded-xl border border-base-300/30 hover:border-base-300/60 transition-colors">
+            <div>
+              <h3 class="font-medium text-base-content">{feature.title}</h3>
+              <p class="text-sm text-base-content/50 mt-1">{feature.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- User Roles Section -->
+  <FadeIn client:load delay={0.2}>
+    <SideSection title="User Roles" subtitle="Access levels">
+      <div class="space-y-3">
+        {userRoles.map((item) => (
+          <div class="flex items-start gap-4 p-3 bg-base-200/20 rounded-lg">
+            <div class="w-8 h-8 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center text-sm font-medium shrink-0">
+              {item.role.charAt(0)}
+            </div>
+            <div class="flex-1">
+              <span class="font-medium text-base-content">{item.role}</span>
+              <p class="text-sm text-base-content/50 mt-0.5">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Video Sessions Section -->
+  <FadeIn client:load delay={0.25}>
+    <SideSection title="Telehealth" subtitle="Video consultations">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          Secure video sessions powered by <strong class="text-base-content">Agora WebRTC</strong> with enterprise-grade features:
+        </p>
+        <ul class="space-y-2 ml-4">
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Waiting room</strong> - Patients wait until admitted by therapist</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Screen sharing</strong> - Share documents and resources during sessions</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">In-session chat</strong> - Real-time messaging with Supabase Realtime</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Secure invitations</strong> - 32-character cryptographic tokens with expiry</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">720p video</strong> - High-quality video with automatic quality adjustment</span>
+          </li>
+        </ul>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Tech Stack Section -->
+  <FadeIn client:load delay={0.3}>
+    <SideSection title="Tech Stack" subtitle="Built with">
+      <div class="flex flex-wrap gap-2">
+        {techStack.map((tech) => (
+          <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40 hover:border-base-300 hover:bg-base-200/60 transition-all">
+            {tech.name}
+          </span>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Security Section -->
+  <FadeIn client:load delay={0.35}>
+    <SideSection title="Security" subtitle="Data protection">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          Built with healthcare compliance in mind:
+        </p>
+        <ul class="space-y-2 ml-4">
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Row Level Security</strong> - PostgreSQL RLS policies for data isolation</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">JWT Authentication</strong> - Secure session management with Supabase Auth</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Audit Logging</strong> - Comprehensive event tracking for compliance</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Encrypted Tokens</strong> - All invitation and management tokens are cryptographically secure</span>
+          </li>
+        </ul>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- CTA Section -->
+  <FadeIn client:load delay={0.4}>
+    <SideSection title="Get Started" subtitle="Try DiMedi">
+      <p class="text-base-content/60 mb-6 max-w-lg">
+        Ready to streamline your therapy practice? Visit DiMedi to learn more or get in touch.
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href="https://www.dimedi.me"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          Visit DiMedi
+        </a>
+        <a
+          href="mailto:hello@umerkhan.eu"
+          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          Contact
+        </a>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <!-- LLM-Optimized Content -->
+  <article class="sr-only" aria-hidden="false" itemscope itemtype="https://schema.org/SoftwareApplication">
+    <h2>DiMedi - Healthcare Practice Management Platform</h2>
+    <p itemprop="description">
+      DiMedi (TherapyNotes Pro) is a comprehensive healthcare practice management application designed for therapy practices in Germany. It provides multi-tenant architecture, role-based access control, telehealth video sessions using Agora SDK, appointment scheduling, patient management, and HIPAA-compliant data handling with Row Level Security.
+    </p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li>Telehealth video sessions with Agora WebRTC</li>
+      <li>Appointment scheduling with calendar management</li>
+      <li>Patient management with clinical notes</li>
+      <li>Multi-tenant architecture with data isolation</li>
+      <li>Email notifications for appointments</li>
+      <li>German and English language support</li>
+    </ul>
+
+    <h3>Technical Stack</h3>
+    <p>
+      Built with React 18, TypeScript, Supabase, PostgreSQL, Agora SDK, TailwindCSS, and Deno Edge Functions. Deployed on Vercel with Supabase Cloud backend.
+    </p>
+
+    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <span itemprop="name">Umer Khan</span>
+    </span>
+    <span itemprop="applicationCategory">Healthcare Software</span>
+    <span itemprop="operatingSystem">Web</span>
+  </article>
+</BaseLayout>

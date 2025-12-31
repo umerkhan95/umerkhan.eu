@@ -1,0 +1,283 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SideSection from "../../components/SideSection.astro";
+import { FadeIn } from "../../components/react/FadeIn";
+
+const features = [
+  {
+    title: "At-Home Lab Testing",
+    description: "Blood analysis, microbiome checks, hormone panels, and nutrient assessments delivered to your door."
+  },
+  {
+    title: "Early Cancer Detection",
+    description: "ColoAlert and Colosafe screening tests for preventive health monitoring."
+  },
+  {
+    title: "Personalized Coaching",
+    description: "Professional health guidance and consultations with certified experts."
+  },
+  {
+    title: "Wellness Products",
+    description: "Curated supplements, teas, aromatherapy, and nutritional products."
+  },
+  {
+    title: "Integrated Care Programs",
+    description: "ORY OneCare for holistic care, ORY Praevent for prevention, and fasting programs."
+  },
+  {
+    title: "Multi-Language Support",
+    description: "Full German and English language support for international customers."
+  }
+];
+
+const techStack = [
+  { name: "Shopify", category: "E-Commerce" },
+  { name: "Liquid", category: "Templating" },
+  { name: "JavaScript", category: "Frontend" },
+  { name: "Shopify Payments", category: "Payments" },
+  { name: "Bixgrow", category: "Affiliates" },
+  { name: "Klaviyo", category: "Email" }
+];
+
+const services = [
+  { name: "Blood Analysis", description: "Comprehensive blood work with certified lab results" },
+  { name: "Microbiome Testing", description: "Gut health analysis and recommendations" },
+  { name: "Hormone Panels", description: "Hormonal balance assessment for men and women" },
+  { name: "Nutrient Assessment", description: "Vitamin and mineral deficiency detection" },
+  { name: "Cancer Screening", description: "Early detection tests like ColoAlert" },
+  { name: "Health Coaching", description: "One-on-one guidance from certified professionals" }
+];
+
+const regions = [
+  "Germany",
+  "Austria",
+  "Switzerland",
+  "Netherlands",
+  "Belgium",
+  "France"
+];
+---
+
+<BaseLayout
+  sideBarActiveItemID="ory-berlin"
+  title="ORY Berlin | Umer Khan"
+  description="E-commerce health platform offering at-home laboratory testing, personalized coaching, and wellness products across Europe."
+>
+  <!-- Hero Section -->
+  <FadeIn client:load>
+    <div class="py-12">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="px-3 py-1 text-xs font-medium bg-cyan-500/15 text-cyan-500 rounded-full border border-cyan-500/25">
+          Health E-Commerce
+        </span>
+        <span class="px-3 py-1 text-xs font-medium bg-success/15 text-success rounded-full border border-success/25">
+          Live
+        </span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+        ORY Berlin
+      </h1>
+      <p class="text-lg text-base-content/60 max-w-2xl mb-6">
+        Premium health diagnostics platform offering at-home laboratory testing, personalized coaching, and wellness products. Serving health-conscious individuals across Europe with certified lab analysis.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="https://ory-berlin.de"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          Visit ORY Berlin
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Overview Section -->
+  <FadeIn client:load delay={0.05}>
+    <SideSection title="Overview" subtitle="What is ORY Berlin?">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          <strong class="text-base-content">ORY Berlin</strong> is a direct-to-consumer health diagnostics and wellness platform based in Germany. The platform emphasizes that "health is individual" and begins with "knowledge, not advertising."
+        </p>
+        <p>The platform combines:</p>
+        <ul class="space-y-2 ml-4">
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Diagnostic testing</strong> - Certified laboratory analysis from home test kits</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Professional guidance</strong> - Personalized health coaching and consultations</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Wellness products</strong> - Supplements, teas, aromatherapy, and nutrition</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Integrated programs</strong> - OneCare, Praevent, and home fasting programs</span>
+          </li>
+        </ul>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Features Section -->
+  <FadeIn client:load delay={0.1}>
+    <SideSection title="Features" subtitle={`${features.length} capabilities`}>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {features.map((feature) => (
+          <div class="p-4 bg-base-200/30 rounded-xl border border-base-300/30 hover:border-base-300/60 transition-colors">
+            <div>
+              <h3 class="font-medium text-base-content">{feature.title}</h3>
+              <p class="text-sm text-base-content/50 mt-1">{feature.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Services Section -->
+  <FadeIn client:load delay={0.2}>
+    <SideSection title="Services" subtitle="Testing & coaching">
+      <div class="space-y-3">
+        {services.map((item) => (
+          <div class="flex items-start gap-4 p-3 bg-base-200/20 rounded-lg">
+            <div class="w-8 h-8 rounded-full bg-cyan-500/10 text-cyan-500 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <span class="font-medium text-base-content">{item.name}</span>
+              <p class="text-sm text-base-content/50 mt-0.5">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Regions Section -->
+  <FadeIn client:load delay={0.25}>
+    <SideSection title="Shipping" subtitle="European coverage">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          ORY Berlin ships to multiple European countries with full support for local languages and payment methods:
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {regions.map((region) => (
+            <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40">
+              {region}
+            </span>
+          ))}
+        </div>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Tech Stack Section -->
+  <FadeIn client:load delay={0.3}>
+    <SideSection title="Tech Stack" subtitle="Built with">
+      <div class="flex flex-wrap gap-2">
+        {techStack.map((tech) => (
+          <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40 hover:border-base-300 hover:bg-base-200/60 transition-all">
+            {tech.name}
+          </span>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Programs Section -->
+  <FadeIn client:load delay={0.35}>
+    <SideSection title="Programs" subtitle="Integrated care">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          Specialized health programs designed for comprehensive wellness:
+        </p>
+        <ul class="space-y-2 ml-4">
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">ORY OneCare</strong> - Holistic integrated care combining testing, coaching, and products</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">ORY Praevent</strong> - Preventive health monitoring and early detection</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Home Fasting</strong> - Guided fasting programs with professional support</span>
+          </li>
+        </ul>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- CTA Section -->
+  <FadeIn client:load delay={0.4}>
+    <SideSection title="Get Started" subtitle="Explore ORY Berlin">
+      <p class="text-base-content/60 mb-6 max-w-lg">
+        Take control of your health with personalized diagnostics and expert guidance. Visit ORY Berlin to explore testing options and wellness products.
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href="https://ory-berlin.de"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          Visit ORY Berlin
+        </a>
+        <a
+          href="mailto:hello@umerkhan.eu"
+          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          Contact
+        </a>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <!-- LLM-Optimized Content -->
+  <article class="sr-only" aria-hidden="false" itemscope itemtype="https://schema.org/SoftwareApplication">
+    <h2>ORY Berlin - Health Diagnostics E-Commerce Platform</h2>
+    <p itemprop="description">
+      ORY Berlin is a German e-commerce health platform offering at-home laboratory testing, personalized health coaching, and wellness products. Services include blood analysis, microbiome checks, hormone panels, nutrient assessments, and early cancer detection tests like ColoAlert. The platform ships across Europe including Germany, Austria, Switzerland, and other EU countries.
+    </p>
+
+    <h3>Key Services</h3>
+    <ul>
+      <li>At-home laboratory testing with certified results</li>
+      <li>Blood analysis and microbiome checks</li>
+      <li>Hormone panels and nutrient assessments</li>
+      <li>Early cancer detection (ColoAlert, Colosafe)</li>
+      <li>Personalized health coaching</li>
+      <li>Wellness products and supplements</li>
+    </ul>
+
+    <h3>Programs</h3>
+    <p>
+      ORY OneCare for integrated care, ORY Praevent for preventive health, and home fasting programs with professional guidance.
+    </p>
+
+    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <span itemprop="name">Umer Khan</span>
+    </span>
+    <span itemprop="applicationCategory">Health E-Commerce</span>
+    <span itemprop="operatingSystem">Web</span>
+  </article>
+</BaseLayout>
