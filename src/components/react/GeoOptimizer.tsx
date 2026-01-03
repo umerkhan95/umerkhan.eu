@@ -32,6 +32,7 @@ const WORKFLOW_STEPS = [
 
 export function GeoOptimizer() {
   const [url, setUrl] = useState("");
+  const [maxPages, setMaxPages] = useState(5);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<OptimizationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -115,7 +116,7 @@ export function GeoOptimizer() {
       const response = await fetch(`${API_URL}/api/v2/optimize`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: url.trim() }),
+        body: JSON.stringify({ url: url.trim(), max_pages: maxPages }),
       });
 
       if (!response.ok) {
@@ -146,7 +147,7 @@ export function GeoOptimizer() {
     <div className="w-full">
       {/* Input Form */}
       <form onSubmit={handleSubmit} className="mb-8">
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 mb-3">
           <input
             type="url"
             value={url}
@@ -175,6 +176,26 @@ export function GeoOptimizer() {
               </>
             )}
           </button>
+        </div>
+
+        {/* Pages to Crawl Slider */}
+        <div className="flex items-center gap-4 px-1">
+          <span className="text-sm text-base-content/60 flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Pages to crawl:
+          </span>
+          <input
+            type="range"
+            min="1"
+            max="10"
+            value={maxPages}
+            onChange={(e) => setMaxPages(parseInt(e.target.value))}
+            disabled={isLoading}
+            className="flex-1 h-2 bg-base-300 rounded-lg appearance-none cursor-pointer accent-primary"
+          />
+          <span className="text-sm font-medium text-primary w-6 text-center">{maxPages}</span>
         </div>
       </form>
 

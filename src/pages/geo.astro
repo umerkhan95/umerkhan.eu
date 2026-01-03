@@ -7,8 +7,8 @@ import { GeoShowcase } from "../components/react/GeoShowcase";
 
 const features = [
   {
-    title: "Intelligent Crawling",
-    description: "Uses Crawl4AI to extract and parse website content with high accuracy."
+    title: "Deep Crawling",
+    description: "Crawl up to 10 pages per website with smart link prioritization for comprehensive content extraction."
   },
   {
     title: "Industry Detection",
@@ -71,8 +71,11 @@ const workflow = [
       <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
         GEO Website Optimizer
       </h1>
-      <p class="text-lg text-base-content/60 max-w-2xl mb-6">
+      <p class="text-lg text-base-content/60 max-w-2xl mb-4">
         Transform any website content into AI-citation-ready content. Optimize for ChatGPT, Claude, Perplexity, and other LLM-powered search engines.
+      </p>
+      <p class="text-sm text-base-content/40 mb-6">
+        Deep crawl up to 10 pages per website for comprehensive optimization
       </p>
       <div class="flex flex-wrap gap-3">
         <a
@@ -217,7 +220,8 @@ const workflow = [
           </div>
           <div class="mt-2 text-[#d4d4d4]">
             {"{"}<br/>
-            &nbsp;&nbsp;<span class="text-[#9cdcfe]">"url"</span>: <span class="text-[#ce9178]">"https://example.com"</span><br/>
+            &nbsp;&nbsp;<span class="text-[#9cdcfe]">"url"</span>: <span class="text-[#ce9178]">"https://example.com"</span>,<br/>
+            &nbsp;&nbsp;<span class="text-[#9cdcfe]">"max_pages"</span>: <span class="text-[#b5cea8]">5</span> <span class="text-[#6a9955]">// 1-10 pages</span><br/>
             {"}"}
           </div>
         </div>
@@ -277,7 +281,7 @@ const workflow = [
 
     <h3>Key Features</h3>
     <ul>
-      <li>Intelligent web crawling with Crawl4AI</li>
+      <li>Deep crawl up to 10 pages per website with smart link prioritization</li>
       <li>Automatic industry classification</li>
       <li>Parallel content chunk processing</li>
       <li>GEO scoring with before/after metrics</li>
