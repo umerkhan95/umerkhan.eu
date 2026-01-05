@@ -4,6 +4,7 @@ import SideSection from "../components/SideSection.astro";
 import { FadeIn } from "../components/react/FadeIn";
 import { GeoOptimizer } from "../components/react/GeoOptimizer";
 import { GeoShowcase } from "../components/react/GeoShowcase";
+import { GeoSources } from "../components/react/GeoSources";
 
 const features = [
   {
@@ -145,6 +146,15 @@ const workflow = [
           </li>
         </ul>
       </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Research Sources Section -->
+  <FadeIn client:load delay={0.15}>
+    <SideSection title="Research" subtitle="Guidelines sources">
+      <GeoSources client:load />
     </SideSection>
   </FadeIn>
 
