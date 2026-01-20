@@ -16,6 +16,10 @@ RUN npm install
 # Copy source files
 COPY . .
 
+# Cache buster - invalidates build cache to ensure fresh commits are fetched
+ARG CACHE_BUST
+RUN echo "Build timestamp: $CACHE_BUST"
+
 # Build the Astro site
 RUN npm run build
 

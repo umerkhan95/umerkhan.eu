@@ -16,6 +16,6 @@ jobs:
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - run: flyctl deploy --remote-only --build-arg GITHUB_TOKEN=${{ secrets.G_TOKEN }}
+      - run: flyctl deploy --remote-only --build-arg GITHUB_TOKEN=${{ secrets.G_TOKEN }} --build-arg CACHE_BUST=${{ github.run_id }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
