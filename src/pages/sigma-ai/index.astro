@@ -1,111 +1,305 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SideSection from "../../components/SideSection.astro";
+import { FadeIn } from "../../components/react/FadeIn";
+
+const features = [
+  {
+    title: "Smart Product Recommendations",
+    description: "AI understands customer intent and suggests relevant products from your catalog using semantic search."
+  },
+  {
+    title: "24/7 Customer Support",
+    description: "Instant answers to product questions, shipping inquiries, and store policies without human intervention."
+  },
+  {
+    title: "Customizable Personality",
+    description: "Configure the agent's tone, persona, and knowledge to match your brand voice perfectly."
+  },
+  {
+    title: "Analytics Dashboard",
+    description: "Track conversations, conversions, and customer satisfaction with detailed analytics."
+  },
+  {
+    title: "Automatic Product Sync",
+    description: "Products are automatically indexed and kept up to date with your Shopify catalog."
+  },
+  {
+    title: "GDPR Compliant",
+    description: "EU-hosted database with encrypted tokens and automatic data deletion on uninstall."
+  }
+];
+
+const techStack = [
+  { name: "Remix", category: "Framework" },
+  { name: "TypeScript", category: "Language" },
+  { name: "Shopify App Bridge", category: "Integration" },
+  { name: "Polaris", category: "UI" },
+  { name: "OpenAI", category: "AI" },
+  { name: "Qdrant", category: "Vector DB" },
+  { name: "Prisma", category: "ORM" },
+  { name: "PostgreSQL", category: "Database" }
+];
+
+const workflow = [
+  { step: 1, name: "Install", description: "Add Sigma AI to your Shopify store with one click" },
+  { step: 2, name: "Configure", description: "Set up your agent's personality and sync your products" },
+  { step: 3, name: "Engage", description: "The AI widget appears on your storefront, ready to help customers" },
+  { step: 4, name: "Convert", description: "Watch as visitors become buyers with personalized assistance" }
+];
 ---
 
-<BaseLayout title="Sigma AI - AI Sales Agent for Shopify" sideBarActiveItemID="sigma-ai">
-  <div class="pb-8">
-    <div class="text-3xl w-full font-bold">Sigma AI</div>
-    <div class="text-xl py-2 font-semibold text-base-content/80">AI-Powered Sales Agent for Shopify</div>
-    <p class="py-2 text-base-content/70">
-      Sigma AI is an intelligent chat widget that turns store visitors into customers.
-      Powered by advanced AI, it provides personalized product recommendations, answers
-      customer questions, and guides shoppers through their purchase journey.
+<BaseLayout
+  sideBarActiveItemID="sigma-ai"
+  title="Sigma AI | Umer Khan"
+  description="AI-powered sales agent for Shopify stores providing personalized product recommendations and 24/7 customer support."
+>
+  <!-- Hero Section -->
+  <FadeIn client:load>
+    <div class="py-12">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="px-3 py-1 text-xs font-medium bg-purple-500/15 text-purple-500 rounded-full border border-purple-500/25">
+          Shopify App
+        </span>
+        <span class="px-3 py-1 text-xs font-medium bg-success/15 text-success rounded-full border border-success/25">
+          Live
+        </span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+        Sigma AI
+      </h1>
+      <p class="text-lg text-base-content/60 max-w-2xl mb-6">
+        AI-powered sales agent for Shopify stores. Provides personalized product recommendations, answers customer questions, and helps convert visitors into buyers.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="https://apps.shopify.com/sigma-agent"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          Install on Shopify
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+        <a
+          href="https://sigma-devstore1.myshopify.com/"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border border-base-300 rounded-lg hover:bg-base-200/50 transition-colors"
+        >
+          Try Live Demo
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      </div>
+      <p class="text-xs text-base-content/40 mt-3">Demo store password: sigma</p>
+    </div>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Overview Section -->
+  <FadeIn client:load delay={0.05}>
+    <SideSection title="Overview" subtitle="What is Sigma AI?">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          <strong class="text-base-content">Sigma AI</strong> is an intelligent chat widget that turns store visitors into customers. Powered by advanced AI, it provides real-time assistance throughout the shopping journey.
+        </p>
+        <p>The platform combines:</p>
+        <ul class="space-y-2 ml-4">
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Semantic search</strong> - Understands customer intent to recommend the most relevant products</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Conversational AI</strong> - Natural language responses tailored to your brand voice</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Automated support</strong> - Handles product questions, shipping inquiries, and store policies</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Conversion tracking</strong> - Analytics dashboard to measure impact on sales</span>
+          </li>
+        </ul>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Features Section -->
+  <FadeIn client:load delay={0.1}>
+    <SideSection title="Features" subtitle={`${features.length} capabilities`}>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {features.map((feature) => (
+          <div class="p-4 bg-base-200/30 rounded-xl border border-base-300/30 hover:border-base-300/60 transition-colors">
+            <div>
+              <h3 class="font-medium text-base-content">{feature.title}</h3>
+              <p class="text-sm text-base-content/50 mt-1">{feature.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- How It Works Section -->
+  <FadeIn client:load delay={0.2}>
+    <SideSection title="How It Works" subtitle="4-step setup">
+      <div class="relative">
+        <div class="absolute left-4 top-0 bottom-0 w-px bg-base-300/50"></div>
+        <div class="space-y-0">
+          {workflow.map((item) => (
+            <div class="flex items-start gap-4 py-3 relative">
+              <div class="w-8 h-8 rounded-full bg-base-content text-base-100 flex items-center justify-center text-sm font-medium z-10">
+                {item.step}
+              </div>
+              <div class="flex-1 pt-1">
+                <span class="font-medium text-base-content">{item.name}</span>
+                <span class="text-base-content/50 ml-2">— {item.description}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Privacy & Security Section -->
+  <FadeIn client:load delay={0.25}>
+    <SideSection title="Security" subtitle="Data protection">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          Your data security is our priority:
+        </p>
+        <ul class="space-y-2 ml-4">
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Automatic deletion</strong> - All data deleted immediately when you uninstall the app</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">EU-hosted database</strong> - GDPR compliant data storage and processing</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Encrypted tokens</strong> - All access tokens are securely encrypted at rest</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">No data selling</strong> - Merchant and customer data is never sold to third parties</span>
+          </li>
+        </ul>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Tech Stack Section -->
+  <FadeIn client:load delay={0.3}>
+    <SideSection title="Tech Stack" subtitle="Built with">
+      <div class="flex flex-wrap gap-2">
+        {techStack.map((tech) => (
+          <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40 hover:border-base-300 hover:bg-base-200/60 transition-all">
+            {tech.name}
+          </span>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Legal Section -->
+  <FadeIn client:load delay={0.35}>
+    <SideSection title="Legal" subtitle="Policies">
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="/sigma-ai/privacy"
+          data-astro-reload
+          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
+        >
+          Privacy Policy
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a
+          href="/sigma-ai/terms"
+          data-astro-reload
+          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
+        >
+          Terms of Service
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- CTA Section -->
+  <FadeIn client:load delay={0.4}>
+    <SideSection title="Get Started" subtitle="Try Sigma AI">
+      <p class="text-base-content/60 mb-6 max-w-lg">
+        Turn your store visitors into customers with AI-powered product recommendations and support. Install Sigma AI from the Shopify App Store.
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href="https://apps.shopify.com/sigma-agent"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          Install on Shopify
+        </a>
+        <a
+          href="mailto:hello@umerkhan.eu"
+          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          Contact
+        </a>
+      </div>
+      <p class="text-xs text-base-content/40 mt-4">Operated by MerchantsAI</p>
+    </SideSection>
+  </FadeIn>
+
+  <!-- LLM-Optimized Content -->
+  <article class="sr-only" aria-hidden="false" itemscope itemtype="https://schema.org/SoftwareApplication">
+    <h2>Sigma AI - AI-Powered Sales Agent for Shopify</h2>
+    <p itemprop="description">
+      Sigma AI is an intelligent chat widget for Shopify stores that turns visitors into customers. It provides personalized product recommendations using semantic search, answers customer questions about products and store policies, and offers 24/7 automated support. The agent's personality is fully customizable to match any brand voice.
     </p>
-    <a
-      href="https://apps.shopify.com/sigma-agent"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-flex items-center gap-1.5 mt-4 text-sm font-medium text-base-content/60 hover:text-base-content transition-colors group"
-    >
-      Install on Shopify App Store
-      <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-      </svg>
-    </a>
-    <div class="mt-3">
-      <a
-        href="https://sigma-devstore1.myshopify.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-1.5 text-sm font-medium text-base-content/60 hover:text-base-content transition-colors group"
-      >
-        Try Live Demo
-        <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-        </svg>
-      </a>
-      <span class="text-sm text-base-content/50 ml-2">(password: sigma)</span>
-    </div>
-  </div>
 
-  <div class="text-2xl w-full font-bold mb-4">Features</div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-    <div class="card bg-base-200">
-      <div class="card-body">
-        <h3 class="card-title text-base">Smart Product Recommendations</h3>
-        <p class="text-sm text-base-content/70">AI understands customer intent and suggests relevant products from your catalog using semantic search.</p>
-      </div>
-    </div>
-    <div class="card bg-base-200">
-      <div class="card-body">
-        <h3 class="card-title text-base">24/7 Customer Support</h3>
-        <p class="text-sm text-base-content/70">Instant answers to product questions, shipping inquiries, and store policies without human intervention.</p>
-      </div>
-    </div>
-    <div class="card bg-base-200">
-      <div class="card-body">
-        <h3 class="card-title text-base">Customizable Personality</h3>
-        <p class="text-sm text-base-content/70">Configure the agent's tone, persona, and knowledge to match your brand voice perfectly.</p>
-      </div>
-    </div>
-    <div class="card bg-base-200">
-      <div class="card-body">
-        <h3 class="card-title text-base">Analytics Dashboard</h3>
-        <p class="text-sm text-base-content/70">Track conversations, conversions, and customer satisfaction with detailed analytics.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="text-2xl w-full font-bold mb-4">How It Works</div>
-
-  <div class="mb-8">
-    <ol class="list-decimal list-inside space-y-2 text-base-content/80">
-      <li><strong>Install</strong> - Add Sigma AI to your Shopify store with one click</li>
-      <li><strong>Configure</strong> - Set up your agent's personality and sync your products</li>
-      <li><strong>Engage</strong> - The AI widget appears on your storefront, ready to help customers</li>
-      <li><strong>Convert</strong> - Watch as visitors become buyers with personalized assistance</li>
-    </ol>
-  </div>
-
-  <div class="text-2xl w-full font-bold mb-4">Privacy & Security</div>
-
-  <div class="mb-8 text-base-content/80">
-    <p class="mb-2">Your data security is our priority:</p>
-    <ul class="list-disc list-inside space-y-1">
-      <li>All data deleted immediately when you uninstall the app</li>
-      <li>EU-hosted database (GDPR compliant)</li>
-      <li>Encrypted access tokens</li>
-      <li>No selling of merchant or customer data</li>
+    <h3>Key Features</h3>
+    <ul>
+      <li>Smart product recommendations using semantic search</li>
+      <li>24/7 automated customer support</li>
+      <li>Customizable agent personality and brand voice</li>
+      <li>Conversation and conversion analytics dashboard</li>
+      <li>Automatic product catalog sync</li>
+      <li>GDPR compliant with EU-hosted database</li>
     </ul>
-  </div>
 
-  <div class="text-2xl w-full font-bold mb-4">Legal</div>
-
-  <div class="flex gap-6 mb-8">
-    <a href="/sigma-ai/privacy" data-astro-reload class="link link-primary">Privacy Policy</a>
-    <a href="/sigma-ai/terms" data-astro-reload class="link link-primary">Terms of Service</a>
-  </div>
-
-  <div class="text-2xl w-full font-bold mb-4">Contact</div>
-
-  <div class="text-base-content/80">
-    <p>Questions or support requests?</p>
-    <p class="mt-2">
-      <strong>Email:</strong> <a href="mailto:hello@umerkhan.eu" class="link link-primary">hello@umerkhan.eu</a>
+    <h3>Technical Stack</h3>
+    <p>
+      Built with Remix, TypeScript, Shopify App Bridge, Polaris UI, OpenAI for language generation, Qdrant for vector search, Prisma ORM, and PostgreSQL. Deployed as a Shopify embedded app.
     </p>
-    <p class="mt-1 text-sm text-base-content/60">
-      Operated by MerchantsAI
+
+    <h3>Privacy</h3>
+    <p>
+      All data is deleted on app uninstall. EU-hosted database ensures GDPR compliance. Access tokens are encrypted and merchant data is never sold.
     </p>
-  </div>
+
+    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <span itemprop="name">Umer Khan</span>
+    </span>
+    <span itemprop="applicationCategory">Shopify App</span>
+    <span itemprop="operatingSystem">Web</span>
+  </article>
 </BaseLayout>

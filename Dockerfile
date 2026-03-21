@@ -3,24 +3,16 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
-# Accept GITHUB_TOKEN as build argument for fetching commits
-ARG GITHUB_TOKEN
-ENV GITHUB_TOKEN=$GITHUB_TOKEN
-
 # Copy package files
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy source files
+# Copy source files (includes pre-fetched activity-cache.json)
 COPY . .
 
-# Cache buster - invalidates build cache to ensure fresh commits are fetched
-ARG CACHE_BUST
-RUN echo "Build timestamp: $CACHE_BUST"
-
-# Build the Astro site
+# Build the Astro site (reads from cached JSON, no API calls)
 RUN npm run build
 
 # Production stage

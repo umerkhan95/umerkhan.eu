@@ -40,6 +40,9 @@ ehthumbs.db
 # Astro
 .astro/
 
+# Activity cache (fetched in CI, not committed)
+src/data/activity-cache.json
+
 # Playwright / testing
 .playwright-mcp/
 playwright-report/

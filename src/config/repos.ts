@@ -6,6 +6,8 @@
 export const TRACKED_REPOS = [
   "umerkhan95/Shopify-Employee-Agent",
   "umerkhan95/umerkhan.eu",
+  "umerkhan95/gatekpr",
+  "umerkhan95/shopextract",
 ] as const;
 
 export const GITHUB_USERNAME = "umerkhan95";

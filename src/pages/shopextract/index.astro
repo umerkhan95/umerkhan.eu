@@ -1,0 +1,256 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SideSection from "../../components/SideSection.astro";
+import { FadeIn } from "../../components/react/FadeIn";
+
+const features = [
+  {
+    title: "Universal Extraction",
+    description: "Extract product data from any e-commerce store regardless of platform or technology stack."
+  },
+  {
+    title: "LLM-Powered Parsing",
+    description: "Uses large language models to intelligently extract structured data from unstructured product pages."
+  },
+  {
+    title: "Product Comparison",
+    description: "Compare products across different stores with normalized data fields and pricing analysis."
+  },
+  {
+    title: "Data Monitoring",
+    description: "Track product changes over time including price updates, stock status, and description modifications."
+  },
+  {
+    title: "Structured Output",
+    description: "Export extracted data in JSON, CSV, or other structured formats for downstream processing."
+  },
+  {
+    title: "Batch Processing",
+    description: "Process multiple product URLs or entire store catalogs in a single run."
+  }
+];
+
+const techStack = [
+  { name: "Python", category: "Language" },
+  { name: "LLM Integration", category: "AI" },
+  { name: "BeautifulSoup", category: "Parsing" },
+  { name: "Requests", category: "HTTP" },
+  { name: "Click", category: "CLI" },
+  { name: "Pydantic", category: "Validation" }
+];
+
+const platforms = [
+  "Shopify",
+  "WooCommerce",
+  "Magento",
+  "BigCommerce",
+  "Custom Stores"
+];
+
+const useCases = [
+  { name: "Price Monitoring", description: "Track competitor pricing and get alerts on price changes across stores" },
+  { name: "Catalog Migration", description: "Extract full product catalogs for platform migration projects" },
+  { name: "Market Research", description: "Gather product data for competitive analysis and market intelligence" },
+  { name: "Data Enrichment", description: "Supplement existing product databases with additional attributes and metadata" }
+];
+---
+
+<BaseLayout
+  sideBarActiveItemID="shopextract"
+  title="ShopExtract | Umer Khan"
+  description="Extract, compare, and monitor product data from any e-commerce store with LLM-powered extraction."
+>
+  <!-- Hero Section -->
+  <FadeIn client:load>
+    <div class="py-12">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="px-3 py-1 text-xs font-medium bg-violet-500/15 text-violet-500 rounded-full border border-violet-500/25">
+          Python CLI
+        </span>
+        <span class="px-3 py-1 text-xs font-medium bg-success/15 text-success rounded-full border border-success/25">
+          Open Source
+        </span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+        ShopExtract
+      </h1>
+      <p class="text-lg text-base-content/60 max-w-2xl mb-6">
+        Extract, compare, and monitor product data from any e-commerce store. Works across Shopify, WooCommerce, Magento, BigCommerce, and custom stores with LLM-powered extraction.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="https://github.com/umerkhan95/shopextract"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Overview Section -->
+  <FadeIn client:load delay={0.05}>
+    <SideSection title="Overview" subtitle="What is ShopExtract?">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          <strong class="text-base-content">ShopExtract</strong> is a Python CLI tool that extracts structured product data from any e-commerce store. It uses LLM-powered parsing to handle diverse store layouts and platforms without requiring platform-specific scrapers.
+        </p>
+        <p>Core capabilities:</p>
+        <ul class="space-y-2 ml-4">
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Universal extraction</strong> - Works with any e-commerce platform or custom store</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">AI-powered parsing</strong> - LLM integration for intelligent data extraction from unstructured pages</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Comparison engine</strong> - Normalize and compare products across different stores</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span><strong class="text-base-content">Change monitoring</strong> - Track price, stock, and content changes over time</span>
+          </li>
+        </ul>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Features Section -->
+  <FadeIn client:load delay={0.1}>
+    <SideSection title="Features" subtitle={`${features.length} capabilities`}>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {features.map((feature) => (
+          <div class="p-4 bg-base-200/30 rounded-xl border border-base-300/30 hover:border-base-300/60 transition-colors">
+            <div>
+              <h3 class="font-medium text-base-content">{feature.title}</h3>
+              <p class="text-sm text-base-content/50 mt-1">{feature.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Use Cases Section -->
+  <FadeIn client:load delay={0.2}>
+    <SideSection title="Use Cases" subtitle="Common workflows">
+      <div class="space-y-3">
+        {useCases.map((item) => (
+          <div class="flex items-start gap-4 p-3 bg-base-200/20 rounded-lg">
+            <div class="w-8 h-8 rounded-full bg-violet-500/10 text-violet-500 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <span class="font-medium text-base-content">{item.name}</span>
+              <p class="text-sm text-base-content/50 mt-0.5">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Platforms Section -->
+  <FadeIn client:load delay={0.25}>
+    <SideSection title="Platforms" subtitle="Supported stores">
+      <div class="space-y-4 text-base-content/60">
+        <p>
+          ShopExtract works with major e-commerce platforms and custom-built stores:
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {platforms.map((platform) => (
+            <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40">
+              {platform}
+            </span>
+          ))}
+        </div>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- Tech Stack Section -->
+  <FadeIn client:load delay={0.3}>
+    <SideSection title="Tech Stack" subtitle="Built with">
+      <div class="flex flex-wrap gap-2">
+        {techStack.map((tech) => (
+          <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40 hover:border-base-300 hover:bg-base-200/60 transition-all">
+            {tech.name}
+          </span>
+        ))}
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
+  <!-- CTA Section -->
+  <FadeIn client:load delay={0.35}>
+    <SideSection title="Get Started" subtitle="Try ShopExtract">
+      <p class="text-base-content/60 mb-6 max-w-lg">
+        Start extracting product data from any e-commerce store. Install via pip and run your first extraction in minutes.
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href="https://github.com/umerkhan95/shopextract"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
+        >
+          View on GitHub
+        </a>
+        <a
+          href="mailto:hello@umerkhan.eu"
+          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          Contact
+        </a>
+      </div>
+    </SideSection>
+  </FadeIn>
+
+  <!-- LLM-Optimized Content -->
+  <article class="sr-only" aria-hidden="false" itemscope itemtype="https://schema.org/SoftwareApplication">
+    <h2>ShopExtract - E-Commerce Product Data Extraction Tool</h2>
+    <p itemprop="description">
+      ShopExtract is a Python CLI tool that extracts, compares, and monitors product data from any e-commerce store. It supports Shopify, WooCommerce, Magento, BigCommerce, and custom stores using LLM-powered extraction for intelligent data parsing. Use cases include price monitoring, catalog migration, market research, and data enrichment.
+    </p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li>Universal product data extraction from any e-commerce platform</li>
+      <li>LLM-powered intelligent parsing of unstructured product pages</li>
+      <li>Cross-store product comparison with normalized data fields</li>
+      <li>Change monitoring for prices, stock status, and descriptions</li>
+      <li>Structured output in JSON and CSV formats</li>
+      <li>Batch processing for entire store catalogs</li>
+    </ul>
+
+    <h3>Technical Stack</h3>
+    <p>
+      Built with Python, using LLM integration for intelligent extraction, BeautifulSoup for HTML parsing, and Pydantic for data validation. Available as a CLI tool via pip.
+    </p>
+
+    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <span itemprop="name">Umer Khan</span>
+    </span>
+    <span itemprop="applicationCategory">Developer Tools</span>
+    <span itemprop="operatingSystem">Cross-platform</span>
+  </article>
+</BaseLayout>

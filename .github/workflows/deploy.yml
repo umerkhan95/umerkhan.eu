@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    # Rebuild daily at midnight UTC to refresh activity page with latest commits
+    # Refresh activity data and rebuild daily at midnight UTC
     - cron: '0 0 * * *'
   workflow_dispatch:
 
@@ -14,8 +14,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Fetch fresh GitHub activity data into src/data/activity-cache.json
+      - name: Fetch activity data
+        env:
+          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+        run: npx tsx scripts/fetch-activity.ts
+
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - run: flyctl deploy --remote-only --build-arg GITHUB_TOKEN=${{ secrets.G_TOKEN }} --build-arg CACHE_BUST=${{ github.run_id }}
+      # Deploy — Docker COPY picks up the freshly fetched activity-cache.json
+      - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

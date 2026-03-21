@@ -1,10 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SideSection from "../components/SideSection.astro";
-import { fetchAllCommits, formatDate, formatTime, getRelativeDate } from "../lib/github";
+import { FadeIn } from "../components/react/FadeIn";
+import { ActivityAnalytics } from "../components/react/ActivityAnalytics";
+import { loadActivityData, formatDate, formatTime, getRelativeDate } from "../lib/github";
 import { TRACKED_REPOS } from "../config/repos";
 
-const commitsByDate = await fetchAllCommits();
+const { commitsByDate, analytics: analyticsData, fetchedAt } = loadActivityData();
 const dates = Object.keys(commitsByDate).sort((a, b) => b.localeCompare(a));
 const totalCommits = dates.reduce((acc, date) => acc + commitsByDate[date].length, 0);
 ---
@@ -42,11 +44,20 @@ const totalCommits = dates.reduce((acc, date) => acc + commitsByDate[date].lengt
 
   <div class="w-full h-px bg-base-300/50"></div>
 
+  <!-- Analytics Dashboard -->
+  <FadeIn client:load delay={0.05}>
+    <SideSection title="Analytics" subtitle="Commit insights">
+      <ActivityAnalytics client:load data={analyticsData} />
+    </SideSection>
+  </FadeIn>
+
+  <div class="w-full h-px bg-base-300/50"></div>
+
   <!-- Commits List -->
   <SideSection title="Commits" subtitle={`${totalCommits} total`}>
     {dates.length === 0 ? (
       <div class="py-16 text-center">
-        <p class="text-base-content/50">No commits found. Check back soon.</p>
+        <p class="text-base-content/50">No commits found. Run <code class="text-xs bg-base-200 px-1.5 py-0.5 rounded">pnpm fetch-activity</code> to load data.</p>
       </div>
     ) : (
       <div class="space-y-8">
@@ -124,7 +135,7 @@ const totalCommits = dates.reduce((acc, date) => acc + commitsByDate[date].lengt
       <div></div>
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <p class="text-sm text-base-content/50">
-          Auto-updated on every deploy.
+          {fetchedAt ? `Last updated ${new Date(fetchedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}` : "Auto-updated on every deploy."}
         </p>
         <a
           href="https://github.com/umerkhan95"
