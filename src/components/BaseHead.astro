@@ -11,6 +11,12 @@ export interface Props {
 }
 
 const { title, description, image, ogType = 'website' } = Astro.props;
+
+const SITE_URL = 'https://umerkhan.io';
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
+const ogImage = image
+	? new URL(image, SITE_URL).toString()
+	: `${SITE_URL}/profile.jpg`;
 ---
 
 <!-- Global Metadata -->
@@ -23,17 +29,20 @@ const { title, description, image, ogType = 'website' } = Astro.props;
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={ogType} />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content="Umer Khan" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-{image && <meta property="og:image" content={new URL(image, Astro.url)} />}
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content="en_US" />
 
 <!-- Twitter -->
-<meta property="twitter:card" content={image ? "summary_large_image" : "summary"} />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-{image && <meta property="twitter:image" content={new URL(image, Astro.url)} />}
+<meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />

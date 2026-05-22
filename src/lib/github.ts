@@ -85,7 +85,7 @@ async function fetchWithRetry<T>(url: string, token: string, retries = 3): Promi
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/vnd.github.v3+json",
-        "User-Agent": "umer.eu-website",
+        "User-Agent": "umerkhan.io-website",
       },
     });
     if (!response.ok) return null;
@@ -112,7 +112,7 @@ async function fetchRepoCommits(repo: string, token: string, since: string): Pro
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "application/vnd.github.v3+json",
-            "User-Agent": "umer.eu-website",
+            "User-Agent": "umerkhan.io-website",
           },
         }
       );

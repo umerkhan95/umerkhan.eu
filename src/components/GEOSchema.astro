@@ -10,29 +10,44 @@ interface Props {
 
 const { page = 'home' } = Astro.props;
 
+const SITE = 'https://umerkhan.io';
+
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "@id": "https://umer.eu/#person",
+  "@id": `${SITE}/#person`,
   "name": "Umer Khan",
   "givenName": "Umer",
   "familyName": "Khan",
   "jobTitle": "Founding AI Engineer",
   "description": "Umer Khan is a founding AI engineer based in Berlin, Germany, specializing in production-grade AI systems, RAG pipelines, LLM engineering, and data architecture. He builds GDPR-compliant AI solutions using Python, FastAPI, LangChain, LangGraph, and AWS.",
-  "url": "https://umer.eu",
-  "image": "https://umer.eu/profile.jpg",
-  "email": "hello@umerkhan.eu",
+  "url": SITE,
+  "image": {
+    "@type": "ImageObject",
+    "@id": `${SITE}/#profile-image`,
+    "url": `${SITE}/profile.jpg`,
+    "contentUrl": `${SITE}/profile.jpg`,
+    "caption": "Umer Khan"
+  },
+  "email": "mailto:hello@umerkhan.eu",
+  "nationality": {
+    "@type": "Country",
+    "name": "Pakistan"
+  },
+  "knowsLanguage": ["en", "de", "ur"],
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Berlin",
-    "addressCountry": "Germany"
+    "addressRegion": "Berlin",
+    "addressCountry": "DE"
   },
   "alumniOf": {
     "@type": "CollegeOrUniversity",
     "name": "University of Karachi",
     "address": {
       "@type": "PostalAddress",
-      "addressCountry": "Pakistan"
+      "addressLocality": "Karachi",
+      "addressCountry": "PK"
     }
   },
   "knowsAbout": [
@@ -58,61 +73,85 @@ const personSchema = {
     {
       "@type": "EducationalOccupationalCredential",
       "name": "AWS Cloud Solutions Architect",
-      "credentialCategory": "Professional Certification",
+      "credentialCategory": "ProfessionalCertification",
       "recognizedBy": {
         "@type": "Organization",
-        "name": "Amazon Web Services"
+        "name": "Amazon Web Services",
+        "url": "https://aws.amazon.com"
       }
     },
     {
       "@type": "EducationalOccupationalCredential",
       "name": "Data Science with ML/AI",
-      "credentialCategory": "Professional Certification",
+      "credentialCategory": "ProfessionalCertification",
       "recognizedBy": {
         "@type": "Organization",
-        "name": "IBM"
+        "name": "IBM",
+        "url": "https://www.ibm.com"
       }
     }
   ],
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Bloomers Berlin",
-    "url": "https://bloomers.berlin"
-  },
+  "worksFor": { "@id": `${SITE}/#bloomers` },
   "sameAs": [
     "https://github.com/umerkhan95",
     "https://linkedin.com/in/umerkhan"
   ]
 };
 
+const bloomersOrg = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${SITE}/#bloomers`,
+  "name": "Bloomers Berlin",
+  "url": "https://bloomers.berlin",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Berlin",
+    "addressCountry": "DE"
+  }
+};
+
+const profilePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": `${SITE}/#profilepage`,
+  "url": SITE,
+  "name": "Umer Khan | AI & Data Systems Engineer",
+  "inLanguage": "en",
+  "mainEntity": { "@id": `${SITE}/#person` },
+  "about": { "@id": `${SITE}/#person` }
+};
+
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": "https://umer.eu/#website",
+  "@id": `${SITE}/#website`,
   "name": "Umer Khan - AI Engineer",
-  "url": "https://umer.eu",
+  "url": SITE,
+  "inLanguage": "en",
   "description": "Personal website of Umer Khan, a founding AI engineer specializing in RAG systems, LLM engineering, and production-grade AI solutions.",
-  "author": {
-    "@id": "https://umer.eu/#person"
-  },
-  "publisher": {
-    "@id": "https://umer.eu/#person"
-  }
+  "author": { "@id": `${SITE}/#person` },
+  "publisher": { "@id": `${SITE}/#person` }
 };
 
 const professionalServiceSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  "@id": "https://umer.eu/#service",
+  "@id": `${SITE}/#service`,
   "name": "Umer Khan AI Engineering Services",
   "description": "AI engineering consulting and development services including RAG system design, LLM integration, data pipeline architecture, and AI automation.",
-  "provider": {
-    "@id": "https://umer.eu/#person"
+  "url": `${SITE}/services`,
+  "provider": { "@id": `${SITE}/#person` },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Berlin",
+    "addressCountry": "DE"
   },
-  "areaServed": {
-    "@type": "Place",
-    "name": "Worldwide"
-  },
+  "areaServed": [
+    { "@type": "Country", "name": "Germany" },
+    { "@type": "Place", "name": "European Union" },
+    { "@type": "Place", "name": "Remote / Worldwide" }
+  ],
   "serviceType": [
     "AI System Design",
     "RAG Pipeline Development",
@@ -156,6 +195,7 @@ const professionalServiceSchema = {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": `${SITE}/#faq`,
   "mainEntity": [
     {
       "@type": "Question",
@@ -202,12 +242,12 @@ const faqSchema = {
 
 // Combine schemas based on page
 const schemas = page === 'home'
-  ? [personSchema, websiteSchema, professionalServiceSchema, faqSchema]
+  ? [profilePageSchema, personSchema, bloomersOrg, websiteSchema, professionalServiceSchema, faqSchema]
   : page === 'cv'
-  ? [personSchema]
+  ? [personSchema, bloomersOrg]
   : page === 'services'
-  ? [personSchema, professionalServiceSchema]
-  : [personSchema, websiteSchema];
+  ? [personSchema, bloomersOrg, professionalServiceSchema]
+  : [personSchema, bloomersOrg, websiteSchema];
 ---
 
 <!-- JSON-LD Structured Data for LLMs and Search Engines -->
@@ -215,22 +255,10 @@ const schemas = page === 'home'
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 ))}
 
-<!-- Additional Meta Tags for GEO -->
+<!-- Author / Robots -->
 <meta name="author" content="Umer Khan" />
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 <meta name="googlebot" content="index, follow" />
 
-<!-- Entity and Topic Tags -->
-<meta name="subject" content="AI Engineering, RAG Systems, LLM Development" />
-<meta name="topic" content="Artificial Intelligence, Machine Learning, Data Engineering" />
-<meta name="classification" content="Technology, Software Engineering, AI" />
-<meta name="coverage" content="Worldwide" />
-
-<!-- Semantic Keywords for LLM Understanding -->
+<!-- Semantic Keywords -->
 <meta name="keywords" content="Umer Khan, AI Engineer, Berlin, RAG systems, LLM engineering, LangChain, LangGraph, MCP, Model Context Protocol, Python, FastAPI, AWS, data engineering, machine learning, artificial intelligence, vector databases, Pinecone, ChromaDB" />
-
-<!-- Citation Information -->
-<meta name="citation_author" content="Umer Khan" />
-<meta name="citation_title" content="Umer Khan - Founding AI Engineer" />
-<meta name="DC.creator" content="Umer Khan" />
-<meta name="DC.publisher" content="Umer Khan" />

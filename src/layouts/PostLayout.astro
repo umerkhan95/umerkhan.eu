@@ -16,9 +16,46 @@ const updateDisplayDate = updatedDate ? dayjs(updatedDate).format("MMMM D, YYYY"
 const content = await Astro.slots.render('default');
 const words = content.split(/\s+/).length;
 const readingTime = Math.ceil(words / 200);
+
+// Schema.org BlogPosting + BreadcrumbList
+const SITE = 'https://umerkhan.io';
+const canonicalURL = new URL(Astro.url.pathname, SITE).toString();
+const isoPubDate = new Date(pubDate).toISOString();
+const isoUpdatedDate = updatedDate ? new Date(updatedDate).toISOString() : isoPubDate;
+const absoluteHero = heroImage ? new URL(heroImage, SITE).toString() : `${SITE}/profile.jpg`;
+
+const blogPostingSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": `${canonicalURL}#blogposting`,
+  "mainEntityOfPage": { "@type": "WebPage", "@id": canonicalURL },
+  "headline": title,
+  "description": description,
+  "image": absoluteHero,
+  "datePublished": isoPubDate,
+  "dateModified": isoUpdatedDate,
+  "author": { "@id": `${SITE}/#person` },
+  "publisher": { "@id": `${SITE}/#person` },
+  "url": canonicalURL,
+  "inLanguage": "en",
+  "wordCount": words,
+  ...(tags.length ? { "keywords": tags.join(", ") } : {})
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE}/` },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${SITE}/blog/` },
+    { "@type": "ListItem", "position": 3, "name": title, "item": canonicalURL }
+  ]
+};
 ---
 
 <BaseLayout title={title} description={description} image={heroImage} ogType="article" geoPage="blog">
+  <script type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <article class="py-10">
     <!-- Back Link -->
     <a
