@@ -59,7 +59,7 @@ async function fetchWithRetry<T>(url: string, retries = 3): Promise<T | null> {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
         Accept: "application/vnd.github.v3+json",
-        "User-Agent": "umer.eu-website",
+        "User-Agent": "umerkhan.io-website",
       },
     });
     if (!response.ok) {
@@ -91,7 +91,7 @@ async function fetchRepoCommits(repo: string): Promise<Commit[]> {
         headers: {
           Authorization: `Bearer ${TOKEN}`,
           Accept: "application/vnd.github.v3+json",
-          "User-Agent": "umer.eu-website",
+          "User-Agent": "umerkhan.io-website",
         },
       }
     );
@@ -149,20 +149,36 @@ async function main() {
   const punchCard: PunchCardEntry[] = [];
   for (let d = 0; d < 7; d++) for (let h = 0; h < 24; h++) punchCard.push([d, h, punchMerged[`${d}-${h}`] || 0]);
 
-  // 3. Commit activity
-  console.log("→ Fetching commit activity");
+  // 3. Commit activity — derived from commits we already have.
+  // GitHub /stats/commit_activity returns 202 with empty body while it computes
+  // and an empty array right after, so trusting it as the source gave us blank
+  // heatmaps after every cron rebuild. commitsByDate already has every commit.
+  console.log("→ Building commit activity from commit history");
   const actMerged: Record<number, WeeklyActivity> = {};
-  for (const repo of TRACKED_REPOS) {
-    const data = await fetchWithRetry<WeeklyActivity[]>(`https://api.github.com/repos/${repo}/stats/commit_activity`);
-    if (data) {
-      for (const w of data) {
-        if (!actMerged[w.week]) actMerged[w.week] = { week: w.week, total: 0, days: [0, 0, 0, 0, 0, 0, 0] };
-        actMerged[w.week].total += w.total;
-        for (let i = 0; i < 7; i++) actMerged[w.week].days[i] += w.days[i];
-      }
-    }
+  const ensureWeek = (wts: number) => {
+    if (!actMerged[wts]) actMerged[wts] = { week: wts, total: 0, days: [0, 0, 0, 0, 0, 0, 0] };
+    return actMerged[wts];
+  };
+  const weekStartTs = (d: Date) => {
+    const utc = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+    utc.setUTCDate(utc.getUTCDate() - utc.getUTCDay()); // back to Sunday
+    return Math.floor(utc.getTime() / 1000);
+  };
+  for (const commit of allCommits) {
+    const d = new Date(commit.date);
+    const wts = weekStartTs(d);
+    const dow = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())).getUTCDay();
+    const w = ensureWeek(wts);
+    w.total += 1;
+    w.days[dow] += 1;
   }
+  // Pad the trailing 70 weeks ending at the current Sunday so the heatmap
+  // always has a continuous range even on dormant weeks.
+  const todayUtc = new Date();
+  const currentSundayTs = weekStartTs(todayUtc);
+  for (let i = 0; i < 70; i++) ensureWeek(currentSundayTs - i * 7 * 86400);
   const weeklyActivity = Object.values(actMerged).sort((a, b) => a.week - b.week);
+  console.log(`  ${weeklyActivity.length} weeks, ${weeklyActivity.filter(w => w.total > 0).length} active`);
 
   // 4. Code frequency
   console.log("→ Fetching code frequency");
