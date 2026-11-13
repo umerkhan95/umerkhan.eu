@@ -28,6 +28,7 @@ Full resume: https://umerkhan.io/cv
 
 ## Writing
 
+- shopextract vs Firecrawl: an initial benchmark on 10 Pakistani stores (November 2026). https://umerkhan.io/blog/shopextract-vs-firecrawl-an-initial-benchmark-on-10-pakistani-stores/
 - Transformer vs Diffusion Models: A Technical Comparison (March 2025). https://umerkhan.io/blog/transformer-vs-diffusion-models-a-technical-comparison/
 - How GitHub Copilot Revolutionized My Coding Experience (April 2024). https://umerkhan.io/blog/how-github-copilot-revolutionized-my-coding-experience/
 - Mojo vs Golang: The Ultimate Difference Guide (April 2024). https://umerkhan.io/blog/mojo-vs-golang-the-ultimate-difference-guide/

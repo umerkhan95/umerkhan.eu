@@ -41,6 +41,13 @@ export interface LogEntry {
 // Newest first. Add a line here when something ships or changes.
 export const log: LogEntry[] = [
   {
+    date: "2026-11-13",
+    kind: "Shipped",
+    context: "shopextract",
+    text: "Published the first benchmark against Firecrawl on 10 Pakistani stores",
+    url: "/blog/shopextract-vs-firecrawl-an-initial-benchmark-on-10-pakistani-stores/",
+  },
+  {
     date: "2026-11-07",
     kind: "Shipped",
     context: "shopextract",

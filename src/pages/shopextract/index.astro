@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SideSection from "../../components/SideSection.astro";
+import MoreLink from "../../components/MoreLink.astro";
 
 const REPO = "https://github.com/umerkhan95/shopextract";
 const PYPI = "https://pypi.org/project/shopextract/";
@@ -267,6 +268,7 @@ const unreleasedNote = AGENT_TOOLS_RELEASED ? null : "On the main branch. Not in
       <li class="text-xs leading-relaxed text-base-content/40">Three of Firecrawl's 21 product pages were the wrong product, so its field counts include them.</li>
       <li class="text-xs leading-relaxed text-base-content/40">shopextract was run from the main branch, which is ahead of the PyPI release.</li>
     </ul>
+    <MoreLink href="/blog/shopextract-vs-firecrawl-an-initial-benchmark-on-10-pakistani-stores/">How it was run</MoreLink>
   </SideSection>
 
   <div class="rule"></div>
