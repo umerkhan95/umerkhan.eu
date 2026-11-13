@@ -1,14 +1,16 @@
 ---
 /**
- * GEO (Generative Engine Optimization) Schema Component
- * Provides structured data and LLM-friendly content for better AI discoverability
+ * Structured data and robots directives shared by every page.
+ * Markup only states what the page itself shows: credentials and education
+ * are visible on /cv/, so they are added to the Person node there only.
  */
 
 interface Props {
-  page?: 'home' | 'cv' | 'blog' | 'services' | 'projects';
+  page?: 'home' | 'cv' | 'blog';
+  noindex?: boolean;
 }
 
-const { page = 'home' } = Astro.props;
+const { page = 'home', noindex = false } = Astro.props;
 
 const SITE = 'https://umerkhan.io';
 
@@ -19,28 +21,32 @@ const personSchema = {
   "name": "Umer Khan",
   "givenName": "Umer",
   "familyName": "Khan",
-  "jobTitle": "Founding AI Engineer",
-  "description": "Umer Khan is a founding AI engineer based in Berlin, Germany, specializing in production-grade AI systems, RAG pipelines, LLM engineering, and data architecture. He builds GDPR-compliant AI solutions using Python, FastAPI, LangChain, LangGraph, and AWS.",
+  "jobTitle": "Forward Deployed Engineer",
+  "description": "Umer Khan is a Forward Deployed Engineer at Accenture, based in Berlin, Germany. He takes AI systems from prototype to production and builds products for commerce, including the open-source library shopextract.",
   "url": SITE,
   "image": {
     "@type": "ImageObject",
     "@id": `${SITE}/#profile-image`,
-    "url": `${SITE}/profile.jpg`,
-    "contentUrl": `${SITE}/profile.jpg`,
+    "url": `${SITE}/umer.webp`,
+    "contentUrl": `${SITE}/umer.webp`,
     "caption": "Umer Khan"
   },
   "email": "mailto:hello@umerkhan.eu",
-  "nationality": {
-    "@type": "Country",
-    "name": "Pakistan"
-  },
-  "knowsLanguage": ["en", "de", "ur"],
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Berlin",
     "addressRegion": "Berlin",
     "addressCountry": "DE"
   },
+  "worksFor": { "@id": `${SITE}/#employer` },
+  "sameAs": [
+    "https://github.com/umerkhan95",
+    "https://www.linkedin.com/in/umerkhan261/"
+  ]
+};
+
+// Shown on the resume page only.
+const cvDetails = {
   "alumniOf": {
     "@type": "CollegeOrUniversity",
     "name": "University of Karachi",
@@ -90,25 +96,15 @@ const personSchema = {
         "url": "https://www.ibm.com"
       }
     }
-  ],
-  "worksFor": { "@id": `${SITE}/#bloomers` },
-  "sameAs": [
-    "https://github.com/umerkhan95",
-    "https://linkedin.com/in/umerkhan"
   ]
 };
 
-const bloomersOrg = {
+const employerOrg = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": `${SITE}/#bloomers`,
-  "name": "Bloomers Berlin",
-  "url": "https://bloomers.berlin",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Berlin",
-    "addressCountry": "DE"
-  }
+  "@id": `${SITE}/#employer`,
+  "name": "Accenture",
+  "url": "https://www.accenture.com"
 };
 
 const profilePageSchema = {
@@ -116,7 +112,7 @@ const profilePageSchema = {
   "@type": "ProfilePage",
   "@id": `${SITE}/#profilepage`,
   "url": SITE,
-  "name": "Umer Khan | AI & Data Systems Engineer",
+  "name": "Umer Khan | Forward Deployed Engineer",
   "inLanguage": "en",
   "mainEntity": { "@id": `${SITE}/#person` },
   "about": { "@id": `${SITE}/#person` }
@@ -126,139 +122,29 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": `${SITE}/#website`,
-  "name": "Umer Khan - AI Engineer",
+  "name": "Umer Khan",
   "url": SITE,
   "inLanguage": "en",
-  "description": "Personal website of Umer Khan, a founding AI engineer specializing in RAG systems, LLM engineering, and production-grade AI solutions.",
+  "description": "Personal website of Umer Khan, Forward Deployed Engineer at Accenture and builder of commerce products and open-source tools.",
   "author": { "@id": `${SITE}/#person` },
   "publisher": { "@id": `${SITE}/#person` }
 };
 
-const professionalServiceSchema = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": `${SITE}/#service`,
-  "name": "Umer Khan AI Engineering Services",
-  "description": "AI engineering consulting and development services including RAG system design, LLM integration, data pipeline architecture, and AI automation.",
-  "url": `${SITE}/services`,
-  "provider": { "@id": `${SITE}/#person` },
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Berlin",
-    "addressCountry": "DE"
-  },
-  "areaServed": [
-    { "@type": "Country", "name": "Germany" },
-    { "@type": "Place", "name": "European Union" },
-    { "@type": "Place", "name": "Remote / Worldwide" }
-  ],
-  "serviceType": [
-    "AI System Design",
-    "RAG Pipeline Development",
-    "LLM Engineering",
-    "Data Architecture",
-    "AI Automation",
-    "Cloud Solutions"
-  ],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "AI Engineering Services",
-    "itemListElement": [
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "RAG System Development",
-          "description": "Design and implementation of Retrieval-Augmented Generation systems for enterprise knowledge management"
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "LLM Integration",
-          "description": "Integration of large language models into existing business workflows and applications"
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "AI Agent Development",
-          "description": "Development of autonomous AI agents using LangChain, LangGraph, and Model Context Protocol (MCP)"
-        }
-      }
-    ]
-  }
-};
+const person = page === 'cv' ? { ...personSchema, ...cvDetails } : personSchema;
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "@id": `${SITE}/#faq`,
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is Umer Khan's expertise?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Umer Khan specializes in building production-grade AI systems, including RAG (Retrieval-Augmented Generation) pipelines, LLM engineering, AI agents, and data architecture. He has expertise in Python, FastAPI, LangChain, LangGraph, MCP, and AWS cloud services."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What companies has Umer Khan worked with?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Umer Khan has worked with Bloomers Berlin (current), Comparado GmbH (Idealo Group), CorAI (Bernstein Analytics), and Teradata. He has also collaborated with stakeholders from Axel Springer, Bernstein Group, NewsCatcher, and Telenor."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What AI technologies does Umer Khan work with?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Umer Khan works with LangChain, LangGraph, Model Context Protocol (MCP), OpenAI, Hugging Face models, PyTorch, and vector databases including Pinecone, ChromaDB, Qdrant, and Milvus. He specializes in building RAG systems and AI agents."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is Umer Khan available for consulting?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, Umer Khan is available for AI engineering consulting, including RAG system design, LLM integration, data pipeline architecture, and AI automation projects. Contact him at hello@umerkhan.eu."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Where is Umer Khan based?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Umer Khan is based in Berlin, Germany. He works with clients worldwide on AI engineering projects."
-      }
-    }
-  ]
-};
-
-// Combine schemas based on page
 const schemas = page === 'home'
-  ? [profilePageSchema, personSchema, bloomersOrg, websiteSchema, professionalServiceSchema, faqSchema]
+  ? [profilePageSchema, person, employerOrg, websiteSchema]
   : page === 'cv'
-  ? [personSchema, bloomersOrg]
-  : page === 'services'
-  ? [personSchema, bloomersOrg, professionalServiceSchema]
-  : [personSchema, bloomersOrg, websiteSchema];
+  ? [person, employerOrg]
+  : [person, employerOrg, websiteSchema];
 ---
 
-<!-- JSON-LD Structured Data for LLMs and Search Engines -->
 {schemas.map((schema) => (
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 ))}
 
-<!-- Author / Robots -->
 <meta name="author" content="Umer Khan" />
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-<meta name="googlebot" content="index, follow" />
-
-<!-- Semantic Keywords -->
-<meta name="keywords" content="Umer Khan, AI Engineer, Berlin, RAG systems, LLM engineering, LangChain, LangGraph, MCP, Model Context Protocol, Python, FastAPI, AWS, data engineering, machine learning, artificial intelligence, vector databases, Pinecone, ChromaDB" />
+<meta
+  name="robots"
+  content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
+/>

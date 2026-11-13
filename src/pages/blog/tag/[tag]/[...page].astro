@@ -27,11 +27,11 @@ const { page } = Astro.props;
 const params = Astro.params;
 ---
 
-<BaseLayout title={"Blog - " + params.tag} sideBarActiveItemID="blog" geoPage="blog">
+<BaseLayout title={`${params.tag} articles | Umer Khan`} description={`Articles by Umer Khan tagged ${params.tag}.`} sideBarActiveItemID="blog" geoPage="blog" noindex>
   <!-- Hero Section -->
   <section class="py-10">
     <a
-      href="/blog"
+      href="/blog/"
       class="inline-flex items-center gap-2 text-sm text-base-content/50 hover:text-base-content transition-colors mb-6"
     >
       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

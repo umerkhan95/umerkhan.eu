@@ -1,279 +1,132 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SideSection from "../components/SideSection.astro";
+import Hero from "../components/Hero.astro";
+import MoreLink from "../components/MoreLink.astro";
 import { getCollection } from "astro:content";
 import createSlug from "../lib/createSlug";
-import { ModernHero } from "../components/react/ModernHero";
-import { FadeIn } from "../components/react/FadeIn";
+import { experience, clients, log } from "../data/profile";
+import { products } from "../data/products";
+import { shortDay } from "../lib/activity";
 
 const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const last_posts = posts.slice(0, 3);
-
-const experience = [
-  { year: "2025", company: "Bloomers Berlin", role: "Founding Engineer", current: false, summary: "Built AI-powered e-commerce systems, GDPR-compliant RAG pipelines, and automation workflows with LangChain." },
-  { year: "2024", company: "Comparado (Idealo)", role: "Data Engineer", current: false, summary: "Standardized ETL pipelines, migrated BI to AWS, and ensured DSA/DMA compliance for the Idealo Group." },
-  { year: "2022", company: "CorAI", role: "Cloud Architect", current: false, summary: "Architected a system processing 1M daily news articles with NLP-based categorization and sentiment analysis." },
-  { year: "2018", company: "Teradata", role: "Data Engineer", current: false, summary: "Built data pipelines and ETL solutions for major telecom companies including Telenor Pakistan." },
-];
-
-const clients = ["Idealo", "Axel Springer", "Bernstein Group", "NewsCatcher", "Telenor", "Bloomers"];
+const lastPosts = posts.slice(0, 3);
+const recent = log.slice(0, 4);
+const [featured, ...otherProducts] = products;
 ---
 
 <BaseLayout sideBarActiveItemID="home">
-  <ModernHero
-    client:load
-    name="Umer Khan"
-    title="AI & Data Systems Engineer"
-    description="I build production-grade AI systems. Specializing in RAG pipelines, LLM engineering, and turning complex automation into reliable tools."
-    location="Berlin"
-  />
+  <Hero />
 
-  <div class="w-full h-px bg-base-300/50"></div>
+  <div class="rule"></div>
 
-  <!-- Experience Section -->
-  <FadeIn client:load delay={0.2}>
-    <SideSection title="Experience" subtitle={`${experience.length} roles`}>
-      <div class="space-y-0">
-        {experience.map((exp, index) => (
-          <div class="group flex items-start gap-6 py-4 border-b border-base-300/30 last:border-0">
-            <span class="text-sm font-medium w-16 shrink-0 pt-0.5 tabular-nums">
-              {exp.current ? (
-                <span class="text-success font-semibold">Now</span>
-              ) : (
-                <span class="text-base-content/40">{exp.year}</span>
-              )}
-            </span>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2.5">
-                <span class="font-medium text-base-content group-hover:text-primary transition-colors">
-                  {exp.company}
-                </span>
-                {exp.current && (
-                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-medium bg-success/15 text-success rounded-full border border-success/25">
-                    <span class="w-1 h-1 rounded-full bg-success animate-pulse"></span>
-                    Active
-                  </span>
-                )}
-              </div>
-              <span class="text-sm text-base-content/50">{exp.role}</span>
-              <p class="text-sm text-base-content/40 mt-1 line-clamp-2">{exp.summary}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <a
-        href="/cv"
-        class="inline-flex items-center gap-1.5 mt-6 text-sm font-medium text-base-content/60 hover:text-base-content transition-colors group"
-      >
-        View full resume
-        <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </a>
-    </SideSection>
-  </FadeIn>
-
-  <div class="w-full h-px bg-base-300/50"></div>
-
-  <!-- Blog Section -->
-  <FadeIn client:load delay={0.3}>
-    <SideSection title="Writing" subtitle={`${posts.length} articles`}>
-      <div class="space-y-0">
-        {last_posts.map((post) => (
-          <a
-            href={"/blog/" + createSlug(post.data.title, post.slug) + "/"}
-            class="group flex items-start gap-6 py-4 border-b border-base-300/30 last:border-0"
-          >
-            <span class="text-xs text-base-content/40 w-16 shrink-0 pt-1 tabular-nums">
-              {new Date(post.data.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-            </span>
-            <div class="flex-1 min-w-0">
-              <h3 class="font-medium text-base-content group-hover:text-primary transition-colors line-clamp-1">
-                {post.data.title}
-              </h3>
-              <p class="text-sm text-base-content/50 line-clamp-1 mt-0.5">
-                {post.data.description}
-              </p>
-            </div>
-            <svg class="w-4 h-4 text-base-content/20 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        ))}
-      </div>
-      <a
-        href="/blog"
-        class="inline-flex items-center gap-1.5 mt-6 text-sm font-medium text-base-content/60 hover:text-base-content transition-colors group"
-      >
-        View all posts
-        <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </a>
-    </SideSection>
-  </FadeIn>
-
-  <div class="w-full h-px bg-base-300/50"></div>
-
-  <!-- Clients Section -->
-  <FadeIn client:load delay={0.4}>
-    <SideSection title="Worked With" subtitle="Select clients">
-      <div class="flex flex-wrap gap-2">
-        {clients.map((client) => (
-          <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40 hover:border-base-300 hover:bg-base-200/60 transition-all">
-            {client}
+  <SideSection title="Experience" subtitle={`${experience.length} roles`}>
+    <div>
+      {experience.map((exp) => (
+        <div class="row flex items-start gap-6 py-4">
+          <span class="text-sm w-16 shrink-0 pt-0.5 tabular-nums">
+            {exp.current ? (
+              <span class="inline-flex items-center gap-2 font-medium text-base-content">
+                <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                Now
+              </span>
+            ) : (
+              <span class="text-base-content/40">{exp.year}</span>
+            )}
           </span>
-        ))}
+          <div class="flex-1 min-w-0">
+            <div class="font-medium text-base-content">{exp.company}</div>
+            <div class="text-sm text-base-content/50">{exp.role}</div>
+            <p class="text-sm text-base-content/40 mt-1">{exp.summary}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+    <MoreLink href="/cv/">Full resume</MoreLink>
+  </SideSection>
+
+  <div class="rule"></div>
+
+  <SideSection title="Building" subtitle={`${products.length} products`}>
+    <a href={featured.link} data-astro-reload class="group block pb-6">
+      <div class="flex items-baseline justify-between gap-4">
+        <h3 class="text-xl font-semibold tracking-tight text-base-content">{featured.name}</h3>
+        <span class="text-[11px] uppercase tracking-wider text-base-content/40 shrink-0">{featured.badge}</span>
       </div>
-    </SideSection>
-  </FadeIn>
-
-  <div class="w-full h-px bg-base-300/50"></div>
-
-  <!-- Contact Section -->
-  <FadeIn client:load delay={0.5}>
-    <SideSection title="Contact" subtitle="Get in touch">
-      <p class="text-base-content/60 mb-6 max-w-lg">
-        Open to discussing AI engineering opportunities, consulting work, or interesting projects.
-      </p>
-      <div class="flex flex-wrap items-center gap-6">
-        <a
-          href="mailto:hello@umerkhan.eu"
-          class="inline-flex items-center gap-2 text-sm font-medium text-base-content hover:text-primary transition-colors"
-        >
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-          hello@umerkhan.eu
+      <p class="text-base-content/60 mt-2 max-w-xl">{featured.description}</p>
+      <span class="inline-flex items-center gap-1.5 mt-3 text-sm text-base-content/60 group-hover:text-base-content transition-colors">
+        Read more
+        <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+      </span>
+    </a>
+    <div class="border-t border-base-300/40">
+      {otherProducts.map((product) => (
+        <a href={product.link} data-astro-reload class="row group flex items-baseline gap-6 py-3.5">
+          <span class="font-medium text-base-content w-28 shrink-0">{product.name}</span>
+          <span class="flex-1 min-w-0 text-sm text-base-content/50 group-hover:text-base-content/80 transition-colors">{product.tagline}</span>
+          <span class="hidden sm:block text-[11px] uppercase tracking-wider text-base-content/30 shrink-0">{product.badge}</span>
         </a>
-        <a
-          href="https://github.com/umerkhan95"
-          target="_blank"
-          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
-        >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-          GitHub
+      ))}
+    </div>
+  </SideSection>
+
+  <div class="rule"></div>
+
+  <SideSection title="Recent" subtitle="From the log">
+    <div>
+      {recent.map((entry) => (
+        <div class="row flex items-baseline gap-6 py-3.5">
+          <span class="text-xs text-base-content/40 w-16 shrink-0 tabular-nums">{shortDay(entry.date)}</span>
+          <p class="flex-1 min-w-0 text-sm text-base-content/70">
+            {entry.context && <span class="text-base-content font-medium">{entry.context}. </span>}
+            {entry.text}
+          </p>
+          <span class="hidden sm:block text-[11px] uppercase tracking-wider text-base-content/30 shrink-0">{entry.kind}</span>
+        </div>
+      ))}
+    </div>
+    <MoreLink href="/activity/">All activity</MoreLink>
+  </SideSection>
+
+  <div class="rule"></div>
+
+  <SideSection title="Writing" subtitle={`${posts.length} articles`}>
+    <div>
+      {lastPosts.map((post) => (
+        <a href={"/blog/" + createSlug(post.data.title, post.slug) + "/"} class="row group flex items-baseline gap-6 py-3.5">
+          <span class="text-xs text-base-content/40 w-16 shrink-0 tabular-nums">
+            {new Date(post.data.pubDate).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+          </span>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-[0.9375rem] font-medium text-base-content line-clamp-1">{post.data.title}</h3>
+            <p class="text-sm text-base-content/50 line-clamp-1 mt-0.5">{post.data.description}</p>
+          </div>
         </a>
-        <a
-          href="https://www.linkedin.com/in/umerkhan261/"
-          target="_blank"
-          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
-        >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
-          LinkedIn
-        </a>
-      </div>
-    </SideSection>
-  </FadeIn>
+      ))}
+    </div>
+    <MoreLink href="/blog/">All posts</MoreLink>
+  </SideSection>
 
-  <!-- LLM-Optimized Content for Generative Engine Optimization (GEO) -->
-  <article class="sr-only" aria-hidden="false" itemscope itemtype="https://schema.org/Person">
-    <h1>Umer Khan | AI & Data Systems Engineer</h1>
-    <p><em>GEO-optimized content for Technology</em></p>
-    <p><em>Source: https://umerkhan.io</em></p>
+  <div class="rule"></div>
 
-    <h2>TL;DR Summary</h2>
-    <ul>
-      <li><strong>2025 Role:</strong> Founding Engineer at Bloomers Berlin, where I built AI-powered e-commerce systems and crafted GDPR-compliant RAG pipelines.</li>
-      <li><strong>2024 Role:</strong> Data Engineer at Comparado (Idealo), focusing on standardizing ETL pipelines and ensuring compliance.</li>
-      <li><strong>2022 Role:</strong> Cloud Architect at CorAI, where I designed a system capable of processing 1 million daily news articles.</li>
-      <li><strong>2018 Role:</strong> Data Engineer at Teradata, building robust data pipelines for major telecom companies.</li>
+  <SideSection title="Worked With" subtitle="Select clients">
+    <ul class="flex flex-wrap gap-x-7 gap-y-2 text-base-content/70">
+      {clients.map((client) => <li>{client}</li>)}
     </ul>
+  </SideSection>
 
-    <h2>Experience</h2>
+  <div class="rule"></div>
 
-    <h3>1. Bloomers Berlin</h3>
-    <p itemprop="jobTitle"><strong>Role:</strong> Founding Engineer | <strong>Year:</strong> 2025</p>
-    <ul>
-      <li>I built innovative AI-powered e-commerce systems.</li>
-      <li>Developed GDPR-compliant RAG pipelines.</li>
-      <li>Created automation workflows using LangChain.</li>
-    </ul>
-
-    <h3>2. Comparado (Idealo)</h3>
-    <p><strong>Role:</strong> Data Engineer | <strong>Year:</strong> 2024</p>
-    <ul>
-      <li>My mission here is to standardize ETL pipelines.</li>
-      <li>I successfully migrated BI to AWS.</li>
-      <li>Ensuring DSA/DMA compliance for the Idealo Group is also on my plate.</li>
-    </ul>
-
-    <h3>3. CorAI</h3>
-    <p><strong>Role:</strong> Cloud Architect | <strong>Year:</strong> 2022</p>
-    <ul>
-      <li>I architected a powerful system that processes a staggering 1 million daily news articles.</li>
-      <li>Implementing NLP-based categorization and sentiment analysis was a highlight of my time here.</li>
-    </ul>
-
-    <h3>4. Teradata</h3>
-    <p><strong>Role:</strong> Data Engineer | <strong>Year:</strong> 2018</p>
-    <ul>
-      <li>Built data pipelines and ETL solutions for major telecom companies, including Telenor Pakistan.</li>
-      <li>It was rewarding to contribute to significant projects in the telecom sector.</li>
-    </ul>
-
-    <p><a href="https://umerkhan.io/cv">View full resume</a></p>
-
-    <h2>Writing Articles</h2>
-
-    <h3>1. Transformer vs Diffusion Models: A Technical Comparison</h3>
-    <p><strong>Date:</strong> March 2025</p>
-    <p><strong>Summary:</strong> Get ready for a deep dive into the technical differences between diffusion and transformer models used in Large Language Models (LLMs). We'll explore their future implications and what you need to consider in terms of hardware.</p>
-    <p><a href="https://umerkhan.io/blog/transformer-vs-diffusion-models-a-technical-comparison/">Read the full article</a></p>
-
-    <h3>2. How GitHub Copilot Revolutionized My Coding Experience</h3>
-    <p><strong>Date:</strong> April 2024</p>
-    <p><strong>Summary:</strong> Join me on my journey with GitHub Copilot! This article discusses how it's reshaping ethical programming and freelancing in Pakistan, while also pondering what it means for the future of software development.</p>
-    <p><a href="https://umerkhan.io/blog/how-github-copilot-revolutionized-my-coding-experience/">Read the full article</a></p>
-
-    <h3>3. Mojo vs Golang: The Ultimate Difference Guide</h3>
-    <p><strong>Date:</strong> April 2024</p>
-    <p><strong>Summary:</strong> Curious about the differences between Mojo and Golang? This guide highlights their distinctions and popularity among developers. Did you know that JavaScript tops the charts as the most used programming language, with over 63.6% of developers reporting its use in a 2022 survey?</p>
-    <p><a href="https://umerkhan.io/blog/mojo-vs-golang-the-ultimate-difference-guide/">Read the full article</a></p>
-
-    <h2>Worked With - Select Clients</h2>
-    <ul>
-      <li>Idealo</li>
-      <li>Axel Springer</li>
-      <li>Bernstein Group</li>
-      <li>NewsCatcher</li>
-      <li>Telenor</li>
-      <li>Bloomers</li>
-    </ul>
-
-    <h2>FAQ</h2>
-
-    <h3>What is the most recent role of Umer Khan?</h3>
-    <p>Most recently, I was a Founding Engineer at Bloomers Berlin in 2025.</p>
-
-    <h3>What were the main responsibilities at Bloomers Berlin?</h3>
-    <p>My responsibilities included building AI-powered e-commerce systems, developing GDPR-compliant RAG pipelines, and creating automation workflows with LangChain.</p>
-
-    <h3>What did Umer Khan do at Comparado (Idealo)?</h3>
-    <p>As a Data Engineer, I standardized ETL pipelines, migrated BI to AWS, and ensured DSA/DMA compliance for the Idealo Group.</p>
-
-    <h3>What was the role at CorAI?</h3>
-    <p>I served as a Cloud Architect, where I designed a system capable of processing 1 million daily news articles, complete with NLP-based categorization and sentiment analysis.</p>
-
-    <h3>What experience does Umer Khan have with Teradata?</h3>
-    <p>I worked as a Data Engineer, developing data pipelines and ETL solutions for major telecom companies, including Telenor Pakistan.</p>
-
-    <h3>What are the main topics covered in the articles?</h3>
-    <p>The articles delve into a technical comparison of transformer and diffusion models, the transformative impact of GitHub Copilot on coding, and a detailed guide on the differences between Mojo and Golang.</p>
-
-    <h3>Who are some of the clients Umer Khan has worked with?</h3>
-    <p>Some notable clients include Idealo, Axel Springer, Bernstein Group, NewsCatcher, Telenor, and Bloomers.</p>
-
-    <h2>Contact</h2>
-    <p>I'm open to discussing AI engineering opportunities, consulting work, or any exciting projects you have in mind.</p>
-    <p>Email: <span itemprop="email">hello@umerkhan.eu</span></p>
-    <p>Location: <span itemprop="address">Berlin, Germany</span></p>
-
-    <span itemprop="name">Umer Khan</span>
-    <span itemprop="industry">Technology</span>
-  </article>
+  <SideSection title="Contact" subtitle="Get in touch">
+    <p class="text-base-content/60 mb-5 max-w-lg">
+      Happy to talk about open source, products, or speaking.
+    </p>
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
+      <a href="mailto:hello@umerkhan.eu" class="font-medium text-base-content underline decoration-base-content/20 underline-offset-4 hover:decoration-base-content transition-colors">
+        hello@umerkhan.eu
+      </a>
+      <a href="https://github.com/umerkhan95" target="_blank" rel="noopener" class="text-base-content/60 hover:text-base-content transition-colors">GitHub</a>
+      <a href="https://www.linkedin.com/in/umerkhan261/" target="_blank" rel="noopener" class="text-base-content/60 hover:text-base-content transition-colors">LinkedIn</a>
+    </div>
+  </SideSection>
 </BaseLayout>

@@ -5,8 +5,6 @@ pubDate: "Mar 2 2025"
 heroImage: "/post_img3.webp"
 tags: ["AI", "ML", "NLP", "Deep Learning", "Language Models"]
 ---
-# Transformer vs. Diffusion Models: A Technical Comparison
-
 ## Overview of Transformer Models
 
 Transformer models, introduced in the seminal paper "Attention is All You Need" by Vaswani et al. (2017), are the backbone of modern LLMs like GPT and BERT. They use self-attention mechanisms to process sequences in parallel, excelling at capturing long-range dependencies crucial for tasks like language translation and text generation. Their autoregressive (AR) nature means generating text token by token, which can be time-consuming for long sequences.

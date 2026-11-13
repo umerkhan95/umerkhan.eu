@@ -7,7 +7,10 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://umerkhan.io',
-  integrations: [mdx(), sitemap(), tailwind(), react()],
+  integrations: [mdx(), sitemap({
+    // Tag listings are noindex; keep them out of the sitemap too.
+    filter: (page) => !page.includes('/blog/tag/'),
+  }), tailwind(), react()],
   devToolbar: {
     enabled: false
   },

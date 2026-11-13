@@ -1,0 +1,43 @@
+# Umer Khan
+
+> Forward Deployed Engineer at Accenture, based in Berlin, Germany. Takes AI systems from prototype to production and builds products for commerce.
+> Source: https://umerkhan.io
+
+## Now
+
+- Forward Deployed Engineer at Accenture since August 2026.
+- Maintains shopextract, an open-source (MIT) Python library that extracts structured product data from online stores.
+
+## Experience
+
+- 2026 to present: Accenture, Forward Deployed Engineer. Embedded with enterprise client teams, taking AI systems from prototype to production.
+- 2025 to 2026: Bloomers Berlin, Founding Engineer. AI-powered e-commerce systems, GDPR-compliant RAG pipelines, automation workflows.
+- 2024: Comparado GmbH (Idealo Group), Data Engineer. ETL standardisation, BI migration to AWS, DSA/DMA compliance.
+- 2022 to 2024: CorAI (Bernstein Analytics), Cloud Solutions Architect. A system collecting and classifying 1 million news articles per day.
+- 2018 to 2021: Teradata, Data Engineer. Data pipelines for telecom companies including Telenor Pakistan.
+
+Full resume: https://umerkhan.io/cv
+
+## Products
+
+- ShopExtract: structured product data from any online store. https://umerkhan.io/shopextract
+- Sigma AI: sales agent for Shopify storefronts. https://umerkhan.io/sigma-ai
+- GateKpr: validation for Shopify and WooCommerce apps. https://umerkhan.io/gatekpr
+- DiMedi: practice management for therapy practices. https://umerkhan.io/dimedi
+- ORY Berlin: at-home lab testing and coaching. https://umerkhan.io/ory-berlin
+
+## Writing
+
+- Transformer vs Diffusion Models: A Technical Comparison (March 2025). https://umerkhan.io/blog/transformer-vs-diffusion-models-a-technical-comparison/
+- How GitHub Copilot Revolutionized My Coding Experience (April 2024). https://umerkhan.io/blog/how-github-copilot-revolutionized-my-coding-experience/
+- Mojo vs Golang: The Ultimate Difference Guide (April 2024). https://umerkhan.io/blog/mojo-vs-golang-the-ultimate-difference-guide/
+
+## Worked with
+
+Idealo, Axel Springer, Bernstein Group, NewsCatcher, Telenor, Bloomers.
+
+## Contact
+
+- Email: hello@umerkhan.eu
+- GitHub: https://github.com/umerkhan95
+- Activity log: https://umerkhan.io/activity

@@ -1,256 +1,311 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SideSection from "../../components/SideSection.astro";
-import { FadeIn } from "../../components/react/FadeIn";
 
-const features = [
-  {
-    title: "Universal Extraction",
-    description: "Extract product data from any e-commerce store regardless of platform or technology stack."
-  },
-  {
-    title: "LLM-Powered Parsing",
-    description: "Uses large language models to intelligently extract structured data from unstructured product pages."
-  },
-  {
-    title: "Product Comparison",
-    description: "Compare products across different stores with normalized data fields and pricing analysis."
-  },
-  {
-    title: "Data Monitoring",
-    description: "Track product changes over time including price updates, stock status, and description modifications."
-  },
-  {
-    title: "Structured Output",
-    description: "Export extracted data in JSON, CSV, or other structured formats for downstream processing."
-  },
-  {
-    title: "Batch Processing",
-    description: "Process multiple product URLs or entire store catalogs in a single run."
-  }
+const REPO = "https://github.com/umerkhan95/shopextract";
+const PYPI = "https://pypi.org/project/shopextract/";
+
+// Agent tools and evidence-backed matching are on the main branch and are not
+// in the PyPI release yet. Set this to true after the next release.
+const AGENT_TOOLS_RELEASED = false;
+
+const capabilities = [
+  { name: "Extract", text: "Point it at a store URL. It detects the platform, finds the product pages and returns titles, prices, images, variants, SKUs and GTINs." },
+  { name: "Compare", text: "Search one product across several stores, or compare two whole catalogs and see what is cheaper where." },
+  { name: "Monitor", text: "Take snapshots over time and report price changes, new products and removals." },
+  { name: "Validate", text: "Check product data against Google Shopping, idealo, Amazon or eBay feed rules before you submit it." },
+  { name: "Export", text: "JSON, CSV, marketplace feeds, pandas DataFrame or Parquet." },
 ];
 
-const techStack = [
-  { name: "Python", category: "Language" },
-  { name: "LLM Integration", category: "AI" },
-  { name: "BeautifulSoup", category: "Parsing" },
-  { name: "Requests", category: "HTTP" },
-  { name: "Click", category: "CLI" },
-  { name: "Pydantic", category: "Validation" }
+const commands = [
+  { cmd: "shopextract extract <url>", does: "Extract products from a store. -n limits URLs, -f picks json or csv, -o writes a file." },
+  { cmd: "shopextract detect <url>", does: "Report which e-commerce platform the store runs on." },
+  { cmd: "shopextract discover <url>", does: "List product URLs without extracting them." },
+  { cmd: "shopextract compare <query>", does: "Compare prices for one product across stores. Repeat -s for each store." },
+  { cmd: "shopextract snapshot <url>", does: "Save the catalog as it is now." },
+  { cmd: "shopextract changes <domain>", does: "Show what changed between two snapshots." },
+  { cmd: "shopextract history <domain> <product>", does: "Price history for one product." },
+  { cmd: "shopextract analyze <url>", does: "Catalog statistics: price buckets, outliers, brand share." },
+  { cmd: "shopextract validate <file>", does: "Validate products against a marketplace. -m names the marketplace." },
 ];
 
-const platforms = [
-  "Shopify",
-  "WooCommerce",
-  "Magento",
-  "BigCommerce",
-  "Custom Stores"
+const agentTools = [
+  { name: "discover", does: "Find product URLs on an allowed store." },
+  { name: "extract", does: "Return normalised products and variants, with the evidence for each field." },
+  { name: "match", does: "Match two catalogs. Uncertain matches stay uncertain." },
+  { name: "changes", does: "Report changes between two captures of the same store." },
+  { name: "evidence", does: "Return the captured source for a field, without fetching the page again." },
 ];
 
-const useCases = [
-  { name: "Price Monitoring", description: "Track competitor pricing and get alerts on price changes across stores" },
-  { name: "Catalog Migration", description: "Extract full product catalogs for platform migration projects" },
-  { name: "Market Research", description: "Gather product data for competitive analysis and market intelligence" },
-  { name: "Data Enrichment", description: "Supplement existing product databases with additional attributes and metadata" }
+const relations = ["exact", "variant", "bundle", "substitute", "uncertain", "unmatched"];
+
+const tiers = [
+  { name: "API", works: "Shopify, WooCommerce, Magento. Shopware and BigCommerce when access is available.", note: "Fastest" },
+  { name: "Structured data", works: "Any site with JSON-LD or Open Graph tags.", note: "No browser" },
+  { name: "CSS", works: "Any site, through a browser.", note: "Slower" },
+  { name: "LLM", works: "JS-heavy sites with no structured data. Any LiteLLM provider, or a local model with Ollama.", note: "Fallback" },
 ];
+
+const benchmark = [
+  { metric: "Product pages correct", ours: "21 of 27", theirs: "18 of 27" },
+  { metric: "Wrong product returned", ours: "0", theirs: "3" },
+  { metric: "Category pages that worked", ours: "7 of 10", theirs: "8 of 10" },
+  { metric: "Category page, median time", ours: "17.3 s", theirs: "about 39 s" },
+  { metric: "Product page, median time", ours: "5.5 s", theirs: "about 3.3 s" },
+];
+
+const fields = [
+  { metric: "ID or SKU", ours: "21", theirs: "12" },
+  { metric: "Price with currency", ours: "21", theirs: "18" },
+  { metric: "Image", ours: "21", theirs: "18" },
+  { metric: "Category", ours: "15", theirs: "6" },
+  { metric: "GTIN or MPN", ours: "6", theirs: "0" },
+  { metric: "Description", ours: "15", theirs: "15" },
+  { metric: "Brand", ours: "9", theirs: "9" },
+];
+
+const quickStart = `import asyncio
+import shopextract
+
+async def main():
+    result = await shopextract.extract("https://example-store.com")
+    print(result.platform, result.product_count)
+    for product in result.products:
+        print(product.title, product.price, product.currency)
+
+asyncio.run(main())`;
+
+const compareCli = `shopextract compare "Wireless Headphones" \\
+  -s https://store-a.com \\
+  -s https://store-b.com`;
+
+const compareCatalogs = `diff = await shopextract.compare_catalogs(
+    "https://store-a.com",
+    "https://store-b.com",
+)
+print(len(diff.in_both), len(diff.cheaper_in_a), len(diff.cheaper_in_b))`;
+
+const mcpServer = `pip install 'shopextract[mcp]'
+python -m shopextract.tools --config tools-config.json`;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "@id": "https://umerkhan.io/shopextract/#software",
+  "name": "shopextract",
+  "description": "An open-source Python library and command-line tool that extracts, compares and monitors product data from online stores.",
+  "url": "https://umerkhan.io/shopextract/",
+  "codeRepository": REPO,
+  "programmingLanguage": "Python",
+  "runtimePlatform": "Python 3.10+",
+  "license": "https://opensource.org/licenses/MIT",
+  "author": { "@id": "https://umerkhan.io/#person" },
+  "sameAs": [REPO, PYPI],
+};
+
+const unreleasedNote = AGENT_TOOLS_RELEASED ? null : "On the main branch. Not in the PyPI release yet.";
 ---
 
 <BaseLayout
   sideBarActiveItemID="shopextract"
-  title="ShopExtract | Umer Khan"
-  description="Extract, compare, and monitor product data from any e-commerce store with LLM-powered extraction."
+  title="ShopExtract: product data from any online store | Umer Khan"
+  geoPage="blog"
+  description="shopextract is an open-source Python library and CLI that extracts, compares and monitors product data from online stores."
 >
-  <!-- Hero Section -->
-  <FadeIn client:load>
-    <div class="py-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="px-3 py-1 text-xs font-medium bg-violet-500/15 text-violet-500 rounded-full border border-violet-500/25">
-          Python CLI
-        </span>
-        <span class="px-3 py-1 text-xs font-medium bg-success/15 text-success rounded-full border border-success/25">
-          Open Source
-        </span>
+  <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+  <section class="py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
+      <div class="lg:text-right">
+        <span class="text-xs font-semibold uppercase tracking-widest text-base-content/40">Open source</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
-        ShopExtract
-      </h1>
-      <p class="text-lg text-base-content/60 max-w-2xl mb-6">
-        Extract, compare, and monitor product data from any e-commerce store. Works across Shopify, WooCommerce, Magento, BigCommerce, and custom stores with LLM-powered extraction.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <a
-          href="https://github.com/umerkhan95/shopextract"
-          target="_blank"
-          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
-        >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-          View on GitHub
-        </a>
-      </div>
-    </div>
-  </FadeIn>
-
-  <div class="w-full h-px bg-base-300/50"></div>
-
-  <!-- Overview Section -->
-  <FadeIn client:load delay={0.05}>
-    <SideSection title="Overview" subtitle="What is ShopExtract?">
-      <div class="space-y-4 text-base-content/60">
-        <p>
-          <strong class="text-base-content">ShopExtract</strong> is a Python CLI tool that extracts structured product data from any e-commerce store. It uses LLM-powered parsing to handle diverse store layouts and platforms without requiring platform-specific scrapers.
+      <div>
+        <h1 class="reveal text-3xl md:text-4xl font-semibold tracking-tight text-base-content mb-4">ShopExtract</h1>
+        <p class="reveal text-base md:text-lg text-base-content/60 leading-relaxed max-w-xl mb-6" style="--reveal-delay: 60ms">
+          A Python library and command-line tool that extracts, compares and monitors product data from online stores. MIT licensed.
         </p>
-        <p>Core capabilities:</p>
-        <ul class="space-y-2 ml-4">
-          <li class="flex items-start gap-2">
-            <span><strong class="text-base-content">Universal extraction</strong> - Works with any e-commerce platform or custom store</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <span><strong class="text-base-content">AI-powered parsing</strong> - LLM integration for intelligent data extraction from unstructured pages</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <span><strong class="text-base-content">Comparison engine</strong> - Normalize and compare products across different stores</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <span><strong class="text-base-content">Change monitoring</strong> - Track price, stock, and content changes over time</span>
-          </li>
-        </ul>
-      </div>
-    </SideSection>
-  </FadeIn>
-
-  <div class="w-full h-px bg-base-300/50"></div>
-
-  <!-- Features Section -->
-  <FadeIn client:load delay={0.1}>
-    <SideSection title="Features" subtitle={`${features.length} capabilities`}>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {features.map((feature) => (
-          <div class="p-4 bg-base-200/30 rounded-xl border border-base-300/30 hover:border-base-300/60 transition-colors">
-            <div>
-              <h3 class="font-medium text-base-content">{feature.title}</h3>
-              <p class="text-sm text-base-content/50 mt-1">{feature.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </SideSection>
-  </FadeIn>
-
-  <div class="w-full h-px bg-base-300/50"></div>
-
-  <!-- Use Cases Section -->
-  <FadeIn client:load delay={0.2}>
-    <SideSection title="Use Cases" subtitle="Common workflows">
-      <div class="space-y-3">
-        {useCases.map((item) => (
-          <div class="flex items-start gap-4 p-3 bg-base-200/20 rounded-lg">
-            <div class="w-8 h-8 rounded-full bg-violet-500/10 text-violet-500 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div class="flex-1">
-              <span class="font-medium text-base-content">{item.name}</span>
-              <p class="text-sm text-base-content/50 mt-0.5">{item.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </SideSection>
-  </FadeIn>
-
-  <div class="w-full h-px bg-base-300/50"></div>
-
-  <!-- Platforms Section -->
-  <FadeIn client:load delay={0.25}>
-    <SideSection title="Platforms" subtitle="Supported stores">
-      <div class="space-y-4 text-base-content/60">
-        <p>
-          ShopExtract works with major e-commerce platforms and custom-built stores:
-        </p>
-        <div class="flex flex-wrap gap-2">
-          {platforms.map((platform) => (
-            <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40">
-              {platform}
-            </span>
-          ))}
+        <pre class="reveal code max-w-xl" style="--reveal-delay: 120ms"><code>pip install shopextract</code></pre>
+        <div class="reveal flex flex-wrap items-center gap-x-6 gap-y-3 text-sm mt-6" style="--reveal-delay: 180ms">
+          <a href={REPO} target="_blank" rel="noopener" class="group inline-flex items-center gap-1.5 font-medium text-base-content underline decoration-base-content/20 underline-offset-4 hover:decoration-base-content transition-colors">
+            GitHub
+            <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+          </a>
+          <a href={PYPI} target="_blank" rel="noopener" class="text-base-content/60 hover:text-base-content transition-colors">PyPI</a>
+          <a href={`${REPO}/tree/main/docs`} target="_blank" rel="noopener" class="text-base-content/60 hover:text-base-content transition-colors">Full docs</a>
+          <span class="text-base-content/40">Python 3.10+</span>
         </div>
       </div>
-    </SideSection>
-  </FadeIn>
+    </div>
+  </section>
 
-  <div class="w-full h-px bg-base-300/50"></div>
+  <div class="rule"></div>
 
-  <!-- Tech Stack Section -->
-  <FadeIn client:load delay={0.3}>
-    <SideSection title="Tech Stack" subtitle="Built with">
-      <div class="flex flex-wrap gap-2">
-        {techStack.map((tech) => (
-          <span class="px-3 py-1.5 text-sm text-base-content/70 bg-base-200/40 rounded-lg border border-base-300/40 hover:border-base-300 hover:bg-base-200/60 transition-all">
-            {tech.name}
-          </span>
-        ))}
-      </div>
-    </SideSection>
-  </FadeIn>
+  <SideSection title="Capabilities" subtitle="What it does">
+    <dl>
+      {capabilities.map((item) => (
+        <div class="row flex items-baseline gap-6 py-3.5">
+          <dt class="w-20 shrink-0 font-medium text-base-content">{item.name}</dt>
+          <dd class="flex-1 min-w-0 text-sm text-base-content/60">{item.text}</dd>
+        </div>
+      ))}
+    </dl>
+  </SideSection>
 
-  <div class="w-full h-px bg-base-300/50"></div>
+  <div class="rule"></div>
 
-  <!-- CTA Section -->
-  <FadeIn client:load delay={0.35}>
-    <SideSection title="Get Started" subtitle="Try ShopExtract">
-      <p class="text-base-content/60 mb-6 max-w-lg">
-        Start extracting product data from any e-commerce store. Install via pip and run your first extraction in minutes.
-      </p>
-      <div class="flex flex-wrap items-center gap-4">
-        <a
-          href="https://github.com/umerkhan95/shopextract"
-          target="_blank"
-          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-base-content text-base-100 rounded-lg hover:bg-base-content/90 transition-colors"
-        >
-          View on GitHub
-        </a>
-        <a
-          href="mailto:hello@umerkhan.eu"
-          class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-base-content transition-colors"
-        >
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-          Contact
-        </a>
-      </div>
-    </SideSection>
-  </FadeIn>
-
-  <!-- LLM-Optimized Content -->
-  <article class="sr-only" aria-hidden="false" itemscope itemtype="https://schema.org/SoftwareApplication">
-    <h2>ShopExtract - E-Commerce Product Data Extraction Tool</h2>
-    <p itemprop="description">
-      ShopExtract is a Python CLI tool that extracts, compares, and monitors product data from any e-commerce store. It supports Shopify, WooCommerce, Magento, BigCommerce, and custom stores using LLM-powered extraction for intelligent data parsing. Use cases include price monitoring, catalog migration, market research, and data enrichment.
+  <SideSection title="Quick start" subtitle="Python">
+    <pre class="code"><code>{quickStart}</code></pre>
+    <p class="mt-4 text-sm text-base-content/50 max-w-xl">
+      One call handles platform detection, URL discovery and extraction. It tries the fastest method first and falls back on its own.
     </p>
+  </SideSection>
 
-    <h3>Key Features</h3>
-    <ul>
-      <li>Universal product data extraction from any e-commerce platform</li>
-      <li>LLM-powered intelligent parsing of unstructured product pages</li>
-      <li>Cross-store product comparison with normalized data fields</li>
-      <li>Change monitoring for prices, stock status, and descriptions</li>
-      <li>Structured output in JSON and CSV formats</li>
-      <li>Batch processing for entire store catalogs</li>
+  <div class="rule"></div>
+
+  <SideSection title="CLI" subtitle={`${commands.length} commands`}>
+    <p class="text-sm text-base-content/60 max-w-xl mb-4">
+      Everything the library does is also a command, so it works in a shell script or a cron job without writing Python.
+    </p>
+    <div>
+      {commands.map((item) => (
+        <div class="row flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 py-3.5">
+          <code class="sm:w-72 shrink-0 font-mono text-[13px] text-base-content">{item.cmd}</code>
+          <span class="flex-1 min-w-0 text-sm text-base-content/50">{item.does}</span>
+        </div>
+      ))}
+    </div>
+    <a href={`${REPO}/blob/main/docs/cli.md`} target="_blank" rel="noopener" class="group inline-flex items-center gap-1.5 mt-6 text-sm font-medium text-base-content/60 hover:text-base-content transition-colors">
+      CLI reference
+      <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+    </a>
+  </SideSection>
+
+  <div class="rule"></div>
+
+  <SideSection title="Agent tools" subtitle="MCP server">
+    <p class="text-sm text-base-content/60 max-w-xl mb-4">
+      An AI agent can drive shopextract through an MCP server. The server runs on your machine, needs no model or account, and only reads. The operator lists which stores the agent may reach; every other origin is denied.
+    </p>
+    <div>
+      {agentTools.map((tool) => (
+        <div class="row flex items-baseline gap-6 py-3.5">
+          <code class="w-20 shrink-0 font-mono text-[13px] text-base-content">{tool.name}</code>
+          <span class="flex-1 min-w-0 text-sm text-base-content/50">{tool.does}</span>
+        </div>
+      ))}
+    </div>
+    <pre class="code mt-5"><code>{mcpServer}</code></pre>
+    {unreleasedNote && <p class="mt-3 text-xs text-base-content/40">{unreleasedNote}</p>}
+    <a href={`${REPO}/blob/main/docs/agent-tools.md`} target="_blank" rel="noopener" class="group inline-flex items-center gap-1.5 mt-6 text-sm font-medium text-base-content/60 hover:text-base-content transition-colors">
+      Agent tools guide
+      <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+    </a>
+  </SideSection>
+
+  <div class="rule"></div>
+
+  <SideSection title="Comparison" subtitle="Across stores">
+    <p class="text-sm text-base-content/60 max-w-xl mb-4">
+      Search one product across stores and get the cheapest, the most expensive, the average and the spread.
+    </p>
+    <pre class="code"><code>{compareCli}</code></pre>
+    <p class="text-sm text-base-content/60 max-w-xl mt-6 mb-4">
+      Or compare two whole catalogs: what only one store has, what both have, and which store is cheaper.
+    </p>
+    <pre class="code"><code>{compareCatalogs}</code></pre>
+    <p class="text-sm text-base-content/60 max-w-xl mt-6 mb-3">
+      Every pair of products gets one of six relations, with the evidence behind it. Only a unique exact match in the same currency enters a price comparison. A similar title alone is a candidate for review, not a match.
+    </p>
+    <ul class="flex flex-wrap gap-x-5 gap-y-1.5 font-mono text-[13px] text-base-content/70">
+      {relations.map((relation) => <li class="text-[13px] text-base-content/70">{relation}</li>)}
     </ul>
+    {unreleasedNote && <p class="mt-3 text-xs text-base-content/40">Relation reports are on the main branch. Not in the PyPI release yet.</p>}
+  </SideSection>
 
-    <h3>Technical Stack</h3>
-    <p>
-      Built with Python, using LLM integration for intelligent extraction, BeautifulSoup for HTML parsing, and Pydantic for data validation. Available as a CLI tool via pip.
+  <div class="rule"></div>
+
+  <SideSection title="Benchmark" subtitle="vs Firecrawl">
+    <p class="text-sm text-base-content/60 max-w-xl mb-4">
+      Ten Pakistani stores, one category page and three product pages each, on 7 Nov 2026. Both tools got the same URLs.
     </p>
+    <table class="w-full text-sm tabular-nums">
+      <thead>
+        <tr class="text-left text-[11px] uppercase tracking-wider text-base-content/40">
+          <th class="font-medium py-2 pr-4"></th>
+          <th class="font-medium py-2 pr-4 w-24 sm:w-32">shopextract</th>
+          <th class="font-medium py-2 w-24 sm:w-32">Firecrawl</th>
+        </tr>
+      </thead>
+      <tbody>
+        {benchmark.map((line) => (
+          <tr class="row-line">
+            <td class="py-3 pr-4 text-base-content/60">{line.metric}</td>
+            <td class="py-3 pr-4 font-medium text-base-content">{line.ours}</td>
+            <td class="py-3 text-base-content/60">{line.theirs}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
 
-    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
-      <span itemprop="name">Umer Khan</span>
-    </span>
-    <span itemprop="applicationCategory">Developer Tools</span>
-    <span itemprop="operatingSystem">Cross-platform</span>
-  </article>
+    <p class="text-sm text-base-content/60 max-w-xl mt-8 mb-4">
+      Fields filled, out of the 21 product pages each tool returned.
+    </p>
+    <table class="w-full text-sm tabular-nums">
+      <tbody>
+        {fields.map((line) => (
+          <tr class="row-line">
+            <td class="py-3 pr-4 text-base-content/60">{line.metric}</td>
+            <td class="py-3 pr-4 w-24 sm:w-32 font-medium text-base-content">{line.ours}</td>
+            <td class="py-3 w-24 sm:w-32 text-base-content/60">{line.theirs}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <ul class="mt-6 space-y-1.5 text-xs text-base-content/40 max-w-xl">
+      <li class="text-xs leading-relaxed text-base-content/40">One run, ten stores. It is not a claim about every store.</li>
+      <li class="text-xs leading-relaxed text-base-content/40">Firecrawl reached two stores that shopextract did not, from its cloud IPs.</li>
+      <li class="text-xs leading-relaxed text-base-content/40">Three of Firecrawl's 21 product pages were the wrong product, so its field counts include them.</li>
+      <li class="text-xs leading-relaxed text-base-content/40">shopextract was run from the main branch, which is ahead of the PyPI release.</li>
+    </ul>
+  </SideSection>
+
+  <div class="rule"></div>
+
+  <SideSection title="Coverage" subtitle="How it extracts">
+    <div>
+      {tiers.map((tier) => (
+        <div class="row flex items-baseline gap-6 py-3.5">
+          <span class="w-28 shrink-0 font-medium text-base-content">{tier.name}</span>
+          <span class="flex-1 min-w-0 text-sm text-base-content/50">{tier.works}</span>
+          <span class="hidden sm:block text-[11px] uppercase tracking-wider text-base-content/30 shrink-0">{tier.note}</span>
+        </div>
+      ))}
+    </div>
+  </SideSection>
+
+  <section class="py-10 border-t border-base-300/50">
+    <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
+      <div></div>
+      <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-base-content/40">
+        <span>MIT licensed. Issues and pull requests are welcome.</span>
+        <a href={REPO} target="_blank" rel="noopener" class="text-base-content/60 hover:text-base-content transition-colors">GitHub &rarr;</a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .code {
+    margin: 0;
+    padding: 0.875rem 1rem;
+    overflow-x: auto;
+    border: 1px solid oklch(var(--bc) / 0.1);
+    border-radius: 0.5rem;
+    background: oklch(var(--bc) / 0.03);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .row-line + .row-line td {
+    border-top: 1px solid oklch(var(--bc) / 0.07);
+  }
+</style>

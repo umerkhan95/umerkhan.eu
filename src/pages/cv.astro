@@ -4,6 +4,17 @@ import SideSection from "../components/SideSection.astro";
 
 const experiences = [
   {
+    role: "Forward Deployed Engineer",
+    company: "Accenture",
+    location: "Germany",
+    period: "Aug 2026 — Present",
+    current: true,
+    keywords: ["Enterprise AI", "LLM Systems", "Production Delivery", "Stakeholder Management"],
+    accomplishments: [
+      "Embedded with enterprise client teams, taking AI systems from prototype to production."
+    ]
+  },
+  {
     role: "Founding Engineer",
     company: "Bloomers Berlin",
     location: "Berlin",
@@ -76,7 +87,7 @@ const certifications = [
 ];
 ---
 
-<BaseLayout title="Resume" sideBarActiveItemID="cv" geoPage="cv">
+<BaseLayout title="Resume | Umer Khan" description="Resume of Umer Khan, Forward Deployed Engineer at Accenture in Berlin: experience, technical stack, education and certifications." sideBarActiveItemID="cv" geoPage="cv">
   <!-- Hero Section -->
   <section class="py-12">
     <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
@@ -88,9 +99,9 @@ const certifications = [
           Umer Khan
         </h1>
         <p class="text-base-content/60 leading-relaxed max-w-2xl mb-6">
-          Founding AI engineer building production-grade AI systems from the ground up.
-          Specializing in GDPR-compliant RAG systems, AI-powered automation, and scalable
-          data architectures with Python, FastAPI, LangChain, and AWS.
+          Forward Deployed Engineer at Accenture. Previously founding engineer at Bloomers Berlin.
+          I take AI systems from prototype to production: RAG, agents, and the data
+          architecture underneath, with Python, FastAPI, LangGraph, and AWS.
         </p>
         <div class="flex items-center gap-2 text-sm text-base-content/50">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -242,7 +253,7 @@ const certifications = [
   <SideSection title="Contact" subtitle="Get in touch">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <p class="text-sm text-base-content/50">
-        Open to AI engineering roles and consulting opportunities.
+        Happy to talk about open source, products, or speaking.
       </p>
       <a
         href="mailto:hello@umerkhan.eu"

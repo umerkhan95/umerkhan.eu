@@ -1,0 +1,68 @@
+---
+import { role, intro, focus } from "../data/profile";
+
+const STEP = 3; // seconds each word stays up
+---
+
+<section class="py-12 md:py-16">
+  <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
+    <div class="lg:text-right">
+      <span class="text-xs font-semibold uppercase tracking-widest text-base-content/40">Profile</span>
+    </div>
+
+    <div>
+      <h1 class="reveal text-4xl md:text-5xl font-semibold tracking-tight text-base-content mb-4">
+        Umer Khan
+      </h1>
+
+      <p class="reveal flex flex-wrap items-center gap-x-3 gap-y-1 text-lg md:text-xl text-base-content/60 mb-6" style="--reveal-delay: 60ms">
+        <span>{role.title} at <span class="text-base-content font-medium">{role.company}</span></span>
+        <span class="text-base-content/30" aria-hidden="true">&middot;</span>
+        <span class="rotator font-medium text-base-content" style={`--cycle: ${focus.length * STEP}s`}>
+          {focus.map((word, i) => (
+            <span class="rotator-word" style={`animation-delay: ${i * STEP}s`}>{word}</span>
+          ))}
+        </span>
+      </p>
+
+      <p class="reveal text-base md:text-lg text-base-content/60 max-w-xl leading-relaxed mb-8" style="--reveal-delay: 120ms">
+        {intro}
+      </p>
+
+      <div class="reveal flex flex-wrap items-center gap-x-6 gap-y-3 text-sm" style="--reveal-delay: 180ms">
+        <a href="/cv/" class="group inline-flex items-center gap-1.5 font-medium text-base-content underline decoration-base-content/20 underline-offset-4 hover:decoration-base-content transition-colors">
+          Resume
+          <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+        </a>
+        <a href="/activity/" class="text-base-content/60 hover:text-base-content transition-colors">Activity</a>
+        <a href="/apps/" class="text-base-content/60 hover:text-base-content transition-colors">Products</a>
+        <span class="text-base-content/40">Berlin, Germany</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Words share one grid cell, so the widest sets the width and nothing shifts. */
+  .rotator {
+    display: inline-grid;
+    overflow: hidden;
+    line-height: 1.4;
+  }
+  .rotator-word {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+    opacity: 0;
+    animation: rotate-word var(--cycle) cubic-bezier(0.22, 1, 0.36, 1) infinite backwards;
+  }
+  /* Four words: each owns a quarter of the cycle. */
+  @keyframes rotate-word {
+    0% { opacity: 0; transform: translateY(100%); }
+    3%, 22% { opacity: 1; transform: translateY(0); }
+    25%, 100% { opacity: 0; transform: translateY(-100%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rotator-word { animation: none; }
+    .rotator-word:first-child { opacity: 1; }
+  }
+</style>

@@ -16,7 +16,7 @@ const SITE_URL = 'https://umerkhan.io';
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
 const ogImage = image
 	? new URL(image, SITE_URL).toString()
-	: `${SITE_URL}/profile.jpg`;
+	: `${SITE_URL}/og.png`;
 ---
 
 <!-- Global Metadata -->
@@ -27,9 +27,9 @@ const ogImage = image
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
-<meta name="title" content={title} />
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalURL} />
+<link rel="alternate" type="application/rss+xml" title="Umer Khan" href="/rss.xml" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={ogType} />
@@ -38,10 +38,11 @@ const ogImage = image
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:alt" content={title} />
 <meta property="og:locale" content="en_US" />
 
 <!-- Twitter -->
-<meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={canonicalURL} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />

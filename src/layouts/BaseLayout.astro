@@ -13,20 +13,22 @@ const {
   description = SITE_DESCRIPTION,
   sideBarActiveItemID,
   ogType,
-  geoPage = 'home',
+  // ProfilePage markup belongs to the home page only.
+  geoPage = Astro.url.pathname === '/' ? 'home' : 'blog',
+  noindex = false,
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en" data-theme="lofi">
   <head>
-    <BaseHead title={title} description={description} image={image} , ogType={ogType} />
+    <BaseHead title={title} description={description} image={image} ogType={ogType} />
     <meta name="google-site-verification" content="_AtgYCpIrdmhWEO9QfmbSQn6NCxVg5tbfW_acWLSTEQ" />
-    <GEOSchema page={geoPage} />
+    <GEOSchema page={geoPage} noindex={noindex} />
     {TRANSITION_API && <ViewTransitions />}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style is:inline>
       :root {
         --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -98,6 +100,44 @@ const {
       .text-sm { font-size: 0.875rem; line-height: 1.6; }
       .text-xs { font-size: 0.75rem; line-height: 1.5; }
 
+      /* Hairline divider between page sections */
+      .rule {
+        width: 100%;
+        height: 1px;
+        background-color: oklch(var(--bc) / 0.1);
+      }
+
+      /* List rows separated by hairlines */
+      .row + .row {
+        border-top: 1px solid oklch(var(--bc) / 0.07);
+      }
+
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .pulse-bar {
+        background-color: oklch(var(--bc));
+      }
+
+      /* Entrance: one short fade, staggered with --reveal-delay */
+      @media (prefers-reduced-motion: no-preference) {
+        .reveal {
+          animation: reveal 0.5s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
+          animation-delay: var(--reveal-delay, 0ms);
+        }
+        @keyframes reveal {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: none; }
+        }
+      }
+
+      :focus-visible {
+        outline: 2px solid oklch(var(--bc));
+        outline-offset: 3px;
+        border-radius: 2px;
+      }
+
       /* Section headings */
       .section-title {
         font-size: 0.75rem;
@@ -112,7 +152,7 @@ const {
   <body>
     <div class="bg-base-100">
       <div class="md:flex md:justify-center">
-        <main class="p-4 pb-20 lg:max-w-[900px] max-w-[100vw]">
+        <main class="p-4 pb-24 w-full lg:max-w-[900px] max-w-[100vw]">
           <slot />
         </main>
       </div>

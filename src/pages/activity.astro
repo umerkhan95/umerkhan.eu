@@ -1,127 +1,163 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SideSection from "../components/SideSection.astro";
-import { FadeIn } from "../components/react/FadeIn";
-import { ActivityAnalytics } from "../components/react/ActivityAnalytics";
-import { loadActivityData, formatDate, formatTime, getRelativeDate } from "../lib/github";
-import { TRACKED_REPOS } from "../config/repos";
+import { loadActivityData } from "../lib/github";
+import { groupByWeek, pulse, shortDay, shortMonth, monthYear } from "../lib/activity";
+import { role, log } from "../data/profile";
+import { products } from "../data/products";
 
-const { commitsByDate, analytics: analyticsData, fetchedAt } = loadActivityData();
-const dates = Object.keys(commitsByDate).sort((a, b) => b.localeCompare(a));
-const totalCommits = dates.reduce((acc, date) => acc + commitsByDate[date].length, 0);
+const { commitsByDate, analytics, fetchedAt } = loadActivityData();
+const weeks = groupByWeek(commitsByDate);
+const strip = pulse(weeks);
+const stripMax = Math.max(1, ...strip.map((w) => w.count));
+const stripTotal = strip.reduce((sum, w) => sum + w.count, 0);
+const stripActive = strip.filter((w) => w.count > 0).length;
+const repoCount = Object.keys(analytics.commitsByRepo).length;
+
+// One timeline: hand-kept log entries and weekly commit roll-ups, newest first.
+type Item =
+  | { type: "entry"; date: string; entry: (typeof log)[number] }
+  | { type: "week"; date: string; week: (typeof weeks)[number] };
+
+const items: Item[] = [
+  ...log.map((entry) => ({ type: "entry" as const, date: entry.date, entry })),
+  ...weeks.map((week) => ({ type: "week" as const, date: week.start, week })),
+].sort((a, b) => b.date.localeCompare(a.date) || (a.type === "entry" ? -1 : 1));
+
+const months: { key: string; items: Item[] }[] = [];
+for (const item of items) {
+  const key = item.date.slice(0, 7);
+  const last = months[months.length - 1];
+  if (last?.key === key) last.items.push(item);
+  else months.push({ key, items: [item] });
+}
+
+const building = products[0];
+const updated = fetchedAt
+  ? new Date(fetchedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+  : null;
 ---
 
-<BaseLayout title="Activity" sideBarActiveItemID="activity">
-  <!-- Hero Section -->
+<BaseLayout title="Activity | Umer Khan" description="What Umer Khan is working on now, what shipped, and the commit history behind it." sideBarActiveItemID="activity" geoPage="blog">
   <section class="py-12">
     <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
       <div class="lg:text-right">
-        <span class="text-xs font-semibold uppercase tracking-widest text-base-content/40">Changelog</span>
+        <span class="text-xs font-semibold uppercase tracking-widest text-base-content/40">Log</span>
       </div>
       <div>
-        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-base-content mb-4">
-          Activity
-        </h1>
-        <p class="text-base-content/60 leading-relaxed max-w-2xl mb-6">
-          My coding activity across {TRACKED_REPOS.length} repositories. {totalCommits} commits tracked.
+        <h1 class="reveal text-3xl md:text-4xl font-semibold tracking-tight text-base-content mb-4">Activity</h1>
+        <p class="reveal text-base-content/60 leading-relaxed max-w-xl" style="--reveal-delay: 60ms">
+          What I am working on, what shipped, and the commits behind it.
         </p>
-
-        <!-- Tracked Repos -->
-        <div class="flex flex-wrap gap-2">
-          {TRACKED_REPOS.map((repo) => (
-            <a
-              href={`https://github.com/${repo}`}
-              target="_blank"
-              class="px-3 py-1 text-xs font-medium text-base-content/60 bg-base-200/50 rounded-lg border border-base-300/40 hover:border-base-300 hover:text-base-content transition-all"
-            >
-              {repo.split("/")[1]}
-            </a>
-          ))}
-        </div>
       </div>
     </div>
   </section>
 
-  <div class="w-full h-px bg-base-300/50"></div>
+  <div class="rule"></div>
 
-  <!-- Analytics Dashboard -->
-  <FadeIn client:load delay={0.05}>
-    <SideSection title="Analytics" subtitle="Commit insights">
-      <ActivityAnalytics client:load data={analyticsData} />
-    </SideSection>
-  </FadeIn>
-
-  <div class="w-full h-px bg-base-300/50"></div>
-
-  <!-- Commits List -->
-  <SideSection title="Commits" subtitle={`${totalCommits} total`}>
-    {dates.length === 0 ? (
-      <div class="py-16 text-center">
-        <p class="text-base-content/50">No commits found. Run <code class="text-xs bg-base-200 px-1.5 py-0.5 rounded">pnpm fetch-activity</code> to load data.</p>
+  <SideSection title="Now" subtitle={`Since ${role.sinceLabel}`}>
+    <dl class="text-sm">
+      <div class="row flex items-baseline gap-6 py-3.5">
+        <dt class="w-20 shrink-0 text-base-content/40">Work</dt>
+        <dd class="flex-1 min-w-0 text-base-content">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-success mr-2 align-middle"></span>{role.title} at {role.company}
+        </dd>
       </div>
+      <div class="row flex items-baseline gap-6 py-3.5">
+        <dt class="w-20 shrink-0 text-base-content/40">Building</dt>
+        <dd class="flex-1 min-w-0 text-base-content">
+          <a href={building.link} data-astro-reload class="underline decoration-base-content/20 underline-offset-4 hover:decoration-base-content transition-colors">{building.name}</a>
+          <span class="text-base-content/50"> {building.tagline}</span>
+        </dd>
+      </div>
+    </dl>
+  </SideSection>
+
+  <div class="rule"></div>
+
+  <SideSection title="Products" subtitle={`${products.length} total`}>
+    <div>
+      {products.map((product) => (
+        <a href={product.link} data-astro-reload class="row group flex items-baseline gap-6 py-3.5">
+          <span class="font-medium text-base-content w-28 shrink-0">{product.name}</span>
+          <span class="flex-1 min-w-0 text-sm text-base-content/50 group-hover:text-base-content/80 transition-colors">{product.tagline}</span>
+          <span class="hidden sm:block text-[11px] uppercase tracking-wider text-base-content/30 shrink-0">{product.badge}</span>
+        </a>
+      ))}
+    </div>
+  </SideSection>
+
+  <div class="rule"></div>
+
+  <SideSection title="Pulse" subtitle="Last 52 weeks">
+    <div class="flex items-end gap-[3px] h-14" role="img" aria-label={`${stripTotal} commits across ${stripActive} of the last 52 weeks`}>
+      {strip.map((week) => (
+        <div
+          class="pulse-bar flex-1 min-w-0 rounded-[1px]"
+          style={week.count > 0
+            ? `height: ${Math.max(8, (week.count / stripMax) * 100)}%; opacity: ${0.35 + 0.65 * (week.count / stripMax)}`
+            : "height: 2px; opacity: 0.12"}
+          title={`Week of ${shortDay(week.start)}: ${week.count} ${week.count === 1 ? "commit" : "commits"}`}
+        ></div>
+      ))}
+    </div>
+    <div class="flex justify-between mt-2 text-[11px] text-base-content/30 tabular-nums">
+      <span>{shortMonth(strip[0].start)}</span>
+      <span>{shortMonth(strip[Math.floor(strip.length / 2)].start)}</span>
+      <span>{shortMonth(strip[strip.length - 1].start)}</span>
+    </div>
+    <p class="mt-5 text-sm text-base-content/50 tabular-nums">
+      <span class="text-base-content">{stripTotal}</span> commits in <span class="text-base-content">{stripActive}</span> active weeks.
+      {analytics.stats.totalCommits} in total across {repoCount} tracked {repoCount === 1 ? "repository" : "repositories"}.
+    </p>
+  </SideSection>
+
+  <div class="rule"></div>
+
+  <SideSection title="Log" subtitle="Newest first">
+    {months.length === 0 ? (
+      <p class="text-base-content/50">Nothing logged yet.</p>
     ) : (
-      <div class="space-y-8">
-        {dates.map((date) => (
+      <div class="space-y-10">
+        {months.map((month) => (
           <div>
-            <!-- Date Header -->
-            <div class="flex items-center gap-3 mb-4">
-              <span class="text-sm font-semibold text-base-content">
-                {formatDate(date)}
-              </span>
-              <span class="text-xs text-base-content/40">
-                {getRelativeDate(date)}
-              </span>
-              <span class="flex-1 h-px bg-base-300/30"></span>
-              <span class="text-xs text-base-content/40">
-                {commitsByDate[date].length} {commitsByDate[date].length === 1 ? 'commit' : 'commits'}
-              </span>
-            </div>
-
-            <!-- Commits for this date -->
-            <div class="space-y-0">
-              {commitsByDate[date].map((commit, index) => (
-                <a
-                  href={commit.url}
-                  target="_blank"
-                  class="group flex items-start gap-4 py-3 -mx-3 px-3 rounded-lg hover:bg-base-200/30 transition-colors"
-                >
-                  <!-- Timeline dot -->
-                  <div class="flex flex-col items-center pt-1.5">
-                    <span class="w-2 h-2 rounded-full bg-base-content/20 group-hover:bg-primary transition-colors"></span>
-                    {index < commitsByDate[date].length - 1 && (
-                      <span class="w-px h-8 bg-base-300/50 mt-1"></span>
-                    )}
+            <h3 class="text-xs font-medium text-base-content/40 tabular-nums mb-1">{monthYear(`${month.key}-01`)}</h3>
+            <div>
+              {month.items.map((item) =>
+                item.type === "entry" ? (
+                  <div class="row flex items-baseline gap-6 py-3.5">
+                    <span class="text-xs text-base-content/40 w-16 shrink-0 tabular-nums">{shortDay(item.date)}</span>
+                    <p class="flex-1 min-w-0 text-sm text-base-content/70">
+                      {item.entry.context && <span class="text-base-content font-medium">{item.entry.context}. </span>}
+                      {item.entry.url ? (
+                        <a href={item.entry.url} class="underline decoration-base-content/20 underline-offset-4 hover:decoration-base-content hover:text-base-content transition-colors">{item.entry.text}</a>
+                      ) : (
+                        item.entry.text
+                      )}
+                    </p>
+                    <span class="hidden sm:block text-[11px] uppercase tracking-wider text-base-content/30 shrink-0">{item.entry.kind}</span>
                   </div>
-
-                  <!-- Commit content -->
-                  <div class="flex-1 min-w-0 -mt-0.5">
-                    <div class="flex items-start justify-between gap-3">
-                      <p class="text-sm text-base-content group-hover:text-primary transition-colors line-clamp-2 leading-relaxed">
-                        {commit.message}
-                      </p>
-                      <svg class="w-3.5 h-3.5 text-base-content/20 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </div>
-                    <div class="flex items-center gap-3 mt-1.5">
-                      <span class="inline-flex items-center gap-1.5 text-xs text-base-content/40">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-                        </svg>
-                        {commit.repo}
+                ) : (
+                  <details class="row group/week">
+                    <summary class="flex items-baseline gap-6 py-3.5 cursor-pointer list-none">
+                      <span class="text-xs text-base-content/40 w-16 shrink-0 tabular-nums">{shortDay(item.date)}</span>
+                      <span class="flex-1 min-w-0 text-sm text-base-content/50 group-hover/week:text-base-content/80 transition-colors">
+                        <span class="tabular-nums">{item.week.commits.length}</span> {item.week.commits.length === 1 ? "commit" : "commits"}
+                        <span class="text-base-content/30"> in {item.week.repos.join(", ")}</span>
                       </span>
-                      <span class="text-xs text-base-content/30">·</span>
-                      <span class="text-xs text-base-content/40 font-mono">
-                        {commit.sha}
-                      </span>
-                      <span class="text-xs text-base-content/30">·</span>
-                      <span class="text-xs text-base-content/40">
-                        {formatTime(commit.date)}
-                      </span>
-                    </div>
-                  </div>
-                </a>
-              ))}
+                      <span aria-hidden="true" class="text-base-content/30 text-xs shrink-0 transition-transform group-open/week:rotate-45">+</span>
+                    </summary>
+                    <ul class="pb-4 pl-[5.5rem] space-y-1.5">
+                      {item.week.commits.map((commit) => (
+                        <li class="flex items-baseline gap-3 text-[13px] leading-snug">
+                          <a href={commit.url} target="_blank" rel="noopener" class="flex-1 min-w-0 truncate text-base-content/60 hover:text-base-content transition-colors">{commit.message}</a>
+                          <span class="hidden sm:block font-mono text-[11px] text-base-content/30 shrink-0">{commit.repo}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                )
+              )}
             </div>
           </div>
         ))}
@@ -129,24 +165,12 @@ const totalCommits = dates.reduce((acc, date) => acc + commitsByDate[date].lengt
     )}
   </SideSection>
 
-  <!-- Footer -->
   <section class="py-10 border-t border-base-300/50">
     <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-12">
       <div></div>
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <p class="text-sm text-base-content/50">
-          {fetchedAt ? `Last updated ${new Date(fetchedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}` : "Auto-updated on every deploy."}
-        </p>
-        <a
-          href="https://github.com/umerkhan95"
-          target="_blank"
-          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-base-content bg-base-200/50 rounded-lg border border-base-300/50 hover:bg-base-200 hover:border-base-300 transition-all"
-        >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-          View GitHub Profile
-        </a>
+      <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-base-content/40">
+        <span>{updated ? `Commit data updated ${updated}` : "Commit data refreshes on every deploy."}</span>
+        <a href="https://github.com/umerkhan95" target="_blank" rel="noopener" class="text-base-content/60 hover:text-base-content transition-colors">GitHub &rarr;</a>
       </div>
     </div>
   </section>
